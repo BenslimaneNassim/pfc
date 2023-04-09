@@ -1,0 +1,89 @@
+<section style="margin-top: 150px;margin-bottom: 10px;">  
+        <div id="part-1" class="container">
+            <div class="section-header" style="margin-bottom:50px">
+                <h3 class="section-title">Confirmation de la Commande (3/3)</h3>
+                <hr>
+            </div>
+            <div id="title-degage" class="d-flex justify-content-center">
+                    <div style="flex-basis:40%;padding-left:5px">
+                        <span class="rothekfontbold">Produit</span>
+                    </div>
+                    <div style="flex-basis:15%;padding-left:5px">
+                        <span class="rothekfontbold">Prix</span>
+                    </div>
+                    <div style="flex-basis:15%;padding-left:5px">
+                        <span class="rothekfontbold">Taille</span>
+                    </div>
+                    <div style="flex-basis:15%;padding-left:5px">
+                        <span class="rothekfontbold">Couleur</span>
+                    </div>
+                    <div style="flex-basis:15%;padding-left:5px">
+                        <span class="rothekfontbold">Quantité</span>
+                    </div>
+                </div>
+                {% for t in tab %}
+                <hr style="width:100%;">
+                
+                <div class="table-wrapper d-flex justify-content-center">
+                        
+                    <div class="image-and-product">
+                        <h5 style="display:none">{{t.0.id}}</h5>
+                        <img style="width: 40%;" src="{{t.0.image.url}}">
+                        <h5 class="rothekfont" style="height: fit-content;vertical-align: top;padding-left: 5px;display: inline-block"> {{t.0.name}}</h5>
+                    </div>
+                    <div class="inside-table-wrapper">
+                        <div class="inside-table" style="flex-basis:25%">
+                                <h5 class="rothekfont">{% if t.0.discounted_price %}{{t.0.discounted_price}}{% else %}{{t.0.price}}{% endif %} DA</h5>
+                            </div>
+                            <div class="inside-table" style="flex-basis:25%">
+                                <h5 class="rothekfont achhal">{{t.1}}</h5>
+                            </div>
+                            <div class="inside-table" style="flex-basis:25%">
+                                <h5 style="display: none">{{t.3}}</h5>
+                                <h5 class="rothekfont colors-dispo" style="background-color:{{t.3}};padding:8px;"></h5>
+                            </div>
+                            <div class="inside-table" style="flex-basis:25%">
+                                
+                                
+                                <h5 class="rothekfont" style="display: inline-block">{{t.2}}</h5>
+                                    
+                            </div>
+                    </div>
+                    
+                </div>
+                {% endfor %}
+                <hr style="width:100%;margin-top:20px">
+        
+            <div style="width:fit-content;margin:auto;margin-top:40px;">
+                
+                <div>
+                        <span style="font-family: MagnumSansExtraLight"><b>Destinataire:</b> {{nom}} {{prenom}}</span>
+                </div>
+
+                <div>
+                        <span style="font-family: MagnumSansExtraLight"><b>Adresse:</b> {{wilaya}} {{ville}} {{adresse}} </span>
+                </div>
+
+                <div>
+                        <span style="font-family: MagnumSansExtraLight"><b>Livraison:</b> {{shipping_method}}</span>
+                </div>
+
+                <div>
+                        <span style="font-family: MagnumSansExtraLight"><b>Prix Total:</b> {{total}} DA</span>
+                </div>
+
+            </div>
+            <hr style="width:100%;margin-top:20px">
+                <form id="last-job-form-confirm" action="{% url 'checkout' %}" method="POST">{% csrf_token %}
+                    <input type="hidden" name="last-job-input" id="last-job-input">
+                    <div style="width: fit-content;margin: auto;margin-top:40px;">
+                        <div style="display: inline-block" class="g-recaptcha" data-sitekey="6LdxrLsgAAAAACqIeBDQha0kq2SynXXuv1j3_Kes"></div>
+                    </div>
+                    <div style="width: 100%;position: relative;height: 80px;">
+                        <button type="submit" class="btn-suivanttt">Passer La Commande</button>
+                    </div>
+                    <br><br><br>        
+                </form>
+            
+    </div>
+</section>

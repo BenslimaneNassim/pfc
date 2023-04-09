@@ -1,0 +1,406 @@
+{% extends 'vintage/base.html' %}
+    {% load static %}
+  
+{% block style %}
+
+  <style>
+    @media (min-width:769px){
+      #footer{
+        display: none;
+      }
+    }
+    #portfolio-details{
+      margin-bottom: 0!important;
+    }
+    #portfolio-details2{
+      margin-bottom: 0!important;
+    }
+  </style>
+{% endblock %}
+
+{% block main %}
+  <main id="main">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+      
+          <section id="portfolio-details" class="portfolio-details">
+                <div id="container-fluid" class="container-fluid">
+          
+                  <div id="contains" class="contains">
+
+                      <div id="souffri" class="slideshow-container" style="width:100%">
+                        <div id="test1" class="contains-images">
+
+                          <div class="image-portfolio">
+                              <img src="{{product.image.url}}" alt="">
+                          </div>
+                          {% for image in images %}
+                          <div class="image-portfolio">
+                                <img src="{{image.image.url}}" alt="">
+                          </div>
+                          {% endfor %}
+                          
+                            
+                        </div>
+                        <div id="test2" class="swiper-pagination"></div>
+                      </div>
+
+                      <div class="contains-text">
+                          <div class="sticky-shit">
+                            <div class="product-description">
+                                    
+                                    <h3 style="font-weight:300">{{product.name}} | {{product.category}}</h3>
+                                    <h3 class="price price-col">{% if product.discounted_price %}<del>{{product.price}} DA</del> {{product.discounted_price}} {% else %} {{product.price}} {% endif %}  DA </h3><br><br>
+                                    <h5 style="font-weight: 400;font-size: 18px">Select a Color</h5>
+                                    <div id="select-a-color" class="price select-a-color">
+                                      {% for color in colors %}
+                                        <div class="color-wrapper">
+                                          <input type="hidden" value="{{color.color}}">
+                                          <span class="colors-dispo" style="background-color:{{color.color}}"></span>
+                                        </div>
+                                      {% endfor %}
+                                    </div>
+
+                                    <h5 style="font-weight: 400;font-size: 18px;  margin-top:20px!important">Select your Size</h5>
+                                    <div id="select-a-size" class="price select-a-size" style="font-size: 18px">
+                                      
+                                      {% if product.s_size %} <span class="sizes-dispo">S</span>{% endif %}
+                                      {% if product.m_size %} <span class="sizes-dispo">M</span>{% endif %}
+                                      {% if product.l_size %} <span class="sizes-dispo">L</span>{% endif %}
+                                      {% if product.xl_size %} <span class="sizes-dispo">XL</span>{% endif %}
+                                      {% if product.xxl_size %} <span class="sizes-dispo">XXL</span>{% endif %}
+                                      {% if product.standart_size %} <span class="sizes-dispo">Standart</span>{% endif %}
+                                    </div>
+
+                                    <form id="buy-now-form" action="" method="get">
+                                      <input id="buy-now-input" type="hidden" name="buy-now">
+                                      <button type="submit" class="buy-now" style="margin-top: 15px;">BUY NOW</button>
+                                    <button type="button" onclick="addtocart()" style="margin-top:5px;" class="buy-now">Add To Cart</button><br><br><br>
+
+                                    <div class="d-flex justify-content-between">
+                                      <button type="button" onclick="showdescription()" class="roh-froutt">
+                                        <h5 class="h5-product to-select-1">Description</h5>
+                                      </button>
+                                      {% if product.note %}
+                                      <button type="button" onclick="shownote()" class="roh-froutt">
+                                        <h5 class="h5-product to-select-2">Note</h5>
+                                      </button>
+                                      {% endif %}
+                                      {% if product.care %}
+                                      <button type="button" onclick="showcare()" class="roh-froutt">
+                                        <h5 class="h5-product to-select-3">Care</h5>
+                                      </button>
+                                      {% endif %}
+                                    </div>
+                                    <div class="description"><p class="price" style="font-size: 20px">{{product.description|linebreaks}}</p></div>
+                                    <div class="note"><p class="price" style="font-size: 20px">{{product.note|linebreaks}}</p></div>
+                                    <div class="care"><p class="price" style="font-size: 20px">{{product.care|linebreaks}}</p></div>
+                                    
+
+
+
+                            </div>
+                                
+                          </div>
+                          
+                      </div>
+                  </div>
+          
+                </div>
+              </section><!-- End Portfolio Details Section -->
+
+
+
+
+
+
+              <section id="portfolio-details-2" class="portfolio-details">
+                <div class="container">
+          
+                  <div class="row gy-4">
+          
+                    <div class="col-lg-8">
+                      <div class="portfolio-details-slider swiper">
+                        <div class="swiper-wrapper align-items-center">
+          
+                          <div class="swiper-slide">
+                            <img src="{{product.image.url}}" alt="">
+                          </div>
+                          {% for image in images %}
+                          <div class="swiper-slide">
+                            <img src="{{image.image.url}}" alt="">
+                          </div>
+                          {% endfor %}
+                          
+          
+                        </div>
+                        <div class="swiper-pagination"></div>
+                      </div>
+                    </div>
+          
+                    <div class="col-lg-5">
+                      <div class="contains-text">
+                        <div class="sticky-shit">
+                            <div class="product-description" style="padding-right:10px;padding-left:10px;">
+                                <h3 style="font-weight:300">{{product.name}} | {{product.category}}</h3>
+                                <h3 class="price price-col">{% if product.discounted_price %}<del>{{product.price}} DA</del> {{product.discounted_price}} {% else %} {{product.price}} {% endif %}  DA </h3><br><br>
+                                <h5 style="font-weight: 400;font-size: 18px">Select a Color</h5>
+                                <div id="select-a-color2" class="price select-a-color">
+                                  {% for color in colors %}
+                                    <div class="color-wrapper">
+                                      <input type="hidden" value="{{color.color}}">
+                                      <span class="colors-dispo" style="background-color:{{color.color}}"></span>
+                                    </div>
+                                  {% endfor %}
+                                </div>
+                                <h5 style="font-weight: 400;font-size: 18px;  margin-top:20px!important">Select your Size</h5>
+                                <div id="select-a-size2" class="price select-a-size" style="font-size: 18px">
+                                  {% if product.s_size %} <span class="sizes-dispo">S</span>{% endif %}
+                                  {% if product.m_size %} <span class="sizes-dispo">M</span>{% endif %}
+                                  {% if product.l_size %} <span class="sizes-dispo">L</span>{% endif %}
+                                  {% if product.xl_size %} <span class="sizes-dispo">XL</span>{% endif %}
+                                  {% if product.xxl_size %} <span class="sizes-dispo">XXL</span>{% endif %}
+                                  {% if product.standart_size %} <span class="sizes-dispo">Standart</span>{% endif %}
+                                </div>
+                                
+                                
+                                    <button type="submit" class="buy-now" style="margin-top: 15px;">BUY NOW</button>
+                                </form>
+                              <button onclick="addtocart()" style="margin-top:5px;" class="buy-now">Add To Cart</button><br><br><br>
+
+                                <div class="d-flex justify-content-between">
+                                    <button onclick="showdescription()" class="roh-froutt">
+                                      <h5 class="h5-product to-select-1">Description</h5>
+                                    </button>
+                                    {% if product.note %}
+                                    <button onclick="shownote()" class="roh-froutt">
+                                      <h5 class="h5-product to-select-2">Note</h5>
+                                    </button>
+                                    {% endif %}
+                                    {% if product.care %}
+                                    <button onclick="showcare()" class="roh-froutt">
+                                      <h5 class="h5-product to-select-3">Care</h5>
+                                    </button>
+                                    {% endif %}
+                                </div>
+                                <div class="description"><p class="price" style="font-size: 20px">{{product.description|linebreaks}}</p></div>
+                                <div class="note"><p class="price" style="font-size: 20px">{{product.note|linebreaks}}</p></div>
+                                <div class="care"><p class="price" style="font-size: 20px">{{product.care|linebreaks}}</p></div>
+                                
+
+
+
+                        </div>
+                              
+                        </div>
+                        
+                    </div>
+                    </div>
+          
+                  </div>
+          
+                </div>
+              </section><!-- End Portfolio Details Section -->
+          
+  </main><!-- End #main -->
+{% endblock %}
+{% block scripts %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+  document.getElementById('header').classList.remove('header-transparent');
+  document.getElementById('header').classList.add('header-scrolled');
+  document.getElementsByTagName('main')[0].style.marginTop="90px";
+
+
+  function addtocart(){
+    var tab = [];
+    tab.push({{product.id}});
+    var final_size= document.getElementsByClassName("sizes-selected")[0].innerHTML;
+    tab.push(final_size);
+    tab.push(1);
+    var final_color = document.getElementsByClassName("selected-color")[0].firstElementChild.value;
+    tab.push(final_color)
+    var x =document.cookie;
+    var y = sliceit(x,";");
+    var z = sliceit(y,"=");
+    var unjasonized = JSON.parse(z);
+    var temp=0;
+
+    var color_pr_exists = false;
+    var size_pr_exists = false;
+    while(temp<unjasonized.length){
+          if(unjasonized[temp][0] == tab[0] && unjasonized[temp][1] == tab[1] && unjasonized[temp][3] == tab[3] ){
+            unjasonized[temp][2] = unjasonized[temp][2]+1;
+            size_pr_exists = true;
+            color_pr_exists = true;
+            break;
+          }else{
+            temp++;
+          }
+    }
+    if (!size_pr_exists && !color_pr_exists){
+      unjasonized.push(tab);
+    }
+    var jasonized = JSON.stringify(unjasonized);   
+    document.cookie = "cart="+jasonized+"; path=/";
+    window.location.reload();
+  }
+  var buy_now_form = document.getElementById("buy-now-form");
+  buy_now_form.addEventListener("submit",buynow);
+  function buynow(){
+    var tab = [];
+    tab.push({{product.id}});
+    var final_size= document.getElementsByClassName("sizes-selected")[0].innerHTML;
+    tab.push(final_size);
+    tab.push(1);
+    var final_color = document.getElementsByClassName("selected-color")[0].firstElementChild.value;
+    tab.push(final_color);
+    var jasonize = JSON.stringify(tab);
+    document.getElementById("buy-now-input").value=jasonize;
+    
+  }
+  document.getElementsByClassName("displayed-cart")[0].style.marginTop="0";
+
+
+  var select_col = document.getElementsByClassName("select-a-color");
+  for (var col of select_col){
+    col.firstElementChild.classList.add("selected-color");
+  }
+
+  var select_col = document.getElementById("select-a-color");
+  select_col.addEventListener("click", changecol);
+  var select_col2 = document.getElementById("select-a-color2");
+  select_col2.addEventListener("click", changecol);
+
+  function changecol(select){
+    var star = select.target;
+    if (star.tagName == "SPAN"){
+      var zebs = document.getElementsByClassName("color-wrapper");
+      for (var zeb of zebs){
+        if(zeb.classList.contains("selected-color")){
+          zeb.classList.remove("selected-color");
+        }
+      }
+      star.parentElement.classList.add("selected-color");
+    }
+  }
+
+
+
+
+  var sz = document.getElementById("select-a-size");
+  sz.addEventListener("click",select_size);
+  sz.firstElementChild.classList.add("sizes-selected");
+  var szz = document.getElementById("select-a-size2");
+  szz.addEventListener("click",select_size);
+  szz.firstElementChild.classList.add("sizes-selected");
+  var zeb= document.getElementsByClassName("to-select-1");
+  for (const ze of zeb){
+    ze.classList.add('selected-desc');
+  }
+  function select_size(sz){
+    size = sz.target;
+    if (size.classList.contains("sizes-dispo")){
+
+      list = document.getElementsByClassName("select-a-size");
+      for (var lis of list){
+        lis = lis.firstElementChild;
+        if (lis.classList.contains("sizes-selected")){lis.classList.remove("sizes-selected");}
+      
+        while(lis.nextElementSibling){
+          lis = lis.nextElementSibling;
+          if (lis.classList.contains("sizes-selected")){
+            lis.classList.remove("sizes-selected");
+          }
+        }
+      }
+      
+      size.classList.add("sizes-selected");
+    }
+  }
+  function showdescription(){
+    var ds = document.getElementsByClassName('description');
+    for (var d of ds){
+      d.style.display='block';
+    }
+
+    var ns = document.getElementsByClassName('note');
+    for (var n of ns){
+      n.style.display='none';
+    }
+
+    var cs = document.getElementsByClassName('care');
+    for (var c of cs){
+      c.style.display='none';
+    }
+    var hs = document.getElementsByClassName("h5-product");
+    for (const h of hs){
+      if(h.classList.contains("selected-desc")){
+        h.classList.remove("selected-desc");
+      }
+    }
+    var the_ds = document.getElementsByClassName("to-select-1");
+    for (var k of the_ds){
+      k.classList.add("selected-desc");
+    }
+
+  }
+  showdescription();
+  function showcare(){
+    var ds = document.getElementsByClassName('description');
+    for (var d of ds){
+      d.style.display='none';
+    }
+
+    var ns = document.getElementsByClassName('note');
+    for (var n of ns){
+      n.style.display='none';
+    }
+
+    var cs = document.getElementsByClassName('care')
+    for (var c of cs){
+      c.style.display='block';
+    }
+    var hs = document.getElementsByClassName("h5-product");
+    for (const h of hs){
+      if(h.classList.contains("selected-desc")){
+        h.classList.remove("selected-desc");
+      }
+    }
+    var the_ds = document.getElementsByClassName("to-select-3");
+    for (var k of the_ds){
+      k.classList.add("selected-desc");
+    }
+
+  }
+  function shownote(){
+    var ds = document.getElementsByClassName('description')
+    for (var d of ds){
+      d.style.display='none';
+    }
+
+    var ns = document.getElementsByClassName('note')
+    for (var n of ns){
+      n.style.display='block';
+    }
+
+    var cs = document.getElementsByClassName('care')
+    for (var c of cs){
+      c.style.display='none';
+    }
+    var hs = document.getElementsByClassName("h5-product");
+    for (const h of hs){
+      if(h.classList.contains("selected-desc")){
+        h.classList.remove("selected-desc");
+      }
+    }
+    var the_ds = document.getElementsByClassName("to-select-2");
+    for (var k of the_ds){
+      k.classList.add("selected-desc");
+    }
+
+  }
+
+
+</script>
+{% endblock %}

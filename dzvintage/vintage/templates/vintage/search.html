@@ -1,0 +1,51 @@
+{% extends 'vintage/base.html' %}
+    {% load static %}
+{% block hero %}          <!-- ======= Hero Section ======= -->
+          <section id="hero" style="height: 35vh;background: url({% static 'img/art.webp'%}) center;background-size: cover;
+          position: relative;">
+            <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
+              
+              <h1 style="font-family : RothekExtraLight; color : #fff"> find your art </h1>
+            </div>
+          </section><!-- End Hero Section -->
+{% endblock %}
+{% block main %}
+  <main id="main">
+
+              <section id="team">
+                  <div class="container" data-aos="fade-up">
+                              <div class="section-header">
+                                <h3 class="section-title" style="font-weight: 400">{% if products %}Results for "{{searched}}"{% else %} No Results for "{{searched}}". Try to minimize your words {% endif %} </h3>          <hr style="font-weight: 400">
+            
+                              </div>
+            
+                    
+                    <div class="row">
+                      
+
+                      
+                    </div>
+                    <div class="row">
+                        {% for product in products %}
+                        <div class="col-lg-4 col-md-5 col-sm-4 col-6">
+                          <a style="color:black" href="{% url 'product' product.name %}"><div class="member" data-aos="fade" data-aos-delay="100">
+                            <div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div>
+                            <h4 style="text-transform: uppercase;">{{product.name}} | {{product.category}}</h4>
+                            {% if product.discounted_price %}
+                              <span class="price-col"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                            {% else %}
+                              <span class="price-col">{{product.price}} DA</span>
+              
+                            {% endif %}
+              
+                            
+                          </div></a>
+                        </div>
+                        {% endfor %}
+                      </div>
+              
+                  </div>
+                </section><!-- End Team Section -->
+            
+  </main><!-- End #main -->
+  {% endblock %}

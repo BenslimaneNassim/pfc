@@ -1,0 +1,174 @@
+{% extends 'vintage/base.html' %}
+{% load static %}
+
+{% block style %}
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+/>
+<style>
+    :root{
+        --swiper-theme-color: #000000;
+    }
+    
+    .swiper {
+        width: 400px;
+        height: 500px;
+    }
+    .swiper-slide{
+        background-position: center;
+        background-size: cover;
+    }
+
+    .post-informations{
+        padding: 15px 15px;
+        /* background-color: whitesmoke; */
+        margin-left: 50px;
+        flex-basis: 50%;
+    }
+    .post-images{
+        margin-right: 10px;
+        width: 50%;
+    }
+    .post-seller-ref-info{
+        /* border-left: 1px groove black; */
+        padding: 15px 5px;
+        
+        text-align: center;
+    }
+    .post-seller-ref img{
+        margin: 5px auto;
+    }
+    .post-seller-ref{
+        width: fit-content;
+        background-color: whitesmoke;
+        padding: 12px 6px;
+        /* border: 1px groove black; */
+    }
+
+
+    .buy-now{
+        width: fit-content;
+        background-color:black;
+        border-radius: 3px;
+        border-color: black;
+        padding: 12px 24px;
+        color:white;
+        font-weight: 300;
+    }
+    .buy-now:hover{
+        opacity: 0.8;
+        background-color: white;
+        color:black;
+    }
+   
+</style>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+{% endblock %}
+
+{% block main %}
+
+<main id="main">
+
+    <section id="portfolio-details">
+        <div class="container" style="">
+            <div class="d-flex justify-content-center">
+                <div class="post-images" style="text-align: end;">
+                    
+                    <!-- Slider main container -->
+                    <div class="swiper">            
+                        <!-- Additional required wrapper -->
+                        <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        
+                        <div class="swiper-slide" style="background-image: url('{{product.image.url}}')"></div>
+                        {% for image in images %}
+                        <div class="swiper-slide" style="background-image: url('{{image.image.url}}')"></div>
+                        {% endfor %}
+                        <!-- <div class="swiper-slide">Slide 3</div> -->
+                        </div>
+                        <!-- If we need pagination -->
+                        <div class="swiper-pagination"></div>
+                    
+                        <!-- If we need navigation buttons -->
+                        <div class="swiper-button-prev swiper-button-black"></div>
+                        <div class="swiper-button-next swiper-button-black"></div>
+                    
+                        <!-- If we need scrollbar -->
+                        <!-- <div class="swiper-scrollbar"></div> -->
+                    </div>                
+                </div>
+                <div class="post-informations">
+                    <h5 class="post-title">
+                        {{product.title}}
+                    </h5>
+                    {% if product.discounted_price %}
+                        
+                        <h5 style="float: left;padding-right: 8px;"><del> {{product.price}} DA  </del></h5>
+                        <h5> {{product.discounted_price}} DA </h5>
+                    {% else %}
+                        <h5 class="post-price">{{ product.price }}</h5>
+                    {% endif %}
+                    <h6>Description: </h5>
+                    <p> {{product.description}} </p>
+                    {% if product.taille %}
+                    <h6 style="float: left;">Taille: </h5>
+                    <span style="padding-left: 8px;">{{product.taille}}</span>
+                    {% endif %}<br><br>
+                    <div class="post-seller-ref d-flex">
+                        <img style="border-radius: 50%; width: 40px;height: 40px;" src="{{product.seller.profile.picture.url}}" width="40" height="40" >
+                        <div class="post-seller-ref-info">
+                            {{product.seller}}<br>
+                        </div>
+                        <i class="bi bi-arrow-right" style="margin: 15px auto; margin-left: 30px;"></i>
+
+                    </div>
+                    <button class="buy-now" onclick="window.open('{% url 'chat' product.id %}')" style="width: 170px;">Contacter</button>
+                    <span style="display: inline-block; font-size: 20px!important;" class="bi bi-heart mobile-nav-toggle like-it "></span>
+                    <br>
+                    <button class="buy-now" style="width: 200px;">Ajouter au panier</button>
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+</main><!-- End #main -->
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('header').classList.remove('header-transparent');
+    document.getElementById('header').classList.add('header-scrolled');
+    document.getElementsByTagName('main')[0].style.marginTop="155px";
+    const swiper = new Swiper('.swiper', {
+        // Optional parameters
+        direction: 'horizontal',
+        loop: true,
+
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination',
+        },
+
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        // And if we need scrollbar
+        scrollbar: {
+            el: '.swiper-scrollbar',
+        },
+    });
+
+
+</script>
+{% endblock %}

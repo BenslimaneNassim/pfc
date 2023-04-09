@@ -1,0 +1,239 @@
+{% extends 'vintage/base.html' %}
+{% load static %}
+
+
+{% block hero %}
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" style="background-image: url('static/vintage/img/acceuil.jpg');">
+    <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
+      
+      <h3 style="font-family : RothekExtraLight; color : #fff">Chwiya text</h3>
+      <!--<a href="#about" class="btn-get-started">SHOP NOW</a>-->
+      <a href="#about" class="btn-get-started">Vendre</a>
+    </div>
+  </section><!-- End Hero Section -->
+{% endblock %}
+
+{% block main %}
+  <main id="main">
+
+    <!-- ======= Facts Section ======= -->
+    <section id="facts" style="background:transparent;margin-bottom: 0;margin-top:0;">
+        <div class="container" data-aos="fade-up">
+          <div class="section-header">
+            <h3 class="section-title">Tu ne le portes pas ? Vends-le !</h3>
+            <hr>
+            <p class="section-description">La seconde-main, c’est l’avenir et Vintager te le prouve. Sur Vintager, tu vends les vêtements qui ont encore des choses à vivre et tu déniches des merveilles que tu ne trouves pas en boutique.</p>
+          </div>
+         
+        </div>
+      </section><!-- End Facts Section -->
+  
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="second-section">
+      <div class="container category-container">
+          <div class="section-header">
+              <!-- <h3 class="section-title">Shop by category</h3>          <hr> -->
+
+              <!--<p class="section-description">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>-->
+            </div>
+      <div id="my_wrapper" class="d-flex" style="height:500px;overflow:auto;overscroll-behavior: auto" data-aos="fade-up">
+        
+
+          
+          {% for cat in categories %}
+          <div class="image-container-container col-sm-6 d-flex justify-content-center">
+            <div class="image-container d-flex justify-content-center"  style="background-image:linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.7) 100%),url('{{cat.image.url}}');">
+              <span class="category-describer">{{cat}}</span>
+              <a class="appear-button" href="" >View</a>
+            </div>
+          </div>
+          {% endfor %}
+          <div class="image-container-container col-sm-6 d-flex justify-content-center">
+            <div class="image-container d-flex justify-content-center"  style="background-image:linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.7) 100%),url('{% static 'vintage/img/Sweater.jpg' %}');">
+              <span class="category-describer">All Products</span>
+              <a class="appear-button" href="{% url 'category' 'Unisex' 'all'  %}" >View</a>
+            </div>
+          </div>
+          
+      </div>
+
+
+      </div>
+    </section><!-- End About Section -->
+
+
+       
+    <section id="call-to-action" class="cta1 justify-content-center d-flex" style="{% static 'vintage/img/acceuil.jpg' %}" >
+        <div class="container inside-video d-flex justify-content-around">
+            <div style="margin: auto; margin-left:0" class="col-lg-6 text-center text-lg-start">
+              <h3 class="cta-title">Prêts à faire
+                du tri dans vos placards ?</h3>
+              <p class="cta-text" style="text-transform: uppercase;font-family: RothekExtraLight;"> Ces jolies pièces au fond de votre armoire trouveront une meilleure place dans un nouveau dressing ! </p>
+            </div>
+            <div class="col-lg-3 cta-btn-container text-center"  style="margin-block:auto">
+              <a class="cta-btn align-middle" href="">Vendre</a>
+            </div>
+        </div>
+        <!-- <span id="video-sound" class="sound_off"></span> -->
+    </section><!-- End Call To Action Section -->
+
+  
+    
+    
+    
+    <section class="team">
+      <div class="container" ><!--data-aos="fade-up"-->
+                  <div class="section-header">
+                    <h3 class="section-title">Populaires</h3>          <hr>
+
+                  </div>
+
+        
+        <div style="width: fit-content;" class="d-flex justify-content-center"><div class="row"  data-aos="fade" data-aos-delay="1">
+          {% for product in products %}
+          <div class="col-lg-2 col-md-3 col-sm-4 col-3 justify-content-center d-flex">
+            <div class="set-the-width" style="color:black" href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
+              <div class="profile-seller">
+                <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                <span class="seller-name">{{product.seller}}</span>
+              </div>
+              <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
+              <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+              <div class="d-flex justify-content-between">
+                <div class="d-flex" style="position: relative;">
+                  {% if product.discounted_price %}
+                  <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                {% else %}
+                  <span class="price-col">{{product.price}} DA</span>
+                {% endif %}
+
+                </div>
+                <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
+                <span class="bi bi-heart mobile-nav-toggle like-it "></span>
+              </div>
+
+              
+            </div></div>
+          </div>
+          {% endfor %}
+        </div></div>
+
+      </div>
+    </section><!-- End Team Section -->
+
+    <section class="team">
+      <div class="container" ><!--data-aos="fade-up"-->
+                  <div class="section-header">
+                    <h3 class="section-title">Nouveautés</h3>          <hr>
+
+                  </div>
+
+        
+        <div style="width: 100%;" class="d-flex justify-content-center"><div class="row" style="width: 100%;" data-aos="fade" data-aos-delay="1">
+          {% for product in new_products %}
+          <div class="col-lg-2 col-md-3 col-sm-4 col-3 justify-content-center d-flex">
+            <div class="set-the-width" style="color:black" href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
+              <div class="profile-seller">
+                <img width="17" height="17" src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                <span class="seller-name">{{product.seller}}</span>
+              </div>
+
+              <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
+              <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+              <div class="d-flex justify-content-between">
+                <div class="d-flex" style="position: relative;">
+                  {% if product.discounted_price %}
+                  <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                {% else %}
+                  <span class="price-col">{{product.price}} DA</span>
+                {% endif %}
+
+                </div>
+                <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
+                <span style="color: black;font-size: 21px; margin-right: 6px;" class="bi bi-heart mobile-nav-toggle like-it "></span>
+              </div>
+
+              
+            </div></div>
+          </div>
+          {% endfor %}
+        </div></div>
+
+      </div>
+    </section><!-- End Team Section -->
+
+  </main><!-- End #main -->
+{% endblock %}
+{% block scripts %}
+  <script>
+
+    document.getElementById("my_wrapper").firstElementChild.classList.add("first-image-container");
+    document.getElementById("my_wrapper").lastElementChild.classList.add("last-image-container");
+    // var span = document.getElementById("video-sound");
+    // span.addEventListener("click", sound_switch);
+    function sound_switch(span){
+      span_vid = span.target;
+      if (span_vid.className == "sound_on"){
+        span_vid.classList.remove("sound_on");
+        span_vid.classList.add("sound_off");
+        document.getElementById("behind-the-brand-video").muted=true;
+      }
+      else if(span_vid.className == "sound_off"){
+        span_vid.classList.remove("sound_off");
+        span_vid.classList.add("sound_on");
+        document.getElementById("behind-the-brand-video").muted=false;
+      }
+      else{
+        print("abouz");
+      }
+    }
+    // var span2 = document.getElementById("video-sound2");
+    // span2.addEventListener("click", sound_switch2);
+    function sound_switch2(span2){
+      span_vid = span2.target;
+      if (span_vid.className == "sound_on"){
+        span_vid.classList.remove("sound_on");
+        span_vid.classList.add("sound_off");
+        document.getElementById("behind-the-brand-video2").muted=true;
+      }
+      else if(span_vid.className == "sound_off"){
+        span_vid.classList.remove("sound_off");
+        span_vid.classList.add("sound_on");
+        document.getElementById("behind-the-brand-video2").muted=false;
+      }
+      else{
+        print("abouz");
+      }
+    }
+    function getRandomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+    function nextBg(){
+      var rand = getRandomInt(1,7);
+      var url = "url(/static/vintage/img/" + rand + ".jpg)";
+      document.getElementById("hero").style.backgroundImage=url;
+
+      setTimeout(nextBg, 10000);
+    }
+    // nextBg();
+    var team = document.getElementsByClassName("team");
+    for (var i = 0; i < team.length; i++) {
+      team[i].addEventListener("click", like_it);
+    }
+    // team.addEventListener("click", like_it);
+    function like_it(team){
+      var span = team.target;
+      if (span.classList.contains("bi-heart")){
+        span.classList.remove("bi-heart");
+        span.classList.add("bi-heart-fill");
+      }
+      else if(span.classList.contains("bi-heart-fill")){
+        span.classList.remove("bi-heart-fill");
+        span.classList.add("bi-heart");
+      }
+      else{
+        print("abouz");
+      }
+    }
+  </script>
+{% endblock %}

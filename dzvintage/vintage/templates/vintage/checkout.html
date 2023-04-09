@@ -1,0 +1,233 @@
+{% extends 'vintage/base.html' %}
+    {% load static %}
+          
+{% block main %}
+  <main id="main">
+    {% if success %}
+      {% include 'vintage/success.html' %}   
+
+    {% elif shipping_method %}
+      {% include 'vintage/confirmer-commande.html' %}
+
+    {% elif total %}
+      {% include 'vintage/infos-client.html' %}
+
+    {% elif tab %}
+      {% include 'vintage/infos-produit.html' %}
+    {% endif %}
+          
+  </main><!-- End #main -->
+  {% endblock %}
+
+  {% block scripts %}
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script>
+    document.getElementById('header').classList.remove('header-transparent');
+    document.getElementById('header').classList.add('header-scrolled');
+    function total_buy(){
+      var total=0;
+      {% for t in tab %}
+        total = total+parseInt({{t.2}})*parseInt({% if t.0.discounted_price %}{{t.0.discounted_price}}{% else %}{{t.0.price}}{% endif %});
+      {% endfor %}
+      
+      document.getElementById("checkout-total").innerHTML="Total: "+total.toString()+" DA";
+    }
+    
+    var table_pm = document.getElementsByClassName("table-wrapper");
+    if (document.getElementById("checkout-total")){
+      total_buy();
+    }
+      for (const taz of table_pm){
+        taz.addEventListener("click",changequant);
+      }
+    function changequant(taz){
+      zeb = taz.target;
+      if (zeb.classList.contains("minus-quantitee")){
+        minusss(zeb);
+      }else if(zeb.classList.contains("plus-quantitee")){
+        adddd(zeb);
+      }
+    }
+    function minusss(zeb){
+      var sewa = parseInt(zeb.nextElementSibling.innerHTML) -1;
+      if (sewa == 0){
+        var parent = zeb.parentElement.parentElement.parentElement;
+        var bro = parent.previousElementSibling;
+        parent.remove();
+        bro.remove();
+      }else{
+        zeb.nextElementSibling.innerHTML = sewa;
+      }
+      var prix = parseInt(slicefromfirst(zeb.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.firstElementChild.innerHTML," "));
+      var total = parseInt(slicefromfirst(sliceit(document.getElementById("checkout-total").innerHTML," ")," "));
+      total = total-prix;
+      document.getElementById("checkout-total").innerHTML="Total: "+total.toString()+" DA";
+
+    }
+    function adddd(zeb){
+      var prix = parseInt(slicefromfirst(zeb.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.firstElementChild.innerHTML," "));
+      var total = parseInt(slicefromfirst(sliceit(document.getElementById("checkout-total").innerHTML," ")," "));
+      total = total+prix;
+      document.getElementById("checkout-total").innerHTML="Total: "+total.toString()+" DA";
+      var sewa = parseInt(zeb.previousElementSibling.innerHTML) +1;  
+      zeb.previousElementSibling.innerHTML = sewa;
+    }
+    var ftc = document.getElementById("final-total-checkout");
+    if(ftc){
+      ftc.addEventListener("submit", final_total_checkout);
+    }
+    function final_total_checkout(){
+      tab=[]
+      var zebs = document.getElementsByClassName("table-wrapper");
+      for (zeb of zebs){
+        var t =[];
+        t.push(zeb.firstElementChild.firstElementChild.innerHTML);
+        t.push(zeb.firstElementChild.nextElementSibling.firstElementChild.nextElementSibling.firstElementChild.innerHTML);
+        t.push(zeb.lastElementChild.lastElementChild.firstElementChild.nextElementSibling.innerHTML);
+        t.push(zeb.lastElementChild.lastElementChild.previousElementSibling.firstElementChild.innerHTML);
+        tab.push(t);
+      }
+      var jasonized = JSON.stringify(tab);
+      document.getElementById("input-cart-final").value=jasonized;
+    }
+    var select_field = document.getElementById("id_wilaya");
+    var liv_price = 0;
+    var total_koulech = 0;
+    var domicile_price = 0;
+    var bureau_price = 0;
+    var total=0;
+    if (select_field){
+      select_field.addEventListener("change",changeship);
+      select_field.children[16].selected=true;
+      {% for ship in shipps %}
+        if({{ship.wilaya}}=="16"){
+          domicile_price = parseInt({{ship.price_domicile}});
+          bureau_price = parseInt({{ship.price_bureau}});
+          liv_price = domicile_price;
+          total = parseInt({{total}})+liv_price;
+          document.getElementById("liv-price").innerHTML = "Livraison: "+liv_price.toString()+" DA";
+          document.getElementById("total-koulech").innerHTML = "Total: "+total.toString()+" DA";
+        }
+      {% endfor %}
+    }
+    var ship_wrapper = document.getElementById("shipping-method-wrapper");
+    
+    if(ship_wrapper){
+      ship_wrapper.addEventListener("click",changeshipmethod);
+      document.getElementsByClassName("shipping-method")[0].classList.add("method-selected");
+    }
+    function changeship(){
+      {% for ship in shipps %}
+        if(select_field.value =={{ship.wilaya}}){
+          domicile_price = parseInt({{ship.price_domicile}});
+          bureau_price = parseInt({{ship.price_bureau}});
+          var method = document.getElementsByClassName("method-selected")[0];
+          if(method.id=="domicile"){
+            liv_price=domicile_price;
+            document.getElementById("liv-price").innerHTML = "Livraison: "+liv_price.toString()+" DA";
+          }else{
+            liv_price=bureau_price;
+            document.getElementById("liv-price").innerHTML = "Livraison: "+liv_price.toString()+" DA";
+          }
+          total = parseInt({{total}})+liv_price;
+          document.getElementById("total-koulech").innerHTML = "Total: "+total+" DA";
+        }
+      {% endfor %}
+    }
+    function changeshipmethod(ship_wrapper){
+      
+      var tar = ship_wrapper.target;
+
+      if (tar.id=="domicile"){
+        if(!tar.classList.contains("method-selected")){
+          tar.nextElementSibling.classList.remove("method-selected");
+          tar.classList.add("method-selected");
+          total = total-liv_price+domicile_price;
+          liv_price = domicile_price;
+          document.getElementById("liv-price").innerHTML = "Livraison: "+liv_price.toString()+" DA";
+          document.getElementById("total-koulech").innerHTML = "Total: "+total+" DA";
+        }
+      }else if(tar.id=="bureau"){
+        if(!tar.classList.contains("method-selected")){
+          tar.previousElementSibling.classList.remove("method-selected");
+          tar.classList.add("method-selected");
+          total = total-liv_price+bureau_price;
+          liv_price = bureau_price;
+          document.getElementById("liv-price").innerHTML = "Livraison: "+liv_price.toString()+" DA";
+          document.getElementById("total-koulech").innerHTML = "Total: "+total+" DA";
+
+        }
+      }      
+    }
+    {% if total %}
+        var finalform = document.getElementById("form-final");
+        if (finalform){
+          finalform.addEventListener("submit",submitfinalform);
+        }
+        function submitfinalform(){
+          var tab = [];
+          /*tab.push({{tab.0.id}});
+          tab.push({{tab.1}});
+          tab.push({{tab.2}});
+          tab.push({{tab.3}});*/
+          var ta=[];
+          {% for t in tab %}
+              ta=[];
+              ta.push({{t.0.id}});
+              ta.push("{{t.1}}");
+              ta.push({{t.2}});
+              ta.push("{{t.3}}");
+              tab.push(ta)
+          {% endfor %}
+          var total ={{total}};
+          var domici = document.getElementsByClassName("method-selected")[0].id;
+          var the_tab = [];
+          the_tab.push(tab);
+          the_tab.push(total);
+          the_tab.push(domici);
+
+          var jasonizedd = JSON.stringify(the_tab);
+          document.getElementById("finalcart-total").value=jasonizedd;
+        }
+    {% endif %}
+    {% if shipping_method %}
+        var last_form = document.getElementById("last-job-form-confirm");
+        last_form.addEventListener("submit", lastjob);
+        function lastjob(){
+          var inp = document.getElementById("last-job-input");
+          var the_tab =[];
+          var tab=[];
+          var ta=[];
+          {% for t in tab %}
+              ta=[];
+              ta.push({{t.0.id}});
+              ta.push("{{t.1}}");
+              ta.push({{t.2}});
+              ta.push("{{t.3}}");
+              tab.push(ta)
+          {% endfor %}
+          var total ={{total}};
+          var methodliv = "{{shipping_method}}";
+          var the_tab = [];
+          the_tab.push(tab);
+          the_tab.push(methodliv);
+          the_tab.push(total);
+          the_tab.push("{{nom}}");
+          the_tab.push("{{prenom}}");
+          the_tab.push("{{wilaya}}");
+          the_tab.push("{{ville}}");
+          the_tab.push("{{adresse}}");
+          the_tab.push("{{numero}}");
+          the_tab.push("{{optionel}}");
+          var jasonizedd = JSON.stringify(the_tab);
+          inp.value=jasonizedd;
+        }
+    {% endif %}
+    function gotohome(){
+      window.location.href="{% url 'index' %}"
+    }
+
+
+
+  </script>
+{% endblock %}

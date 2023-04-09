@@ -1,0 +1,68 @@
+
+<section style="margin-top: 150px;margin-bottom: 10px;">  
+    <div id="part-1" class="container">
+        <div class="section-header" style="margin-bottom:50px">
+            <h3 class="section-title">Informations Sur le Produit</h3>
+            <hr>
+        </div>
+        <div id="title-degage" class="d-flex justify-content-center">
+            <div style="flex-basis:40%;padding-left:5px">
+                <span class="rothekfontbold">Produit</span>
+            </div>
+            <div style="flex-basis:15%;padding-left:5px">
+                <span class="rothekfontbold">Prix</span>
+            </div>
+            <div style="flex-basis:15%;padding-left:5px">
+                <span class="rothekfontbold">Taille</span>
+            </div>
+            <div style="flex-basis:15%;padding-left:5px">
+                <span class="rothekfontbold">Couleur</span>
+            </div>
+            <div style="flex-basis:15%;padding-left:5px">
+                <span class="rothekfontbold">Quantité</span>
+            </div>
+        </div>
+        {% for t in tab %}
+        <hr style="width:100%;">
+        
+        <div class="table-wrapper d-flex justify-content-center">
+                
+            <div class="image-and-product">
+                <h5 style="display:none">{{t.0.id}}</h5>
+                <img style="width: 40%;" src="{{t.0.image.url}}">
+                <h5 class="rothekfont" style="height: fit-content;vertical-align: top;padding-left: 5px;display: inline-block"> {{t.0.name}}</h5>
+            </div>
+            <div class="inside-table-wrapper">
+                <div class="inside-table" style="flex-basis:25%">
+                        <h5 class="rothekfont">{% if t.0.discounted_price %}{{t.0.discounted_price}}{% else %}{{t.0.price}}{% endif %} DA</h5>
+                    </div>
+                    <div class="inside-table" style="flex-basis:25%">
+                        <h5 class="rothekfont achhal">{{t.1}}</h5>
+                    </div>
+                    <div class="inside-table" style="flex-basis:25%">
+                        <h5 style="display: none">{{t.3}}</h5>
+                        <h5 class="rothekfont colors-dispo" style="background-color:{{t.3}};padding:8px;"></h5>
+                    </div>
+                    <div class="inside-table" style="flex-basis:25%">
+                        
+                        <button class="minus-quantitee"></button>
+                        <h5 class="rothekfont" style="display: inline-block">{{t.2}}</h5>
+                        <button class="plus-quantitee"></button>
+                            
+                    </div>
+            </div>
+            
+        </div>
+        {% endfor %}
+        <hr style="width:100%;margin-top:20px">
+        <div >
+            <span id="checkout-total" class="rothekfontbold"></span>
+        </div>
+        <form id="final-total-checkout" action="{% url 'checkout' %}" method="get" enctype="multipart/form-data" style="margin-top:10px;">
+            <div class="d-flex justify-content-center">
+                <input id="input-cart-final" type="hidden" name="cart-final">
+                <button type="submit" class="btn-suivantt">Suivant</button>
+            </div>
+        </form>
+    </div>
+</section>

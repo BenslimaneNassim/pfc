@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load socialaccount %}
+
+    {% load static %}
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>DZVintage</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'vintage/img/ricamo-logo.jpeg' %}" rel="icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vintage/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vintage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vintage/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vintage/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vintage/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vintage/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100&display=swap" rel="stylesheet"> 
+  <!-- Template Main CSS File -->
+  <link href="{% static 'vintage/css/style.css' %}" rel="stylesheet">
+
+  <style>
+    .pic{
+      /* height: auto!important; */
+    }
+
+    .wrapp
+    {
+        display: flex;
+        margin:35px 6% 15px 5%; 
+        overflow-x: auto;
+        height: 560px;
+        position : relative;
+    }
+    
+    .wrapp::-webkit-scrollbar
+    {
+        display: none;
+    }
+    
+    .wrapp .categorie
+    {
+        background-repeat: no-repeat;
+        background-size:cover;
+        background-position:center;
+        width : 400px;
+        min-width: 400px;
+        height: 560px;
+        border: 1px solid #a0a0a0;
+        text-align: center;
+        margin-right: 12px;
+        padding-top: 14%;
+    }
+    
+    
+    .catname
+    {
+        font-size: 23px;
+        font-weight: 500;
+        color: white; 
+        margin-bottom: 8px; 
+    }
+    
+    .shp{
+        display:none;
+    }
+    
+    .shp label
+    {
+        line-height: 42px;
+    }
+    
+    .categorie:hover a .shp
+    {
+        display:block;
+    }
+    
+    @media (max-width: 500px) {
+      .wrapp .categorie
+        {
+        width : 300px;
+        min-width: 300px;
+        height: 400px;
+        padding-top: 140px;
+        }
+    
+        .wrapp
+        {
+            height: 400px;
+        }
+    
+        .shp{
+            display:block;
+        }   
+      
+    }
+    
+    @media (max-width: 800px) {
+        .shp{
+            display:block;
+        }   
+      
+    }
+    
+    
+    
+    .shopnow
+    {
+      width: max-content;
+      margin-left : auto;
+      margin-right: auto;
+      padding: 16px 30px;
+      background-color: rgb(255, 255, 255);
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .shopnow:hover 
+    {
+      border: 1px solid white;
+      background-color: #000000;
+      -webkit-transition: background-color 1000ms linear;
+      -ms-transition: background-color 1000ms linear;
+      transition: background-color 1000ms linear;
+    }
+    
+    .shopnowbtn
+    {
+    
+      cursor: pointer;
+      color: rgb(0, 0, 0);
+      font-size: 15px;
+      font-weight: 400;
+    }
+    
+    .shopnow:hover label
+    {
+      color: rgb(255, 255, 255);
+    }
+  </style>
+  {% block style %}
+  {% endblock %}
+</head>
+
+<body>
+  <div id="id01" class="modal">
+    <form class="modal-content animate" action="{% url 'search' %}" method="POST">{% csrf_token %}
+      <button class="close-search-button" onclick="unshowsearch()">
+        <i style="font-size:35px;" class="bi bi-x"></i>
+      </button><!--dayi a zbou b-->
+    
+  
+      <div class="search-container">
+  
+        
+        <input type="text" placeholder="Recherche" name="search" required>     
+               
+        <button class="search-submit-button" type="submit">
+          <i style="margin-right:10px" class="bi bi-search"></i>
+        </button>
+  
+  
+        
+      </div>
+      <hr class="hr-search">
+      
+    </form>
+  </div>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center header-transparent">
+    <div id="small-header" class="container d-flex justify-content-between align-items-center" style="max-width:100%; margin:25px">
+
+      
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="{% url 'index'%}">Home</a></li>
+          <li><a class="nav-link scrollto" href="">Populaires</a></li>
+          <!-- <li class="dropdown"><a href="#"><span>Catégories</span> <i class="bi bi-plus"></i></a>
+            <ul>
+              <li class="dropdown"><a href="#"><span>Accessories</span> <i class="bi bi-plus"></i></a>
+                <ul>
+                    {% for acc in acc_categories %}
+                    <li><a href="">{{acc}}</a></li>
+                    {% endfor %}
+                  </ul>
+              </li>
+              <li class="dropdown"><a href="#"><span>Clothes</span> <i class="bi bi-plus"></i></a>
+                <ul>
+                  {% for clo in clo_categories %}
+                  <li><a href="">{{clo.name}}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+            </ul>
+          </li> -->
+          <li class="dropdown"><a href="{% url 'category' 'Homme' 'all' %}"><span>Homme</span> <i class="bi bi-plus"></i></a>
+            <ul>
+              {% for cat in categories %}
+              <li class="dropdown"><a href="{% url 'category' 'Homme' cat %}"><span>{{cat.name}}</span></a></li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li class="dropdown"><a href="{% url 'category' 'Femme' 'all' %}"><span>Femme</span> <i class="bi bi-plus"></i></a>
+            <ul>
+              {% for cat in categories %}
+              <li class="dropdown"><a href="{% url 'category' 'Femme' cat %}"><span>{{cat.name}}</span></a></li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li class="dropdown"><a href="{% url 'category' 'Unisex' 'all' %}"><span>Unisex</span> <i class="bi bi-plus"></i></a>
+            <ul>
+              {% for cat in categories %}
+              <li class="dropdown"><a href="{% url 'category' 'Unisex' cat %}"><span>{{cat.name}}</span></a></li>
+              {% endfor %}
+            </ul>
+          </li>
+
+          <li><a class="nav-link scrollto" href="#footer">Contact</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle" style="text-align:left"></i>
+      </nav><!-- .navbar -->
+
+      <div id="logo">
+        <!--<a href="{% url 'index'%}"><img src="{% static % 'img/logo.png' }" alt=""></a>  -->
+        <!-- Uncomment below if you prefer to use a text logo -->
+        <h1 class="special-ricamo"><a href="{% url 'index'%}">Nom du site</a></h1>
+      </div>
+      <nav id="navbar2" class="navbar">
+        <div style="display:flex;justify-content: right">
+          <button onclick="showsearch()"><i class="bi bi-search mobile-nav-toggle i-search"></i></button>
+          {% if user.is_authenticated %}<button id="profile-picture-nav" style="width: 28px;height:28px;border-radius: 50%; background-image: url('{{profile.picture.url}}'); background-size: cover; background-position: center;"  onclick="document.getElementsByClassName('profile-downit')[0].classList.toggle('profile-display')">
+          </button>
+          {% else %}
+          <button onclick="window.open('{% url 'login' %}')"><i class="bi bi-person mobile-nav-toggle i-person"></i></button>
+          {% endif %}
+          <button onclick="window.open('{% url 'chat' 'inbox' '0' %}')"><i class="bi bi-envelope mobile-nav-toggle i-envelope"></i></button>
+          <button onclick="showcart()"><span style="margin: 0;" class="bi bi-cart mobile-nav-toggle span-cart"></span></button>
+        </div>
+      </nav>
+
+    </div>
+        
+    
+
+    <div class="profile-downit profile-display navbar">
+      <ul style="display: block;">
+        <li><a href="{% url 'index' %}">Profile</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      </ul>
+    </div>
+
+  </header><!-- End Header -->
+  <div id="displayed-cart" style="display: none" class="displayed-cart">
+    <h3 id="test-test" class="cart-title"> Shopping Cart           <i id="close-cart" style="font-size:20px; float:right" class="bi bi-x"></i>
+    </h3><hr>
+    <ul id="product-list">
+      {% for product in checkout_products %}
+        <li class="d-flex justify-content-between">
+          <img class="cart-image" src="{{product.0.image.url}}">
+          <div>
+            <h7 style="display: none;">{{product.0.id}}</h7>
+            <h7 style="display: block;font-family: MagnumSansExtraLight">{{product.0.name}}</h7>
+            <span class="colors-dispo" style="background-color:{{product.3}};padding:6px"><span style="display:none;">{{product.3}}</span></span>
+            <h7 style="font-familyMagnumSansExtraLight">{{product.1}}</h7>
+            {% if product.0.discounted_price %}
+            <h7 style="display: block;font-family:MagnumSansExtraLight">{{product.0.discounted_price}} DA</h7>
+            {%else%}
+            <h7 style="display: block;font-family:MagnumSansExtraLight">{{product.0.price}} DA</h7>
+            {% endif %}
+          </div>
+          <div>
+            <button class="minus-quantite"></button>
+            <span class="quantite">{{product.2}}</span>
+            <button class="plus-quantite"></button>
+          </div>
+          
+          <i style="font-size:20px;" class="delete-product bi bi-trash"></i>
+        </li>
+      
+      {% endfor %}
+
+    </ul>
+    <span id="total-checkout"></span>
+    <form style="float:right" action="" method="get">
+        <input id="input-cart" type="hidden" name="cart">
+        <button onclick="submitcart()" type="submit" class="cart-button">Checkout</button>
+    </form>
+
+
+  </div>
+
+  <!-- ======= Hero Section ======= -->
+{% block hero %}
+{% endblock %}
+
+{% block main %}
+{% endblock %}
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+          <div class="row justify-content-around d-flex">
+            <div class="col-lg-4 col-md-5" style="margin-bottom:25px;">
+
+              <h6 class="footer-title">Subscribe to our Newsletter !</h6>
+              <form class="d-flex" action="email/" method="POST">{% csrf_token %}
+                <input style="margin-right: 0;width:80%" type="text" placeholder="Enter Email" name="email" required>     
+                <button type="submit"><i class="bi bi-arrow-right"></i></button>
+              </form>
+              <hr style="width: 85%;float: left">
+            </div>
+            <div class="col-lg-4 col-md-5" style="margin-bottom:25px;">
+                <h6 class="footer-title d-flex justify-content-center">Follow us</h6><br>
+                <div class="d-flex  justify-content-center justify-content-around">
+                  <a target="blank" href="https://www.facebook.com/ricamowear/"><i style="font-size:22px;" class="bi bi-facebook"></i></a>
+                  <a target="blank" href="https://www.instagram.com/ricamowear/"><i style="font-size:22px;" class="bi bi-instagram"></i></a>
+                  <a target="blank" href="https://www.tiktok.com/@ricamowear"><i style="font-size:22px;" class="bi bi-tiktok"></i></a>
+                  <a target="blank" href="https://mail.google.com/mail/u/0/?fs=1&to=ricamowear@gmail.com&tf=cm"><i style="font-size:22px;" class="bi bi-google"></i></a>
+
+
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-5" style="margin-bottom:25px;">
+                <h6 class="footer-title d-flex justify-content-center"> </h6>
+                <!-- <a class="d-flex justify-content-center" target="blank" href="https://benslimanenassim.github.io/"><h6>Benslimane Nassim</h6></a> -->
+                <a class="d-flex justify-content-center" target="blank" href="{% static 'vintage/docs/politique-conf.pdf' %}"><h6>Politique de confidentialité</h6></a>
+                <a class="d-flex justify-content-center" target="blank" href="{% static 'vintage/docs/conditions-utilisation.pdf' %}"><h6>Conditions d'utilisation</h6></a>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>DZ Vintage</strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vintage/vendor/purecounter/purecounter.js' %}"></script>
+  <script src="{% static 'vintage/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vintage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vintage/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vintage/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vintage/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vintage/vendor/php-email-form/validate.js' %}"></script>
+  <!-- Template Main JS File -->
+  <script src="{% static 'vintage/js/main.js' %}"></script>
+  <script>
+    function showsearch(){
+      document.getElementById('id01').style.display='block';
+      document.getElementsByTagName('main')[0].style.display='none';
+      document.getElementsByTagName('header')[0].classList.remove("d-flex");
+      document.getElementsByTagName('header')[0].style.display='none';
+      document.getElementById('hero').style.display='none';
+
+
+    }
+    function unshowsearch(){
+      document.getElementById('id01').style.display='none';
+      document.getElementsByTagName('main')[0].style.display='block';
+      document.getElementsByTagName('header')[0].classList.add('d-flex');
+      document.getElementById('hero').style.display='block';
+    }
+    function cart_style(){
+      cart = document.getElementById("displayed-cart");
+      cart.style.opacity = "1";
+      cart.style.right = "0";
+
+    }
+    function cart_style_2(){
+      cart.style.display = "none";
+    }
+    function showcart(){
+      cart = document.getElementById("displayed-cart");
+      if (cart.style.display == "none"){
+        if (document.getElementById("product-list").firstElementChild){
+          cart.style.display = "block";
+          setTimeout(cart_style ,1);
+        }
+      }else{
+        cart.style.opacity ="0";
+        cart.style.right = "-50%";
+        setTimeout(cart_style_2 ,400);
+      }
+    }
+    var close = document.getElementById("close-cart");
+    close.addEventListener("click",showcart);
+    
+    var count = {{checkout_products|length}};
+    if (count > 0){
+        soufel = document.getElementsByClassName('span-cart')[0];
+        span_element = document.createElement('span');
+        span_element.setAttribute('id','cart-counter');
+        span_element.innerHTML = count;
+        soufel.appendChild(span_element);
+    }
+    var del = document.getElementById("product-list");
+    del.addEventListener("click",changeit);
+    function delet(sup){
+        prev_child = sup.previousElementSibling.previousElementSibling.firstElementChild;
+        the_id = prev_child.innerHTML;
+        size_of_pr = prev_child.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML;
+        color_of_pr = prev_child.nextElementSibling.nextElementSibling.firstElementChild.innerHTML;
+        var x =document.cookie;
+        var y = sliceit(x,";");
+        var z = sliceit(y,"=");
+        var unjasonized = JSON.parse(z);
+        var temp = 0;
+        while(temp<unjasonized.length){
+          if(unjasonized[temp][0] == the_id && unjasonized[temp][1] == size_of_pr && unjasonized[temp][3] == color_of_pr ){
+            unjasonized.splice(temp,1);
+          }else{
+            temp++;
+          }
+        }
+        
+
+        var jasonized = JSON.stringify(unjasonized);
+        document.cookie = "cart="+jasonized+"; path=/";
+
+
+
+
+        sup.parentElement.remove();
+        window.location.reload();
+    }
+    function addd_quantite(sup){
+      prev_child = sup.parentElement.previousElementSibling.firstElementChild;
+      the_id = prev_child.innerHTML;
+      size_of_pr = prev_child.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML;
+      color_of_pr = prev_child.nextElementSibling.nextElementSibling.firstElementChild.innerHTML;
+      var unjasonized = JSON.parse(sliceit(sliceit(document.cookie,";"),"="));
+      var temp=0;
+
+      while(temp<unjasonized.length){
+            if(unjasonized[temp][0] == the_id && unjasonized[temp][1] == size_of_pr && unjasonized[temp][3] == color_of_pr){
+              unjasonized[temp][2] = unjasonized[temp][2]+1;
+              break;
+            }else{
+              temp++;
+            }
+      }
+      var jasonized = JSON.stringify(unjasonized);   
+      document.cookie = "cart="+jasonized+"; path=/";
+      window.location.reload();
+
+    }
+    function minus_quantite(sup){
+      prev_child = sup.parentElement.previousElementSibling.firstElementChild;
+      the_id = prev_child.innerHTML;
+      size_of_pr = prev_child.nextElementSibling.nextElementSibling.nextElementSibling.innerHTML;
+      color_of_pr = prev_child.nextElementSibling.nextElementSibling.firstElementChild.innerHTML;
+      var x =document.cookie;
+      var y = sliceit(x,";");
+      var z = sliceit(y,"=");
+      var unjasonized = JSON.parse(z);
+      var temp=0;
+      while(temp<unjasonized.length){
+            if(unjasonized[temp][0] == the_id && unjasonized[temp][1] == size_of_pr && unjasonized[temp][3]==color_of_pr){
+              unjasonized[temp][2] = unjasonized[temp][2]-1;
+              break;
+            }else{
+              temp++;
+            }
+      }
+      if(unjasonized[temp][2]==0){
+        unjasonized.splice(temp,1);
+      }
+      var jasonized = JSON.stringify(unjasonized);   
+      document.cookie = "cart="+jasonized+"; path=/";
+      window.location.reload();
+    }
+    function changeit(del){
+      sup = del.target;
+      if (sup.classList.contains("delete-product")){
+        delet(sup);
+      }else if(sup.classList.contains("plus-quantite")){
+        addd_quantite(sup);
+
+      }else if(sup.classList.contains("minus-quantite")){
+        minus_quantite(sup);
+      }
+    }
+    function slicefromfirst(x,sep){
+      var zb =0;
+      while (zb<x.length){
+        if (x[zb] == sep){
+          break;
+        }
+        zb++;
+      }
+      return x.slice(0,zb);
+    }
+    function sliceit(x,sep){
+      var zb =0;
+      while (zb<x.length){
+        if (x[zb] == sep){
+          break;
+        }
+        zb++;
+      }
+      return x.slice(zb+1,x.length);
+    }
+    function initialize_cookies(){
+      var x =document.cookie;
+      if(!x.includes(";")){
+        var jasonized = JSON.stringify([]);
+        document.cookie = "cart="+jasonized+"; path=/";
+      }
+    }
+    initialize_cookies();
+    function total_checkout(){
+      ul = document.getElementById("product-list");
+      var total = 0;
+      for (const li of ul.children){
+        total = total + parseInt(slicefromfirst(li.firstElementChild.nextElementSibling.lastElementChild.innerHTML," ")*parseInt(li.firstElementChild.nextElementSibling.nextElementSibling.firstElementChild.nextElementSibling.innerHTML));
+      }
+      document.getElementById("total-checkout").innerHTML="Total: "+total.toString()+" DA";
+    }
+    total_checkout();
+    function submitcart(){
+      var x =document.cookie;
+      var y = sliceit(x,";");
+      var z = sliceit(y,"=");
+      document.getElementById("input-cart").value=z;      
+    }
+    
+    
+  </script>
+  {% block scripts %}
+  {% endblock %}
+</body>
+
+</html>

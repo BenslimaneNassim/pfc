@@ -1,0 +1,68 @@
+{% extends 'vintage/base.html' %}
+{% load static %}
+        {% block hero %}
+          <!-- ======= Hero Section ======= -->{% with art="img/art.webp" %}
+          <section id="hero" style="height: 45vh;background: url('{% static art %}') center;">{% endwith %}
+            <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
+              <h3 style="font-family : RothekExtraLight; color : #fff;font-size: 28px; font-weight: 600"> /riˈka.mo/</h3>
+              <h3 style="color : #fff;font-size: 20px;font-weight:100;">
+                (n.) an online store evolved with the intention to create exclusive streetwear<br> embroidered with unique artworks.<br>
+                </h3>
+            </div>
+          </section><!-- End Hero Section -->
+          {% endblock %}
+  {% block main %}
+  <main id="main">
+
+     <!-- ======= Facts Section ======= -->
+     <section id="facts" style="background:transparent;margin-bottom: 0;margin-top:0;">
+        <div class="container" data-aos="fade-up">
+          <div class="section-header">
+            <h3 class="section-title" style="font-size:14px">What we do</h3>
+            <hr>
+            <p class="section-description" style="color:black;font-family:RothekExtraLight">
+              We embroid for our audience exclusive personalized designs into high quality clothes to create unique premium wear. 
+            The clothes become the canvas and the art is exhibited by you.<br>
+            Everything we do, we do perfectely.
+            Embroidery in Italian: Ricamo.</p>
+            
+          </div>
+  
+        </div>
+      </section><!-- End Facts Section -->
+
+      <section id="verra">
+          <div class="container-fluid" style="padding-right:0">
+              <img style="width: 100%;" src="{% static 'img/fares.jpg' %}">
+          </div>
+      </section>
+
+      <section style="margin-top:0;margin-bottom: 0">
+          <div class="container-fluid fares d-flex">
+              <div class="container d-flex">
+
+              <div id="to-modifyy" class="text-zone d-flex justify-content-around">
+                  <div id="to-modify" class="d-flex justify-content-center" style="">
+                    ONE GUY, ONE VISION.<br><br>
+                    2021. The year the I (Fares) decided to embark on a journey:
+                     Building an art-based streetwear brand.<br><br>
+                     With our brand ricamowear we want to contribute to the clothing revolution of Algeria.
+                     Our goal is to embroid into existence the designs you have in mind. 
+                     Contact us for personalized designs.<br><br>
+                      At the center of the brand stands art. Art that inspires, affects, moves people and
+                       communicates to them through a universal language.
+                        Together with you, we want to create a culture of streetwear lovers and art enthusiasts
+                         and leverage this brand.
+                         Together, we are a community, we wear RicamoWear, we are RicamoWear.<br>
+                        </div>
+
+              </div>
+              <div id="zdakhel" class="fares-image-zone">
+                  <img src="{% static 'img/fares.jpg' %}">
+              </div>
+          </div>
+        </div>
+      </section>
+            
+  </main><!-- End #main -->
+{% endblock %}

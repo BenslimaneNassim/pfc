@@ -1,0 +1,50 @@
+<section style="margin-top: 150px;margin-bottom: 10px;">  
+        <div id="part-1" class="container">
+            <div class="section-header" style="margin-bottom:50px">
+                <h3 class="section-title">Vos Informations (2/3)</h3>
+                <hr>
+            </div>
+            <div class="row justify-content-around contains-it">
+            
+            <div class="replace-form">
+            <form id="form-final" style="" action="" method="GET" enctype="multipart/form-data">
+                    {{ form.nom }}
+                    <hr style="width:254px">
+                    <br>
+                    {{ form.prénom }}
+                    <hr style="width:254px">
+                    <br>
+                    {{ form.wilaya }}
+                    <hr style="width:254px"><br>
+                    {{ form.ville }}
+                    <hr style="width:254px"><br>
+                    {{ form.adresse }}
+                    <hr style="width:254px"><br>
+                    {{ form.numero }}
+                    <hr style="width:254px"><br>
+                    {{ form.optionel }}
+                    <hr style="width:254px"><br>
+                </div>
+
+            <div class="deuxieme" style="width:50%;text-align: center;margin-bottom:30px">
+                <div id="shipping-method-wrapper" class="commande-input">Livraison: (Yalidine)<br><hr>
+                        <span id="domicile" class="shipping-method">à Domicile</span>
+                        <span id="bureau" class="shipping-method">au Bureau</span>
+                </div>
+                <hr style="width:254px">
+                <br>
+                <span style="font-family: MagnumSansExtraLight">Prix: {{total}} DA</span>
+                <br>
+                <span id="liv-price" style="font-family: MagnumSansExtraLight"></span><br>
+                <span id="total-koulech" style="font-family: MagnumSansExtraLight;font-weight: 600"></span><br>
+                <hr style="width:254px"><br>
+                
+            </div>
+            <div style="width: 100%;position: relative;height: 80px;">
+                <input type="hidden" name="finalcart-total" id="finalcart-total">
+                <button type="submit" class="btn-suivanttt">Suivant</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</section>
