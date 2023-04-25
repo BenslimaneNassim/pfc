@@ -59,7 +59,7 @@ def search(request):
                     if pr not in products1:
                         products1.append(pr)
             
-            products2 = Post.objects.filter(Q(name__contains=searched) | Q(types__contains=searched))# | Q(design=designs)
+            products2 = Post.objects.filter(Q(title__contains=searched) | Q(types__contains=searched)) | Q(design=designs)
             products=[]
             for pr in products1:
                 products.append(pr)
