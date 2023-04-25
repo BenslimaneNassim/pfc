@@ -187,7 +187,9 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="{% url 'index'%}">Home</a></li>
-          <li><a class="nav-link scrollto" href="">Populaires</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'index'%}#populaires">Populaires</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'index'%}#nouvs">Nouveautés</a></li>
+
           <!-- <li class="dropdown"><a href="#"><span>Catégories</span> <i class="bi bi-plus"></i></a>
             <ul>
               <li class="dropdown"><a href="#"><span>Accessories</span> <i class="bi bi-plus"></i></a>
@@ -236,7 +238,7 @@
       <div id="logo">
         <!--<a href="{% url 'index'%}"><img src="{% static % 'img/logo.png' }" alt=""></a>  -->
         <!-- Uncomment below if you prefer to use a text logo -->
-        <h1 class="special-ricamo"><a href="{% url 'index'%}">Nom du site</a></h1>
+        <h1 class="special-ricamo"><a href="{% url 'index'%}">DzVintage</a></h1>
       </div>
       <nav id="navbar2" class="navbar">
         <div style="display:flex;justify-content: right">
@@ -545,6 +547,29 @@
       document.getElementById("input-cart").value=z;      
     }
     
+
+
+
+    var team = document.getElementsByClassName("team");
+    for (var i = 0; i < team.length; i++) {
+      team[i].addEventListener("click", like_it);
+    }
+    // team.addEventListener("click", like_it);
+    function like_it(team){
+      var span = team.target;
+      if (span.classList.contains("bi-heart")){
+        span.classList.remove("bi-heart");
+        span.classList.add("bi-heart-fill");
+      }
+      else if(span.classList.contains("bi-heart-fill")){
+        span.classList.remove("bi-heart-fill");
+        span.classList.add("bi-heart");
+      }
+      else{
+        pass;
+      }
+    }
+
     
   </script>
   {% block scripts %}

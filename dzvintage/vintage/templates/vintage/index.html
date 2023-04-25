@@ -83,7 +83,7 @@
     
     
     
-    <section class="team">
+    <section id="populaires" class="team">
       <div class="container" ><!--data-aos="fade-up"-->
                   <div class="section-header">
                     <h3 class="section-title">Populaires</h3>          <hr>
@@ -123,7 +123,7 @@
       </div>
     </section><!-- End Team Section -->
 
-    <section class="team">
+    <section id="nouvs" class="team">
       <div class="container" ><!--data-aos="fade-up"-->
                   <div class="section-header">
                     <h3 class="section-title">Nouveautés</h3>          <hr>
@@ -173,40 +173,34 @@
     document.getElementById("my_wrapper").lastElementChild.classList.add("last-image-container");
     // var span = document.getElementById("video-sound");
     // span.addEventListener("click", sound_switch);
-    function sound_switch(span){
-      span_vid = span.target;
-      if (span_vid.className == "sound_on"){
-        span_vid.classList.remove("sound_on");
-        span_vid.classList.add("sound_off");
-        document.getElementById("behind-the-brand-video").muted=true;
-      }
-      else if(span_vid.className == "sound_off"){
-        span_vid.classList.remove("sound_off");
-        span_vid.classList.add("sound_on");
-        document.getElementById("behind-the-brand-video").muted=false;
-      }
-      else{
-        print("abouz");
-      }
-    }
+    // function sound_switch(span){
+    //   span_vid = span.target;
+    //   if (span_vid.className == "sound_on"){
+    //     span_vid.classList.remove("sound_on");
+    //     span_vid.classList.add("sound_off");
+    //     document.getElementById("behind-the-brand-video").muted=true;
+    //   }
+    //   else if(span_vid.className == "sound_off"){
+    //     span_vid.classList.remove("sound_off");
+    //     span_vid.classList.add("sound_on");
+    //     document.getElementById("behind-the-brand-video").muted=false;
+    //   }
+    // }
     // var span2 = document.getElementById("video-sound2");
     // span2.addEventListener("click", sound_switch2);
-    function sound_switch2(span2){
-      span_vid = span2.target;
-      if (span_vid.className == "sound_on"){
-        span_vid.classList.remove("sound_on");
-        span_vid.classList.add("sound_off");
-        document.getElementById("behind-the-brand-video2").muted=true;
-      }
-      else if(span_vid.className == "sound_off"){
-        span_vid.classList.remove("sound_off");
-        span_vid.classList.add("sound_on");
-        document.getElementById("behind-the-brand-video2").muted=false;
-      }
-      else{
-        print("abouz");
-      }
-    }
+    // function sound_switch2(span2){
+    //   span_vid = span2.target;
+    //   if (span_vid.className == "sound_on"){
+    //     span_vid.classList.remove("sound_on");
+    //     span_vid.classList.add("sound_off");
+    //     document.getElementById("behind-the-brand-video2").muted=true;
+    //   }
+    //   else if(span_vid.className == "sound_off"){
+    //     span_vid.classList.remove("sound_off");
+    //     span_vid.classList.add("sound_on");
+    //     document.getElementById("behind-the-brand-video2").muted=false;
+    //   }
+    // }
     function getRandomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
     function nextBg(){
       var rand = getRandomInt(1,7);
@@ -216,24 +210,5 @@
       setTimeout(nextBg, 10000);
     }
     // nextBg();
-    var team = document.getElementsByClassName("team");
-    for (var i = 0; i < team.length; i++) {
-      team[i].addEventListener("click", like_it);
-    }
-    // team.addEventListener("click", like_it);
-    function like_it(team){
-      var span = team.target;
-      if (span.classList.contains("bi-heart")){
-        span.classList.remove("bi-heart");
-        span.classList.add("bi-heart-fill");
-      }
-      else if(span.classList.contains("bi-heart-fill")){
-        span.classList.remove("bi-heart-fill");
-        span.classList.add("bi-heart");
-      }
-      else{
-        print("abouz");
-      }
-    }
   </script>
 {% endblock %}
