@@ -426,6 +426,18 @@ background-color: rgba(0,0,0,0.8);
   margin-left: 0;
   width: 20px;
 }
+.second-hr-search{
+  width: 60%;
+  margin: auto;
+  min-width: 300px;
+}
+
+.second-search-container{
+  margin: 20px auto;
+  width: 60%;
+  min-width: 300px;
+  height: 50px;
+}
 .search-container {
   width: 75%;
   height: 50px;
@@ -434,7 +446,7 @@ background-color: rgba(0,0,0,0.8);
   left: 50%;
   position: absolute;
 }
-.search-container input{
+.search-container input, .second-search-container input{
   width: calc(100% - 50px);
   height: 100%;
   border: 0;

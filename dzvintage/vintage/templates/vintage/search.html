@@ -1,49 +1,89 @@
 {% extends 'vintage/base.html' %}
     {% load static %}
-{% block hero %}          <!-- ======= Hero Section ======= -->
-          <section id="hero" style="height: 35vh;background: url({% static 'img/art.webp'%}) center;background-size: cover;
-          position: relative;">
-            <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
-              
-              <h1 style="font-family : RothekExtraLight; color : #fff"> find your art </h1>
-            </div>
-          </section><!-- End Hero Section -->
+
+{% block style %}
+<style>
+  #hero:before{
+    background: white;
+  }
+  #header i, #header span, #header a {
+  color: #000000!important;
+  transition: all 0.5s;
+}
+  
+ 
+</style>
 {% endblock %}
+
 {% block main %}
   <main id="main">
+                <section class="">
+                  <div class="container" style="">
+                    <div class="section-header">
+                      <h3 class="section-title" style="font-weight: 600">Search</h3>
+                      <hr style="font-weight: 400">
+                    </div>
+                    
+                    
+                    <form class="modal-content animate" action="{% url 'search' %}" method="POST">{% csrf_token %}
+                                        
+                      <div class="second-search-container">
+                  
+                        <input type="text" placeholder="Recherche" name="search" required>     
+                               
+                        <button class="search-submit-button" type="submit">
+                          <i style="margin-right:10px" class="bi bi-search"></i>
+                        </button>
+                  
+                  
+                        
+                      </div>
+                      <hr class="second-hr-search">
+                      
+                    </form>
+                
 
-              <section id="team">
-                  <div class="container" data-aos="fade-up">
+
+                  </div>
+                </section>
+            
+                <section class="team">
+                  <div class="container" ><!--data-aos="fade-up"-->
                               <div class="section-header">
                                 <h3 class="section-title" style="font-weight: 400">{% if products %}Results for "{{searched}}"{% else %} No Results for "{{searched}}". Try to minimize your words {% endif %} </h3>          <hr style="font-weight: 400">
             
                               </div>
             
                     
-                    <div class="row">
-                      
-
-                      
-                    </div>
-                    <div class="row">
-                        {% for product in products %}
-                        <div class="col-lg-4 col-md-5 col-sm-4 col-6">
-                          <a style="color:black" href="{% url 'product' product.name %}"><div class="member" data-aos="fade" data-aos-delay="100">
-                            <div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div>
-                            <h4 style="text-transform: uppercase;">{{product.name}} | {{product.category}}</h4>
-                            {% if product.discounted_price %}
-                              <span class="price-col"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                    <div style="width: fit-content;" class="d-flex justify-content-center"><div class="row"  data-aos="fade" data-aos-delay="1">
+                      {% for product in products %}
+                      <div class="col-lg-2 col-md-3 col-sm-4 col-3 justify-content-center d-flex">
+                        <div class="set-the-width" style="color:black" href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
+                          <div class="profile-seller">
+                            <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                            <span class="seller-name">{{product.seller}}</span>
+                          </div>
+                          <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
+                          <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+                          <div class="d-flex justify-content-between">
+                            <div class="d-flex" style="position: relative;">
+                              {% if product.discounted_price %}
+                              <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
                             {% else %}
                               <span class="price-col">{{product.price}} DA</span>
-              
                             {% endif %}
-              
-                            
-                          </div></a>
-                        </div>
-                        {% endfor %}
+            
+                            </div>
+                            <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
+                            <span class="bi bi-heart mobile-nav-toggle like-it "></span>
+                          </div>
+            
+                          
+                        </div></div>
                       </div>
-              
+                      {% endfor %}
+                    </div></div>
+            
                   </div>
                 </section><!-- End Team Section -->
             
