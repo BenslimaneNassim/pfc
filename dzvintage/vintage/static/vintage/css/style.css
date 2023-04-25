@@ -32,43 +32,6 @@ body::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
 }
-/* lyliaaaa*/
-
-.barre-rech{
-  position: absolute;
-  width: 100%;
-  background-color: #f3efab;
-}
-
-.barre-rech ul{
- display: flex;
-}
-.barre-rech ul li{
-list-style-type: none;
-display: inline-block;
-padding: 20px;
-margin: 80px;
-width: 100%;
-}
-.image-container{
-  border-radius: 100px;
-}
-#hero .btn-get-started {
-  font-family: RothekExtraLight;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  background-color: #f7f4b8;
-  color: black;
-  font-size: 16px;
-  padding: 12px 24px;
-  margin-top: 80px;
-  border: none;
-  cursor: pointer;
-  border-radius: 100px;
-}
 
 #thebox-of-chatbox::-webkit-scrollbar {
   width: 10px;
@@ -487,7 +450,6 @@ background-color: rgba(0,0,0,0.8);
   width: calc(100% - 50px);
   height: 100%;
   border: 0;
-  /*background-color: #e9ecef;*/
 }
 .footer-top input{
   height: 50px;
@@ -850,7 +812,7 @@ del{
   margin-left:6px;
 }
 #header #logo h1 a, #header #logo h1 a:hover {
-  color: #f7f4b8;
+  color: #fff;
 }
 #header #logo img {
   padding: 0;
@@ -860,7 +822,7 @@ del{
   background: transparent;
 }
 #header.header-scrolled {
-  background: rgb(235 225 158 / 90%);
+  background: rgba(247, 247, 247, 0.9);
   height: 80px;
   transition: all 0.5s;
   border-bottom: 0.5px black solid;
@@ -1037,7 +999,7 @@ nav > ul > li:last-child{
   min-width: 300px;
   left: 0;
   bottom: 0;
-  background: #f0f3c5;;
+  background: white;
   transition: 0.3s;
   z-index: 999;
 }
@@ -1054,7 +1016,7 @@ nav > ul > li:last-child{
   bottom: 15px;
   left: 15px;
   padding: 10px 0;
-  /*background-color: #fff;*/
+  background-color: #fff;
   overflow-y: auto;
   transition: 0.3s;
 }
@@ -1184,13 +1146,13 @@ nav > ul > li:last-child{
   
   display: inline-block;
     transition: 0.5s;
-    background-color: #f7f4b8;
+    background-color: rgb(255, 255, 255);
     color: black;
     font-size: 16px;
     padding: 12px 32px;
     border: none;
     cursor: pointer;
-    border-radius: 100px;
+    border-radius: 5px;
     margin: 10px auto;
 }
 #call-to-action2 .cta-btn{
@@ -1254,14 +1216,14 @@ nav > ul > li:last-child{
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-  background-color: #f7f4b8;
+  background-color: rgb(255, 255, 255);
   color: black;
   font-size: 16px;
   padding: 12px 24px;
   margin-top: 80px;
   border: none;
   cursor: pointer;
-  border-radius: 100px;
+  border-radius: 5px;
 }
 #hero .btn-get-startedd:hover {
   background: #000000;
@@ -1289,7 +1251,6 @@ section {
   text-transform: uppercase;
   text-align: center;
   margin-bottom: 10px;
-  background-color: #faf8c1b0;
 }
 hr {
   width: 40px;
@@ -2256,7 +2217,7 @@ hr {
 #footer {
   font-family : RothekExtraLight;
   /* background: #f7f7f7; was #343b40; */
-  background: rgb(237 227 160);
+  background: rgb(210 202 189);
   padding: 30px 0;
   color: black;
   font-size: 14px;
