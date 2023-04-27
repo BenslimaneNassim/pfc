@@ -39,9 +39,8 @@ input {
 
 /* style submit button */
 button[type="submit"] {
-  background-color: #007bff;
-  border-color: #007bff;
-  color: #fff;
+  background-color: #ffc10740;
+  color: #0c0909;
   padding: 10px;
   border-radius: 4px;
 }
@@ -54,7 +53,8 @@ button[type="submit"] {
 /* style link to login page */
 .card-footer a {
   text-decoration: none;
-  color: #007bff;
+  color: #0a0b0e;
+  border-bottom: solid 1px gray;
 }
 body {
     font-family: 'Open Sans', sans-serif!important;
@@ -76,7 +76,7 @@ body {
       <div class="col-lg-5 col-md-8">
         <div class="card shadow-lg border-0 rounded-lg mt-5">
           <div class="card-header">
-            <h3 class="text-center font-weight-light my-4">Create Account</h3>
+            <h3 class="text-center font-weight-light my-4">Créer un compte</h3>
           </div>
           <div class="card-body">
             <form method="post">
@@ -94,12 +94,12 @@ body {
                 </div>
               {% endfor %}
               <div class="form-group mt-4 mb-0">
-                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                <button type="submit" class="btn btn-primary btn-block">Créer un compte</button>
               </div>
             </form>
           </div>
           <div class="card-footer text-center">
-            <div class="small"><a href="{% url 'login' %}">Have an account? Go to login</a></div>
+            <div class="small"><a href="{% url 'login' %}">Vous avez déja un compte? Connectez-vous</a></div>
           </div>
         </div>
       </div>
