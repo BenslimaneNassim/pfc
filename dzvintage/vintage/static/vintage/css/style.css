@@ -477,6 +477,8 @@ background-color: rgba(0,0,0,0.8);
 
 .category-container{
   max-width:95%;
+  display: block;
+  /* display: table-caption; */
 }
 @media (max-width: 1210px) {
   .category-container{
@@ -596,6 +598,7 @@ h2, h3, h4, h5, h6 {
   position: relative;
   width: 100%;
   opacity: 0.8;
+  border-radius: 100px;
 }
 .sizes-dispo,.shipping-method{
   padding-right : 6px;
@@ -810,7 +813,7 @@ del{
   background: transparent;
 }
 #header.header-scrolled {
-  background: rgba(247, 247, 247, 0.9);
+  background: rgb(251 241 163);
   height: 80px;
   transition: all 0.5s;
   border-bottom: 0.5px black solid;
@@ -987,7 +990,7 @@ nav > ul > li:last-child{
   min-width: 300px;
   left: 0;
   bottom: 0;
-  background: white;
+  background: #eae2a2cf;
   transition: 0.3s;
   z-index: 999;
 }
@@ -1004,7 +1007,7 @@ nav > ul > li:last-child{
   bottom: 15px;
   left: 15px;
   padding: 10px 0;
-  background-color: #fff;
+  /* background-color: #fff; */
   overflow-y: auto;
   transition: 0.3s;
 }
@@ -1131,17 +1134,16 @@ nav > ul > li:last-child{
   color: #fff;
 }
 #call-to-action .cta-btn{
-  
-  display: inline-block;
-    transition: 0.5s;
-    background-color: rgb(255, 255, 255);
-    color: black;
-    font-size: 16px;
-    padding: 12px 32px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 10px auto;
+  display: inline-block;
+  transition: 0.5s;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  font-size: 16px;
+  padding: 12px 32px;
+  border: none;
+  cursor: pointer;
+  border-radius: 100px;
+  margin: 10px auto;
 }
 #call-to-action2 .cta-btn{
   
@@ -1211,7 +1213,7 @@ nav > ul > li:last-child{
   margin-top: 80px;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 100px;
 }
 #hero .btn-get-startedd:hover {
   background: #000000;
@@ -1233,7 +1235,7 @@ section {
 /* Sections Header
 --------------------------------*/
 .section-header .section-title {
-  font-family: MagnumSansExtraLight;
+  font-family: 'MagnumSansExtraLight';
   font-size: 30px;
   color: #111;
   text-transform: uppercase;
@@ -2205,11 +2207,11 @@ hr {
 #footer {
   font-family : RothekExtraLight;
   /* background: #f7f7f7; was #343b40; */
-  background: rgb(210 202 189);
+  background: rgb(251 241 163);
   padding: 30px 0;
   color: black;
   font-size: 14px;
-  position: 
+  position:
 }
 #footer .copyright {
   text-align: center;
