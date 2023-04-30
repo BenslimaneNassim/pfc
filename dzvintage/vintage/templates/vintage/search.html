@@ -3,21 +3,145 @@
 
 {% block style %}
 <style>
+  input[type="number"]{
+
+    box-sizing: border-box;
+    width: 40%;
+    height: 25px;
+    padding: 20px 30px;
+    font-weight: 600;
+
+  }
+  input[type="number"]::-webkit-inner-spin-button{
+    display: none;
+  }
+  select{
+    width: 80%;
+    height: 40px;
+    /* padding: 20px 30px; */
+    font-weight: 600;
+  }
+  option{
+    font-weight: 600;
+  }
+/* test */
+/* input[type="range"] {
+  box-sizing: border-box;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  width: 100%;
+  margin: 0;
+  padding: 0 2px; */
+  /* Add some L/R padding to ensure box shadow of handle is shown */
+  /* overflow: hidden;
+  border: 0;
+  border-radius: 1px;
+  outline: none;
+  background: linear-gradient(grey, grey) no-repeat center;
+  /* Use a linear gradient to generate only the 2px height background */
+  /* background-size: 100% 2px;
+  pointer-events: none;
+}
+input[type="range"]:active,
+input[type="range"]:focus {
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  height: 28px;
+  width: 28px;
+  border-radius: 28px;
+  background-color: #fff;
+  position: relative;
+  margin: 5px 0; */ 
+  /* Add some margin to ensure box shadow is shown */
+  /* cursor: pointer;
+  -webkit-appearance: none;
+          appearance: none;
+  pointer-events: all;
+  box-shadow: 0 1px 4px 0.5px rgba(0, 0, 0, 0.25);
+}
+input[type="range"]::-webkit-slider-thumb::before {
+  content: " ";
+  display: block; */
+  /* position: absolute; */
+  /* top: 13px;
+  left: 100%;
+  width: 2000px;
+  height: 2px;
+}
+.multi-range {
+  position: relative;
+  height: 50px;
+}
+.multi-range input[type="range"] { */
+  /* position: absolute; */
+/* }
+.multi-range input[type="range"]:nth-child(1)::-webkit-slider-thumb::before {
+  background-color: red;
+}
+.multi-range input[type="range"]:nth-child(2) {
+  background: none;
+}
+.multi-range input[type="range"]:nth-child(2)::-webkit-slider-thumb::before {
+  background-color: grey;
+} */
+
+
+
+/* test */
+
+
+  .big-title-filtre{
+    font-family: MagnumSansExtraLight;
+    font-size: 30px;
+    color: #111;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;  
+  }
+  .title-filtre{
+    font-family: MagnumSansExtraLight;
+    font-size: 16px;
+    color: #111;
+    text-transform: ;
+    text-align: left;
+    margin-bottom: 20px;  
+  }
   #hero:before{
     background: white;
   }
   #header i, #header span, #header a {
   color: #000000!important;
   transition: all 0.5s;
-}
-  
+  }
+  .filters-search-zone{
+    width: 20%;
+    height: 100vh;
+    font-family: Work Sans,sans-serif!important;
+    font-weight: 600!important;
+    margin-top: -100px;
+    text-align: center;
+  }
+  .fluid-container{
+    width: 90%!important;
+    margin: auto!important;
+  }
+  .team{
+    margin-top: 0!important;
+    padding-top: 100px;
+  }
+  .box-filtre{
+    padding: 20px 0px;
+    border-bottom: 1px solid rgba(117, 117, 117, 0.253);
+  }
  
 </style>
 {% endblock %}
 
 {% block main %}
   <main id="main">
-                <section class="">
+                <section class="" style="margin-bottom: 0;">
                   <div class="container" style="">
                     <div class="section-header">
                       <h3 class="section-title" style="font-weight: 600">Search</h3>
@@ -29,7 +153,7 @@
                                         
                       <div class="second-search-container">
                   
-                        <input type="text" placeholder="Recherche" name="search" required>     
+                        <input type="text" placeholder="Recherche" name="search">     
                                
                         <button class="search-submit-button" type="submit">
                           <i style="margin-right:10px" class="bi bi-search"></i>
@@ -40,7 +164,7 @@
                       </div>
                       <hr class="second-hr-search">
                       
-                    </form>
+                    <!-- </form> -->
                 
 
 
@@ -48,44 +172,134 @@
                 </section>
             
                 <section class="team">
-                  <div class="container" ><!--data-aos="fade-up"-->
+                  <div class="fluid-container" ><!--data-aos="fade-up"-->
                               <div class="section-header">
-                                <h3 class="section-title" style="font-weight: 400">{% if products %}Results for "{{searched}}"{% else %} No Results for "{{searched}}". Try to minimize your words {% endif %} </h3>          <hr style="font-weight: 400">
+                                <h3 class="section-title" style="font-weight: 400">{% if products %}Résultats{% else %} No Results for "{{searched}}". Try to minimize your words {% endif %} </h3>          <hr style="font-weight: 400">
             
                               </div>
             
-                    
-                    <div style="width: fit-content;" class="d-flex justify-content-center"><div class="row"  data-aos="fade" data-aos-delay="1">
-                      {% for product in products %}
-                      <div class="col-lg-2 col-md-3 col-sm-4 col-3 justify-content-center d-flex">
-                        <div class="set-the-width" style="color:black" href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
-                          <div class="profile-seller">
-                            <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
-                            <span class="seller-name">{{product.seller}}</span>
+                    <div class="d-flex">
+
+                      <div class="filters-search-zone">
+                        <h3 class="big-title-filtre">Filtrer</h3>
+                        <div class="box-filtre">
+                          <div class="title-filtre">Genre</div>
+                          <div style="text-align: left;">
+                            <input type="radio" id="homme" name="genre" value="M">
+                            <label for="homme">Homme</label><br>
+                            <input type="radio" id="femme" name="genre" value="F">
+                            <label for="femme">Femme</label><br>
+                            <input type="radio" id="unisex" name="genre" value="U">
+                            <label for="unisex">unisex</label><br>
                           </div>
-                          <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
-                          <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+                        </div>
+
+                        <div class="box-filtre">
+                          <div class="title-filtre">Price</div>
                           <div class="d-flex justify-content-between">
-                            <div class="d-flex" style="position: relative;">
-                              {% if product.discounted_price %}
-                              <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
-                            {% else %}
-                              <span class="price-col">{{product.price}} DA</span>
-                            {% endif %}
-            
-                            </div>
-                            <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
-                            <span class="bi bi-heart mobile-nav-toggle like-it "></span>
+                            <input type="number" id="min" name="min" placeholder="min" value="">
+                            <span style="margin: 10px auto;">-</span>
+                            <input type="number" id="max" name="max" placeholder="max" value="">
                           </div>
-            
+
+                        </div>
+                        
+                        <div class="box-filtre">
+                          <div class="title-filtre">Catégorie</div>
+                          <div style="text-align: left;">
+                            <select name="category" id="category">
+                              <option value="All">All</option>
+                              {% for category in categories %}
+                              <option value="{{category.name}}">{{category.name}}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div></form>
+
+  
+
+<!-- test -->
+                          <!-- <span class="multi-range">
+                            <input type="range" min="0" max="50" value="5" id="lower">
+                            <input type="range" min="0" max="50" value="45" id="upper">
+                          </span> -->
+<!-- test -->
+
+
+
                           
-                        </div></div>
                       </div>
-                      {% endfor %}
-                    </div></div>
+
+
+                      <div style="width: 80%" class="d-flex justify-content-center"><div class="row"  data-aos="fade" data-aos-delay="1">
+                        {% for product in products %}
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-4 justify-content-center d-flex">
+                          <div class="set-the-width" style="color:black" href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
+                            <div class="profile-seller">
+                              <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                              <span class="seller-name">{{product.seller}}</span>
+                            </div>
+                            <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
+                            <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+                            <div class="d-flex justify-content-between">
+                              <div class="d-flex" style="position: relative;">
+                                {% if product.discounted_price %}
+                                <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                              {% else %}
+                                <span class="price-col">{{product.price}} DA</span>
+                              {% endif %}
+              
+                              </div>
+                              <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
+                              <span class="bi bi-heart mobile-nav-toggle like-it "></span>
+                            </div>
+              
+                            
+                          </div></div>
+                        </div>
+                        {% endfor %}
+                      </div></div>
+
+                    </div>
             
                   </div>
                 </section><!-- End Team Section -->
             
   </main><!-- End #main -->
   {% endblock %}
+{% block scripts %}
+<script>
+  var lowerSlider = document.querySelector('#lower'),
+    upperSlider = document.querySelector('#upper'),
+    lowerVal = parseInt(lowerSlider.value);
+    upperVal = parseInt(upperSlider.value);
+
+  upperSlider.oninput = function() {
+    lowerVal = parseInt(lowerSlider.value);
+    upperVal = parseInt(upperSlider.value);
+    
+    if (upperVal < lowerVal + 4) {
+        lowerSlider.value = upperVal - 4;
+        
+        if (lowerVal == lowerSlider.min) {
+          upperSlider.value = 4;
+        }
+    }
+  };
+
+
+  lowerSlider.oninput = function() {
+    lowerVal = parseInt(lowerSlider.value);
+    upperVal = parseInt(upperSlider.value);
+    
+    if (lowerVal > upperVal - 4) {
+        upperSlider.value = lowerVal + 4;
+        
+        if (upperVal == upperSlider.max) {
+          lowerSlider.value = parseInt(upperSlider.max) - 4;
+        }
+
+    }
+  };
+</script>
+{% endblock %}

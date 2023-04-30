@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
+from .helpers import *
 from django.conf import settings
 from django.utils import timezone
 from django.core.mail import send_mail
@@ -29,7 +30,8 @@ from allauth.socialaccount.models import SocialAccount
 
 
 def index(request):
-    categories = Category.objects.all()
+    context = {}
+    context = categories(context)
     products = Post.objects.all()
     posts = []
     for i in range(1, 9):
@@ -39,7 +41,7 @@ def index(request):
     for i in range(1, 5):
         new_p = new_products[0]
         new_posts.append(new_p)
-    context = {'categories':categories, 'products':posts, 'new_products':new_posts}
+    context.update({'products':posts, 'new_products':new_posts})
     if request.user.is_authenticated:
         user = request.user
         profile = Profile.objects.get(user=user)
@@ -48,31 +50,74 @@ def index(request):
     return render(request, 'vintage/index.html', context)
 def search(request):
     context = {}
+    context = categories(context)
     if request.method == "POST":
+        products = None
+        min_price = request.POST.get('min')
+        max_price = request.POST.get('max')
+
         if request.POST.get('search'):
             searched = request.POST.get('search')
-            categories = Category.objects.filter(name__contains=searched)
-            products1=[]
-            for cat in categories:
-                prs = Post.objects.filter(category=cat)
-                for pr in prs:
-                    if pr not in products1:
-                        products1.append(pr)
+            context['searched'] = searched
+            categories_searched = Category.objects.filter(name__contains=searched)
+            products1 = Post.objects.filter(category__in=categories_searched)
             
             products2 = Post.objects.filter(Q(title__contains=searched) | Q(genre__contains=searched)| Q(description__contains=searched))
-            products=[]
-            for pr in products1:
-                products.append(pr)
-            for pr in products2:
-                if pr not in products:
-                    products.append(pr)
-            context['products'] = products
-            context['searched'] = searched
+            products = (products1 | products2).distinct()
+            
+        if request.POST.get('genre'):
+            genre = request.POST.get('genre')
+            if products:
+                products = products.filter(genre=genre)
+            else:
+                products = Post.objects.filter(genre=genre)
+            
+            if request.POST.get('min') and request.POST.get('max'):
+                if products == None:
+                    products = Post.objects.filter(Q( Q(discounted_price = None) & Q(price__range=(min_price,max_price)) ) | Q(discounted_price__range=(min_price,max_price)))
+                products = products.filter( Q( Q(discounted_price = None) & Q(price__range=(min_price,max_price)) ) | Q(discounted_price__range=(min_price,max_price)) )
+
+        # if request.POST.get('min') and request.POST.get('max'):
+            # if products:
+            #     print(products)
+            # else:
+            #     products = Post.objects.filter( Q( Q(discounted_price = None) & Q(price__range=(min_price,max_price)) ) | Q(discounted_price__range=(min_price,max_price)) )
+        if request.POST.get('category'):
+            
+            categoryy = request.POST.get('category')
+            if categoryy != "All":
+                categoryy = Category.objects.get(name=categoryy)
+                if products:
+                    # products = products.filter(genre=genre, category=categoryy)
+                    products = products.filter(category=categoryy)
+                else:
+                    # products = Post.objects.filter(genre=genre, category=categoryy)
+                    products = Post.objects.filter(category=categoryy)
+            if request.POST.get('min') and request.POST.get('max'):
+                if products == None:
+                    products = Post.objects.filter(Q( Q(discounted_price = None) & Q(price__range=(min_price,max_price)) ) | Q(discounted_price__range=(min_price,max_price)))
+
+                products = products.filter( Q( Q(discounted_price = None) & Q(price__range=(min_price,max_price)) ) | Q(discounted_price__range=(min_price,max_price)) )
+
+            
+            # products = products.filter( Q( Q(discounted_price = None) & Q(price__range=(min_price,max_price)) ) | Q(discounted_price__range=(min_price,max_price)) )
+
+
+            
+        productss = []
+        for i in range(9):
+            if products:
+                productss.append(products[0])
+
+        
+        context['products'] = productss
 
     return render(request,"vintage/search.html",context)
 
 
 def signup(request):
+    context = {}
+    context = categories(context)
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -81,10 +126,12 @@ def signup(request):
             return redirect('/')
     else:
         form = UserCreationForm()
-    return render(request, 'vintage/signup.html', {'form': form})
+    context.update({'form':form})
+    return render(request, 'vintage/signup.html', context)
 
 def post(request, genre, category, product_name):
     context = {}
+    context = categories(context)
     category = Category.objects.get(name=category)
     product = Post.objects.get(title=product_name, genre= genre, category= category)
     images = PostPicture.objects.filter(post=product)
@@ -95,6 +142,7 @@ def post(request, genre, category, product_name):
 @login_required(login_url='/login/')
 def chat(request, other_user, product_id):
     context = {}
+    context = categories(context)
     user = request.user
     if product_id != 'inbox' and other_user != 'inbox':
         other_user = User.objects.get(username=other_user)
@@ -150,6 +198,7 @@ def chat(request, other_user, product_id):
 
 def category(request, genre, category):
     context = {}
+    context = categories(context)
     if category != "all":
         category = Category.objects.get(name=category)
         products = Post.objects.filter(category=category, genre=genre)
@@ -159,7 +208,9 @@ def category(request, genre, category):
     return render(request,"vintage/category.html",context)
 def customnotfound(request, exception):
     context = {}
+    context = categories(context)
     return render(request, "vintage/404.html",context)
 def customserver(request):
     context = {}
+    context = categories(context)
     return render(request, "vintage/500.html",context)
