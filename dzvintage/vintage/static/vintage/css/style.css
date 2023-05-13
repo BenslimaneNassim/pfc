@@ -814,7 +814,7 @@ del{
   background: transparent;
 }
 #header.header-scrolled {
-  background: rgb(251 241 163);
+  background: rgb(249 239 205);
   height: 80px;
   transition: all 0.5s;
   border-bottom: 0.5px black solid;
@@ -1136,9 +1136,10 @@ nav > ul > li:last-child{
   cursor: pointer;
   border-radius: 999px;
   background-image: linear-gradient(to right, transparent 50%, #fef44fcf 50%, #efeaa1cf );
-  background-size: 300%;
+  background-size: 200%;
   font-size: 24px; 
   font-weight: 500;
+  transition: 0.5s;
 }
 
 #hero .btn-get-started:hover {
@@ -1247,6 +1248,7 @@ background-size: 200%;
   border-radius: 999px;
   background-image: linear-gradient(to right, transparent 50%, #fef44fcf 50%, #efeaa1cf );
   background-size: 200%;
+  transition: 0.5s;
   /* font-size: 24px; */
   /* font-weight: 500; */
 }
@@ -2242,7 +2244,7 @@ hr {
 #footer {
   font-family : RothekExtraLight;
   /* background: #f7f7f7; was #343b40; */
-  background: rgb(251 241 163);
+  background: rgb(249 239 205);
   padding: 30px 0;
   color: black;
   font-size: 14px;
