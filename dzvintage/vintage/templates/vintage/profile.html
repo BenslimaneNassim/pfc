@@ -1,0 +1,420 @@
+{% extends 'vintage/base.html' %}
+    {% load static %}
+{% block style %}
+<style>
+    #header{
+        display: none!important;
+    }
+    #footer{
+        display: none!important;}
+    main{
+        /* margin: -1px; */
+        padding-top: 0;
+    }
+    .main-main{
+        width: 100%;
+        background-color: #202020;
+        height: 100%;
+        overflow-x: auto;
+    }
+    .profile-informations{
+        color: white;
+    }
+    .sidebar-menu{
+        /* position: fixed; */
+        background-color: #202020;
+        border: 1px solid #3f3f3f;
+        border-radius: 3px;
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        margin: 0;
+        /* margin-bottom: 20px; */
+        /* margin-top: 20px; */
+        padding: 0;
+        width: 20%;
+        color: white!important;
+        height: 100vh;
+        min-width: 300px;
+    }
+    .sidebar-menu-inner{
+        padding: 0;
+
+    }
+    .icon, .title{
+        color: white!important;
+    }
+    .title{
+        margin-left: 8px;
+    }
+    .profile-picture{
+        color: white;
+        width: 30%;
+    }
+    .sidebar-menu-inner ul{
+        padding: 0;
+    }
+    ul.sidebar-nav{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    ul.sidebar-nav li{
+        padding: 20px 50px;
+        border-radius: 10px;
+        transition: all 0.3s ease-in-out;
+    }
+    .profile-informations{
+        width: fit-content;
+        min-width: 60%;
+    }
+    .special-ricamo{
+        text-align: center;
+    }
+    label{
+        cursor: pointer;
+    }
+    p > input{
+        padding: 6px 30px;
+        border-radius: 5px;
+        background-color: #474747;
+        border: none;
+        /* border-bottom: 1px solid white; */
+        color: white;
+        /* width: 100%; */
+    }
+    .pfff{
+        padding: 6px 2px;
+    }
+    p{
+        width: 100%;
+    }
+    .profile-wrapper{
+        display: flex;
+        justify-content: space-around;
+    }
+    .infos-personnelles{
+        display: flex;
+        /* justify-content: space-between; */
+    } 
+    @media (max-width:768px){
+        .profile-wrapper{
+            display: block;
+        }
+        section{
+            margin-top: 30px!important;
+        }
+        .profile-picture{
+            width: 90%;
+            margin: auto;
+        }
+        .profile-picture form h4{
+            text-align: center;
+        }
+        .profile-picture form{
+            text-align: center;
+        }
+        .profile-picture img{
+            width: 120px!important;
+            height: 120px!important;
+        }
+        label{
+            margin: auto;
+            width: fit-content;
+            text-align: center;
+        }
+        .infos-personnelles{
+            justify-content: center;
+            margin-top: 0!important;
+        }
+        #infos-1{
+            margin-top: 50px!important;
+        }
+        .profile-informations{
+            width: 90%;
+            margin: auto;
+        }
+        .profile-informations h4{
+            display: none;
+        }
+        .submit-form{
+            margin: auto;
+            display: block;
+        }
+    }
+    li:hover{
+        background-color: #424242;
+    }
+    .infos-personnelles{
+        margin-top: 60px;
+    }
+    textarea{
+        padding: 6px 30px;
+        border-radius: 5px;
+        background-color: #474747;
+        border: none;
+        color: white;
+        overflow: hidden;
+        /* width: 100%; */
+        /* resize: none; */
+        height: 100px;
+    }
+    section .container{
+        min-width: 0!important;
+    }
+    .submit-form{
+        padding: 8px 12px;
+        border-radius: 10px;
+        border-color: #50dcf3;
+        background-color: #50dcf3;
+        /* font-weight: 600; */
+        font-size: 15px;
+        color: white;
+    }
+    .submit-form:hover{
+        background-color: #3b448b;
+    }
+    @media(max-width: 768px){
+        .sidebar-menu{
+            width: 100px!important;
+            min-width: 0;
+        }
+        .title{
+            display: none;
+        }
+        #ricamo1{
+            display: none!important;
+        }
+        #ricamo2{
+            display: block!important;
+        }
+        ul > a{
+        color: white;
+        font-size: 25px;
+        transition: all 0.3s ease-in-out;
+        }
+        ul > a:hover i{
+            color: #50dcf3;
+            transform: scale(1.1);
+        }
+        ul.sidebar-nav li{
+            padding: 18px 33px;
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+    }
+    #ricamo2{
+        display: none;
+    }
+    @media(max-width:1250px){
+        section .container{
+            width: 97%!important;
+        }
+        p > input {
+            padding: 6px 12px;
+
+        }
+        p{
+            font-size: 12px;
+        }
+        .profile-wrapper{
+            justify-content: space-between;
+        }
+
+    }
+    main{
+        height: 100vh;
+    }
+    section .container{
+        width: 85%;
+        min-width: 600px;
+    }
+    .profile-picture img{
+        width: 150px; height: 150px; border-radius: 50%; text-align:left; border: 2px solid white;
+    }
+
+</style>
+{% endblock %}
+{% block main %}
+<main id="main" class="d-flex">
+    <div class="sidebar-menu justify-content-center d-flex">
+
+        <div class="sidebar-menu-inner">
+            <div style="margin: 60px auto">
+               
+                <h1 id="ricamo1" class="special-ricamo"><a style="color: white;" href="{% url 'index'%}">Vintage<span style="color: #50dcf3;">DZ</span></a></h1>
+                <h1 id="ricamo2" class="special-ricamo"><a style="color: #50dcf3; text-align: center;" href="{% url 'index'%}">V</a></h1>
+            </div>
+        
+            <ul class="sidebar-nav">
+                <a href="{% url 'profile' %}">
+                <li class="active">
+                    
+                        <span class="icon"><i class="bi bi-person"></i></span>
+                        <span class="title">Profil</span>
+                    
+                </li></a>
+                <a href="{% url 'index' %}">
+                    <li class="">
+
+                        <span class="icon"><i class="bi bi-house"></i></span>
+                        <span class="title">Accueil</span>
+                    
+                    </li>
+                </a>
+
+                <a href="{% url 'annonces' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-list"></i></span>
+                        <span class="title">Mes Annonces</span>
+                    
+                    </li>
+                </a>
+                <a href="{% url 'add' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-plus"></i></span>
+                        <span class="title">Ajouter une Annonce</span>
+                    </li>
+                </a>
+                <a href="{% url 'chat' 'inbox' '1' %}">
+                    <li class="active">
+                        
+                            <span class="icon"><i class="bi bi-chat"></i></span>
+                            <span class="title">Messagerie</span>
+                        
+                    </li>
+                </a>
+    
+
+                <a href="{% url 'password_change' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-lock"></i></span>
+                        <span class="title">Mot de passe</span>
+                    </li>
+                </a>
+                <a href="{% url 'logout' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-door-open"></i></span>
+                        <span class="title">Déconnexion</span>
+                    </li>
+                </a>
+
+            </ul>
+        </div>
+    </div>
+    <div class="main-main">
+        <section>
+            <div class="container">
+           
+            <div class="profile-wrapper">
+
+                <div class="profile-picture">
+                <form id="picture-form" action="" enctype="multipart/form-data" method="POST">{% csrf_token %}
+
+                    <h4>Informations Personnelles</h4>
+                    <label style="margin-top: 30px;" for="picture" style="cursor: pointer;">
+                        <img src="{{profile.picture.url}}">
+                    </label>
+                    <input type="file" name="picture" id="picture" style="display: none;">
+                    <!-- <span style="display: block; font-size: 12px; text-align: left; text-indent: 5px; color: #717171;">Cliquez pour la modifier</span> -->
+                    <small style="display: block;color: #717171;">Cliquez pour la modifier</small>
+                </form>
+                    <div id="infos-1" class="infos-personnelles">
+                        <div class="labels">
+                            <p class="pfff">Nom</p>
+                            <p class="pfff">Prénom</p>
+                            
+                        </div>
+                        <div class="inputs">
+                            <form id="infos-form" action="" method="POST">{% csrf_token %}
+
+                            <p><input name="last_name" type="text" value="{{user.last_name}}"></p>
+                            <p><input name="first_name" type="text" value="{{user.first_name}}"></p>
+                           
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="profile-informations">
+                    <h4>Modifier votre Profil</h4>
+                    <div class="infos-personnelles" style="margin-top: 60px;">
+                        <div class="labels">
+                            <!-- <p class="pfff">Nom</p>
+                            <p class="pfff">Prénom</p> -->
+                            <p class="pfff">Email</p>
+                            <p class="pfff">Username</p>
+                            <p class="pfff">Téléphone</p>
+                            <p class="pfff">Ville</p>
+                            <p class="pfff">Bio</p>
+                        </div>
+                        <div class="inputs">
+                            <!-- <p class="pfff">{{user.last_name}}</p>
+                            <p class="pfff">{{user.first_name}}</p> -->
+                            {% if user.email %}
+                            <p class="pfff">{{user.email}}</p>
+                            {% else %}
+                            <p><input id="email_field" name="email" type="text" value="{{user.email}}"></p>
+                            {% endif %}
+                            <p><input name="username" type="text" value="{{user.username}}" required></p>
+                            <p><input id="phone_number" name="phone_number" pattern="0[5-7]{1}[0-9]{8}" type="tel" {% if profile.phone_number %} value="{{profile.phone_number}}" {% else %} placeholder="Numéro de Télephone" {% endif %}></p>
+                            <p><select name="wilaya" id="city" style="padding: 6px 30px; border-radius: 5px; background-color: #474747; border: none; color: white;">
+                                <option disabled selected>wilaya</option>
+                                {% for key, value in wilayas %}
+                                <option value="{{key}}" {% if key == profile.wilaya %} selected {% endif %}>{{value}}</option>
+                                {% endfor %}
+                            </select></p>
+                            <p>
+                                <textarea name="bio" maxlength="150" id="myTextarea">{% if profile.bio %}{{profile.bio}}{% else %}{% endif %}</textarea>
+                                <small style="display: block;color: #717171;" id="wordCount"></small>
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-form" style="margin-top: 30px;">Envoyer</button>
+                </form>
+
+            </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+{% endblock %}
+{% block scripts %}
+<script>
+    // document.getElementById("main").style.marginTop = "90px";
+    var input_pic = document.getElementById("picture");
+    var form_pic = document.getElementById("picture-form");
+    input_pic.addEventListener("change", function(){
+        form_pic.submit();
+    })
+
+
+    var textarea = document.getElementById("myTextarea");
+    var wordCountDisplay = document.getElementById("wordCount");
+    wordCountDisplay.textContent = textarea.value.length + "/150";
+
+    textarea.addEventListener("input", function() {
+        var text = textarea.value;
+        var wordCount = text.length;
+        wordCountDisplay.textContent = wordCount + "/150";
+    });
+    var phone = document.getElementById("phone_number");
+    if (phone.value.trim()){
+        phone.value = "0"+phone.value.slice(4, phone.value.length);
+    }
+    var email = document.getElementById("email_field");
+    var form = document.getElementById("infos-form");
+    form.addEventListener("submit", function(e){
+        if (email == null){
+            phone.setAttribute("required", "true");
+        }
+        if (email){
+            if ((email.value.trim() == "") && (phone.value.trim() == "")){
+                e.preventDefault();
+                alert("Veuillez remplir au moins un champ (Email ou Téléphone)");
+            }
+        }
+    })
+</script>
+{% endblock %}

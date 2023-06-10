@@ -1,0 +1,266 @@
+{% extends 'vintage/base.html' %}
+{% load static %}
+{% block style %}
+<style>
+        #header{
+        display: none!important;
+    }
+    #footer{
+        display: none!important;}
+        .main-main{
+        width: 100%;
+        height: 100vh;
+        overflow: auto;
+        background-color: #202020;
+    }
+    .sidebar-menu{
+        /* position: fixed; */
+        background-color: #202020;
+        border: 1px solid #3f3f3f;
+        border-radius: 3px;
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        margin: 0;
+        /* margin-bottom: 20px; */
+        /* margin-top: 20px; */
+        padding: 0;
+        width: 20%;
+        color: white!important;
+        height: 100vh;
+        min-width: 300px;
+    }
+    .sidebar-menu-inner{
+        padding: 0;
+
+    }
+    .icon, .title{
+        color: white!important;
+    }
+    .title{
+        margin-left: 8px;
+    }
+    .sidebar-menu-inner ul{
+        padding: 0;
+    }
+    ul.sidebar-nav{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    ul.sidebar-nav li{
+        padding: 20px 50px;
+        border-radius: 10px;
+        transition: all 0.3s ease-in-out;
+    }
+    .special-ricamo{
+        text-align: center;
+    }
+    li:hover{
+        background-color: #424242;
+    }
+    .card-product{
+        /* width: 180px; */
+        height: 300px;
+        background-position: center!important;
+        background-size: cover!important;
+        margin: 10px;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+    .card-product-menu{
+        position: absolute;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        bottom: 20px;
+        left: 50%;
+        width: 70%;
+        height: 25%;
+        opacity: 0.5;
+        /* display: none; */
+        transition: all 0.3s ease-in-out;
+        background-color: white;
+        border-radius: 5px;
+        transform: translateX(-50%) translateY(150%);
+    }
+    .card-product:hover .card-product-menu{
+        transform: translateX(-50%) translateY(0%);
+        opacity: 1;
+    }
+    .bi-trash{
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+    }
+    .bi:hover{
+        transform: scale(1.3);
+    }
+    .card-product:hover .bi-trash{
+        opacity: 1;
+    }
+    #rideau{
+        background-color: rgb(255, 255, 255);
+        opacity: 1;
+        transition: all 0.3s ease-in-out;
+    }
+    .card-product:hover #rideau{
+        opacity: 1;
+    }
+    .card-product > span{
+        opacity: 0;
+    }
+    .card-product:hover > span{
+        opacity: 1;
+    }
+    .bi-heart-fill{
+        cursor: default;
+    }
+    @media(max-width: 768px){
+        .sidebar-menu{
+            width: 100px!important;
+            min-width: 0;
+        }
+        .title{
+            display: none;
+        }
+        #ricamo1{
+            display: none!important;
+        }
+        #ricamo2{
+            display: block!important;
+        }
+        ul > a{
+        color: white;
+        font-size: 25px;
+        transition: all 0.3s ease-in-out;
+        }
+        ul > a:hover i{
+            color: #50dcf3;
+            transform: scale(1.1);
+        }
+        ul.sidebar-nav li{
+            padding: 18px 33px;
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+    }
+    #ricamo2{
+        display: none;
+    }
+    @media(max-width:600px){
+        .column-pers{
+            width: 90%;
+        }
+    }
+
+</style>
+{% endblock %}
+{% block main %}
+<main id="main" class="d-flex">
+    <div class="sidebar-menu justify-content-center d-flex">
+
+        <div class="sidebar-menu-inner">
+            <div style="margin: 55px auto">
+               
+                <h1 id="ricamo1" class="special-ricamo"><a style="color: white;" href="{% url 'index'%}">Vintage<span style="color: #50dcf3;">DZ</span></a></h1>
+                <h1 id="ricamo2" class="special-ricamo"><a style="color: #50dcf3; text-align: center;" href="{% url 'index'%}">V</a></h1>
+            </div>
+        
+            <ul class="sidebar-nav">
+                <a href="{% url 'profile' %}">
+                <li class="active">
+                    
+                        <span class="icon"><i class="bi bi-person"></i></span>
+                        <span class="title">Profil</span>
+                    
+                </li></a>
+                <a href="{% url 'index' %}">
+                    <li class="">
+
+                        <span class="icon"><i class="bi bi-house"></i></span>
+                        <span class="title">Accueil</span>
+                    
+                    </li>
+                </a>
+
+                <a href="{% url 'annonces' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-list"></i></span>
+                        <span class="title">Mes Annonces</span>
+                    
+                    </li>
+                </a>
+                <a href="{% url 'add' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-plus"></i></span>
+                        <span class="title">Ajouter une Annonce</span>
+                    </li>
+                </a>
+                <a href="{% url 'chat' 'inbox' '1' %}">
+                    <li class="active">
+                        
+                            <span class="icon"><i class="bi bi-chat"></i></span>
+                            <span class="title">Messagerie</span>
+                        
+                    </li>
+                </a>
+    
+
+                <a href="{% url 'password_change' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-lock"></i></span>
+                        <span class="title">Mot de passe</span>
+                    </li>
+                </a>
+                <a href="{% url 'logout' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-door-open"></i></span>
+                        <span class="title">Déconnexion</span>
+                    </li>
+                </a>
+
+            </ul>
+        </div>
+    </div>
+    <div class="main-main">
+        <div class="d-flex justify-content-center" style="text-align: center; margin:50px auto">
+            <h2 style="margin: 20px 0 0 20px; text-align: center;color: white;">Mes Annonces</h2>
+
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                {% for product in products %}
+                <div class="card-product column-pers" style="background: url('{{product.image.url}}');" >
+                    <div id="rideau" style="position: absolute; top: 10px; left: 10px; width: fit-content; height:fit-content;text-align: center; ">
+                        <i style="margin: 10px auto; padding: 7px 12px;">{% if product.discounted_price %}<del>{{product.price}}</del>
+                        <span style="color:red">{{product.discounted_price}} DA</span>{% else %}
+                        {{product.price}} DA
+                        {% endif %}</i>
+                    </div>
+                    <span style="position: absolute; top: 10px; left: 0;width: 70%; padding: 5px 10px; border-radius: 5px; font-weight: 500;">
+                        
+                    </span>
+
+                    <div class="card-product-menu">
+                        <div class="card-product-menu-item">
+                            <a href="{% url 'modify' product.id %}"><i style="color: blue;" class="bi bi-pencil-square"></i></a>
+                        </div>
+                        <div class="card-product-menu-item">
+                            <a href="" style="color: #50dcf3; cursor: default;"> {{product.nb_likes}} <i style="color: #50dcf3;" class="bi bi-heart-fill"></i></a>
+                        </div>
+                        <div class="card-product-menu-item">
+                            <a href="{% url 'delete' product.id %}"><i style="color: red; font-weight: 600;" class="bi bi-trash"></i></a>
+                        </div>
+
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

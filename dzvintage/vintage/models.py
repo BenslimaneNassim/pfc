@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 User = get_user_model()
 
@@ -73,10 +74,12 @@ WILAYAS = [
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    bio = models.TextField(blank=True, null=True)
+    bio = models.TextField(blank=True, null=True, max_length=150)
     wilaya = models.CharField(max_length=2, choices=WILAYAS, null=True, blank=True) 
     picture = models.ImageField(upload_to='profilepics/', default='profilepics/default_pp.png')
     phone_number = PhoneNumberField(unique =True, null=True, blank=True)
+    nb_followers = models.IntegerField(default=0)
+    nb_following = models.IntegerField(default=0)
 
     # birth_date = models.DateField(null=True, blank=True)
 
@@ -100,9 +103,11 @@ class Post(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     taille = models.CharField(max_length=4, null=True, blank=True)
     discounted_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    nb_likes = models.IntegerField(default=0)
     image = models.ImageField(upload_to='post_images/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    deleted = models.BooleanField(default=False)
     def __str__(self):
         return self.title
 
@@ -114,7 +119,7 @@ class Chat(models.Model):
     post = models.ForeignKey(Post, on_delete=models.PROTECT, related_name='chats')
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
-    message = models.TextField()
+    message = models.TextField(max_length=1000)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -139,6 +144,23 @@ class Article_Like(models.Model):
 class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    note = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, blank=True)
+    comment = models.CharField(max_length=200, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return str(self.post.title)+" "+str(self.user.username)
+
+class Abonnement(models.Model):
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower')
+    followed = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followed')
+    def __str__(self):
+        return str(self.followed.username)+" "+str(self.follower.username)
+
+class Signal(models.Model):
+    reporter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reporter')
+    reported = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reported')
+    date = models.DateTimeField(auto_now_add=True)
+    comment = models.TextField(max_length=1000, default="nothing to say")
+    image = models.ImageField(upload_to='report_images/', null=True, blank=True)
+    def __str__(self):
+        return str(self.reporter)+" "+str(self.reported)

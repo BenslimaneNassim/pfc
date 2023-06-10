@@ -1,0 +1,74 @@
+{% extends 'vintage/base.html' %}
+    {% load static %}
+
+{% block style %}
+<style>
+    #populaires{
+        margin-top: 120px!important;
+    }
+    #footer, #header.header-scrolled, #header{
+        background-color: #202020;
+    }
+
+</style>
+{% endblock %}
+{% block main %}
+<main id="main">
+    <section id="populaires" class="team">
+        <div class="container-fluid" ><!--data-aos="fade-up"-->
+                    <div class="section-header">
+                        {% if cat %}
+                      <h3 class="section-title">Explorer les {{cat}}</h3>
+                        {% else %}
+                      <h3 class="section-title">Explorer les produits</h3>
+                        {% endif %}
+
+                
+                      <hr><br>
+  
+                    </div>
+  
+          
+          <div style="width: 100%;" class="d-flex justify-content-center"><div class="row"  data-aos="fade" data-aos-delay="1">
+            {% if nothing %}
+            <h2>Aucun Produit pour l'instant :(</h2>
+            {% endif %}
+            {% for product in products %}
+            <div class="justify-content-center d-flex column-pers" style="border-radius: 5px;">
+              <div class="set-the-width" style="color:black; width: 95%; " href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
+                <a href="{% url 'page' product.seller %}">
+                  <div class="profile-seller">
+                      <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                      <span class="seller-name">{{product.seller}}</span>
+                  </div></a>
+                      <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
+                <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex" style="position: relative;">
+                    {% if product.discounted_price %}
+                    <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                  {% else %}
+                    <span class="price-col">{{product.price}} DA</span>
+                  {% endif %}
+  
+                  </div>
+                  <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
+                  <div class="d-flex justify-content-between">
+                    <span style=" margin-right: 3px; margin-bottom: 3px">{{product.nb_likes}}</span>
+                    <a href="{% url 'likeit' product.id %}" class="{% if product.liked %}bi bi-heart-fill{% else %}bi bi-heart{% endif %} mobile-nav-toggle like-it "></a>
+                  </div>
+                </div>
+  
+                
+              </div></div>
+            </div>
+            {% endfor %}
+  </div></div>
+  
+        </div>
+      </section><!-- End Team Section -->
+
+</main>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

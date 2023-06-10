@@ -1,0 +1,237 @@
+{% extends 'vintage/base.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+    .container-of-profile{
+        width: 55%;
+        margin: 0 auto;
+        /* color: white; */
+    }
+    .first-profile-infos{
+        width: 50%;
+        /* background-color: white; */
+        padding: 20px 20px;
+    }
+
+    .profile-infos{
+        width: 100%;
+        /* background-color: white; */
+        padding: 0px 20px;
+    }
+    /* .profile-infos p{
+        font-size: 16px!important;
+    } */
+    .second-profile-infos{
+        width: 50%;
+        /* background-color: white; */
+        padding: 20px 20px;
+        height: 100%;
+        margin: auto;
+    }
+    .profile-picture{
+        width: 150px;
+        height: 150px;
+        border: 2px solid white;
+        /* width: 50%;
+        height: 50%; */
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        margin: 40px auto;
+        margin-left: 0;
+        margin-bottom: 0;
+        margin-top: 0;
+        /* margin-block: auto; */
+    }
+    .follower{
+        width: 33%;
+        text-align: center;
+        font-weight: 600;
+    }
+    .follower > p{
+        margin-bottom: 15px;
+    }
+    p{
+        font-size: 14px;
+    }
+    /* .justify-content-between > .follower > p{
+        margin-bottom: 5px;
+    } */
+    @media (max-width:768px){
+        .container-of-profile{
+            width: 100%;
+        }
+        .first-profile-infos{
+            width: 30%;
+        }
+        .second-profile-infos{
+            width: 70%;
+        }
+        .profile-picture{
+            width: 70px;
+            height: 70px;
+            margin: auto;
+            margin-left: 0;
+        }
+        p{
+            font-size: 12px;
+        }
+        #username-info{
+            font-size: 14px!important;
+        }
+        #bio-info{
+            font-size: 12px!important;
+        }
+    }
+    .follower a{
+        width: 100%; padding: 5px 0; font-size: 14px; font-weight: 600;
+    }
+    small{
+        display: block;
+        color: #717171;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+    .btn-primary:hover{
+        background-color: #202020;
+        border-color: white;
+    }
+    #header, #footer, #header.header-scrolled {
+        background-color: #202020;
+    }
+    section:first-child{
+        background-color: #202020;
+        color: white;
+    }
+    #username-info{
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+    #bio-info{
+        font-size: 14px;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+
+<main id="main">
+
+    <section style="margin-top: 90px!important;margin-bottom: 15px; ">
+        <!-- background-color: #202020; -->
+        <div class="container-of-profile">
+            <div class="d-flex">
+                <div class="first-profile-infos">
+                    <div class="profile-picture" style="background-image: url('{{profile.picture.url}}');">
+                    </div>
+                </div>
+    
+                <div class="second-profile-infos">
+    
+                    <div class="d-flex follower-following">
+                        <div class="follower">
+                            <p>{{nb_posts}}</p>
+                        </div>
+                        <div class="follower">
+                            <p>{{profile.nb_followers}}</p>
+                        </div>
+                        <div class="follower">
+                            <p>{{profile.nb_following}}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between follower-following">
+                        <div class="follower">
+                            <p>Produits</p>
+                        </div>
+                        <div class="follower">
+                            <p>Abonnés</p>
+                        </div>
+                        <div class="follower">
+                            <p>Abonnements</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between follower-following" style="margin-top: 15px;">
+                        <div class="follower">
+                            {% if not my_profile %}
+                            <a href="{% url 'follow' profile.user.username %}" style="min-width: 102px;" class="btn btn-primary">
+                                {% if followed %}Ne plus suivre{% else %}Suivre{% endif %}
+                            </a>
+                            {% else %}
+                            <a href="{% url 'profile' %}" style="min-width: 102px;" class="btn btn-primary">
+                                Modifier
+                            </a>
+                            {% endif %}
+                        </div>                        
+                    </div>
+                    {% if not my_profile %}
+                        {% if followed_me %}
+                        <small>Vous suit</small>
+                        {% else %}
+                        <small>Ne vous suit pas</small>
+                        {% endif %}
+                    {% endif %}
+
+    
+    
+    
+                </div>
+    
+            </div>
+            <div class="profile-infos">
+                <p id="username-info">{{profile.user.username}}</p>
+                <p id="bio-info">{{profile.bio}}</p>
+            </div>
+        </div>
+    </section>
+    <section id="populaires" class="team">
+        <div class="container-fluid" ><!--data-aos="fade-up"-->
+                    
+  
+          
+          <div style="width: 100%;" class="d-flex justify-content-center"><div class="row set-the-width-row"  data-aos="fade" data-aos-delay="1">
+            {% for product in products %}
+            <div class="justify-content-center d-flex column-pers" style="border-radius: 5px;">
+              <div class="set-the-width" style="color:black; width: 95%; " href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
+                <div class="profile-seller">
+                  <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                  <span class="seller-name">{{product.seller}}</span>
+                </div>
+                <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
+                <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex" style="position: relative;">
+                    {% if product.discounted_price %}
+                    <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                  {% else %}
+                    <span class="price-col">{{product.price}} DA</span>
+                  {% endif %}
+  
+                  </div>
+                  <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
+                  <div class="d-flex justify-content-between">
+                    <span style=" margin-right: 3px; margin-bottom: 3px">{{product.nb_likes}}</span>
+                    <a href="{% url 'likeit' product.id %}" class="{% if product.liked %}bi bi-heart-fill{% else %}bi bi-heart{% endif %} mobile-nav-toggle like-it "></a>
+                  </div>
+                </div>
+  
+                
+              </div></div>
+            </div>
+            {% endfor %}
+          </div>
+  
+        </div>
+      </section><!-- End Team Section -->
+
+
+</main><!-- End #main -->
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+</script>
+{% endblock %}

@@ -111,10 +111,10 @@ input[type="range"]::-webkit-slider-thumb::before {
   #hero:before{
     background: white;
   }
-  #header i, #header span, #header a {
+  /* #header i, #header span, #header a {
   color: #000000!important;
   transition: all 0.5s;
-  }
+  } */-
   .filters-search-zone{
     width: 20%;
     height: 100vh;
@@ -134,6 +134,25 @@ input[type="range"]::-webkit-slider-thumb::before {
   .box-filtre{
     padding: 20px 0px;
     border-bottom: 1px solid rgba(117, 117, 117, 0.253);
+    width: 80%;
+  }
+  .nonee{
+    display: none!important;
+    /* width: 0!important;
+    height: 0!important;
+    visibility: hidden; */
+  }
+  .column-pers{
+    transition: ease-in-out 0.3s all;
+  }
+  #output{
+    margin-left: 5px;
+  }
+  label{
+    font-weight: 600;
+  }
+  #prix-max{
+    width: 300px;
   }
  
 </style>
@@ -144,7 +163,7 @@ input[type="range"]::-webkit-slider-thumb::before {
                 <section class="" style="margin-bottom: 0;">
                   <div class="container" style="">
                     <div class="section-header">
-                      <h3 class="section-title" style="font-weight: 600">Search</h3>
+                      <h3 class="section-title">Recherche</h3>
                       <hr style="font-weight: 400">
                     </div>
                     
@@ -162,144 +181,119 @@ input[type="range"]::-webkit-slider-thumb::before {
                   
                         
                       </div>
+                      <div class="d-flex justify-content-between">
+                      </div>
                       <hr class="second-hr-search">
                       
-                    <!-- </form> -->
+                    </form>
                 
 
 
                   </div>
                 </section>
             
-                <section class="team">
-                  <div class="fluid-container" ><!--data-aos="fade-up"-->
-                              <div class="section-header">
-                                <h3 class="section-title" style="font-weight: 400">{% if products %}Résultats{% else %} No Results for "{{searched}}". Try to minimize your words {% endif %} </h3>          <hr style="font-weight: 400">
-            
-                              </div>
-            
-                    <div class="d-flex">
-
-                      <div class="filters-search-zone">
-                        <h3 class="big-title-filtre">Filtrer</h3>
-                        <div class="box-filtre">
-                          <div class="title-filtre">Genre</div>
-                          <div style="text-align: left;">
-                            <input type="radio" id="homme" name="genre" value="M">
-                            <label for="homme">Homme</label><br>
-                            <input type="radio" id="femme" name="genre" value="F">
-                            <label for="femme">Femme</label><br>
-                            <input type="radio" id="unisex" name="genre" value="U">
-                            <label for="unisex">unisex</label><br>
-                          </div>
-                        </div>
-
-                        <div class="box-filtre">
-                          <div class="title-filtre">Price</div>
-                          <div class="d-flex justify-content-between">
-                            <input type="number" id="min" name="min" placeholder="min" value="">
-                            <span style="margin: 10px auto;">-</span>
-                            <input type="number" id="max" name="max" placeholder="max" value="">
-                          </div>
-
-                        </div>
-                        
-                        <div class="box-filtre">
-                          <div class="title-filtre">Catégorie</div>
-                          <div style="text-align: left;">
-                            <select name="category" id="category">
-                              <option value="All">All</option>
-                              {% for category in categories %}
-                              <option value="{{category.name}}">{{category.name}}</option>
-                              {% endfor %}
-                            </select>
-                          </div>
-                        </div></form>
-
+                <section id="portfolio" class="team">
+                  <div class="container-fluid" ><!--data-aos="fade-up"-->
+                    <div class="section-header">
+                      <h3 class="section-title" style="font-weight: 400">{% if not products %} No Results for "{{searched}}". Try to minimize your words {% endif %} </h3>        
   
-
-<!-- test -->
-                          <!-- <span class="multi-range">
-                            <input type="range" min="0" max="50" value="5" id="lower">
-                            <input type="range" min="0" max="50" value="45" id="upper">
-                          </span> -->
-<!-- test -->
-
-
-
-                          
-                      </div>
-
-
-                      <div style="width: 80%" class="d-flex justify-content-center"><div class="row"  data-aos="fade" data-aos-delay="1">
-                        {% for product in products %}
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-4 justify-content-center d-flex">
-                          <div class="set-the-width" style="color:black" href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
-                            <div class="profile-seller">
-                              <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
-                              <span class="seller-name">{{product.seller}}</span>
-                            </div>
-                            <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
-                            <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
-                            <div class="d-flex justify-content-between">
-                              <div class="d-flex" style="position: relative;">
-                                {% if product.discounted_price %}
-                                <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
-                              {% else %}
-                                <span class="price-col">{{product.price}} DA</span>
-                              {% endif %}
-              
-                              </div>
-                              <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
-                              <span class="bi bi-heart mobile-nav-toggle like-it "></span>
-                            </div>
-              
-                            
-                          </div></div>
-                        </div>
-                        {% endfor %}
-                      </div></div>
-
                     </div>
+                              <div class="d-flex justify-content-center" style="width: 100%;">
+                                <ul id="portfolio-flters">
+                                  <li data-filter="*" class="filter-active">Tout</li>
+                                  {% for category in categories %}
+                                  <li data-filter=".filter-{{category.id}}">{{category.name}}</li>
+                                  {% endfor %}
+                                  
+                                </ul>
+                                
+                              </div>
+                              <div class="d-flex justify-content-center">
+                                <div class="box-filtre">
+                                  <span class="title-filtre"></span>
+                                  <div class="text-align-center" style="width: fit-content; margin: auto;">
+                                    <!-- <input type="hidden" value="0" name="min"> -->
+                                    <div class="d-flex justify-content-center">
+                                      <label>Filtrer par Prix :</label>
+                                      <output id="output">{{prix_max}}</output> <span> DA</span>
+                                    </div>
+                                    <input id="prix-max" type="range" name="mmax" min="0" max="{{prix_max}}" step="250">
+                                  </div>
+                                </div>
+                              </div>
+        
+
             
+                    
+                              <div style="width: 100%;" class="d-flex justify-content-center"><div id="portfolio-container" class="row set-the-width-row portfolio-container"  data-aos="fade" data-aos-delay="1">
+                                {% for product in products %}
+                                <div class="justify-content-center column-pers {% if product.discounted_price %}{{product.discounted_price}}{% else %}{{product.price}}{% endif %} portfolio-item filter-{{product.category.id}}" style="border-radius: 5px;">
+                                  <div class="set-the-width" style="color:black; width: 95%; " href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
+                                    <a href="{% url 'page' product.seller %}">
+                                      <div class="profile-seller">
+                                          <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                                          <span class="seller-name">{{product.seller}}</span>
+                                      </div></a>
+                                          <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
+                                    <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+                                    <div class="d-flex justify-content-between">
+                                      <div class="d-flex" style="position: relative;">
+                                        {% if product.discounted_price %}
+                                        <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                                      {% else %}
+                                        <span class="price-col">{{product.price}} DA</span>
+                                      {% endif %}
+                      
+                                      </div>
+                                      <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
+                                      <div class="d-flex justify-content-between">
+                                        <span style=" margin-right: 3px; margin-bottom: 3px">{{product.nb_likes}}</span>
+                                        <a href="{% url 'likeit' product.id %}" class="{% if product.liked %}bi bi-heart-fill{% else %}bi bi-heart{% endif %} mobile-nav-toggle like-it "></a>
+                                      </div>
+                                    </div>
+                      
+                                    
+                                  </div></div>
+                                </div>
+                                {% endfor %}
+                              </div></div>
+                    
                   </div>
                 </section><!-- End Team Section -->
+            
             
   </main><!-- End #main -->
   {% endblock %}
 {% block scripts %}
 <script>
-  var lowerSlider = document.querySelector('#lower'),
-    upperSlider = document.querySelector('#upper'),
-    lowerVal = parseInt(lowerSlider.value);
-    upperVal = parseInt(upperSlider.value);
+  var max = document.getElementById("prix-max");
+  var output = document.getElementById("output");
+  var products_container = document.getElementsByClassName("portfolio-container")[0];
+  max.addEventListener("input", changefilterprice);
+  function changefilterprice(e){
+    var prix = e.target.value;
+    // alert(prix);
+    prix = parseFloat(prix);
+    output.innerHTML = prix;
 
-  upperSlider.oninput = function() {
-    lowerVal = parseInt(lowerSlider.value);
-    upperVal = parseInt(upperSlider.value);
-    
-    if (upperVal < lowerVal + 4) {
-        lowerSlider.value = upperVal - 4;
-        
-        if (lowerVal == lowerSlider.min) {
-          upperSlider.value = 4;
+    var produits = document.getElementsByClassName("column-pers");
+    for ( var i = 0; i < produits.length; i++) {
+      var prix_produit = produits[i].classList[2];
+      prix_produit = parseFloat(prix_produit);
+      if (prix_produit > prix) {
+        pr = produits[i];
+        pr.classList.add("nonee");
+        // products_container.load(window.location.href + " #portfolio-container")
+
+      }else{
+        produits[i].style.display = "block!important";
+        if (produits[i].classList.contains("nonee")){
+          produits[i].classList.remove("nonee");
         }
-    }
-  };
-
-
-  lowerSlider.oninput = function() {
-    lowerVal = parseInt(lowerSlider.value);
-    upperVal = parseInt(upperSlider.value);
-    
-    if (lowerVal > upperVal - 4) {
-        upperSlider.value = lowerVal + 4;
         
-        if (upperVal == upperSlider.max) {
-          lowerSlider.value = parseInt(upperSlider.max) - 4;
-        }
-
+      }
     }
-  };
+
+  }
 </script>
 {% endblock %}

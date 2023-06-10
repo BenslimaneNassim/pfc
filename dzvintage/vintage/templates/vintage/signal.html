@@ -1,0 +1,432 @@
+{% extends 'vintage/base.html' %}
+{% load static %}
+{% block style %}
+<style>
+        #header{
+        display: none!important;
+    }
+    #footer{
+        display: none!important;}
+        .main-main{
+        width: 100%;
+        height: 100vh;
+        overflow: auto;
+        background-color: #202020;
+    }
+    .sidebar-menu{
+        /* position: fixed; */
+        background-color: #202020;
+        border: 1px solid #3f3f3f;
+        border-radius: 3px;
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        margin: 0;
+        /* margin-bottom: 20px; */
+        /* margin-top: 20px; */
+        padding: 0;
+        width: 20%;
+        color: white!important;
+        height: 100vh;
+        min-width: 300px;
+    }
+    .sidebar-menu-inner{
+        padding: 0;
+
+    }
+    .icon, .title{
+        color: white!important;
+    }
+    .title{
+        margin-left: 8px;
+    }
+    .sidebar-menu-inner ul{
+        padding: 0;
+    }
+    ul.sidebar-nav{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    ul.sidebar-nav li{
+        padding: 20px 50px;
+        border-radius: 10px;
+        transition: all 0.3s ease-in-out;
+    }
+    .special-ricamo{
+        text-align: center;
+    }
+    li:hover{
+        background-color: #424242;
+    }
+    .bi-trash{
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+    }
+    .bi:hover{
+        transform: scale(1.3);
+    }
+    .card-product:hover .bi-trash{
+        opacity: 1;
+    }
+    #rideau{
+        background-color: rgb(255, 255, 255);
+        opacity: 1;
+        transition: all 0.3s ease-in-out;
+    }
+    .card-product:hover #rideau{
+        opacity: 1;
+    }
+    .card-product > span{
+        opacity: 0;
+    }
+    .card-product:hover > span{
+        opacity: 1;
+    }
+    .bi-heart-fill{
+        cursor: default;
+    }
+    label{
+        cursor: pointer;
+    }
+    p > input, p> select{
+        padding: 6px 30px;
+        border-radius: 5px;
+        background-color: #474747;
+        border: none;
+        /* border-bottom: 1px solid white; */
+        color: white;
+        width: 100%;
+    }
+    .pfff{
+        padding: 6px 2px;
+    }
+    p{
+        width: 100%;
+    }
+    textarea{
+        padding: 6px 30px;
+        border-radius: 5px;
+        background-color: #474747;
+        border: none;
+        color: white;
+        overflow: hidden;
+        /* width: 100%; */
+        /* resize: none; */
+        height: 100px;
+    }
+    .submit-form{
+        padding: 8px 12px;
+        border-radius: 10px;
+        border-color: red;
+        background-color: red;
+        /* font-weight: 600; */
+        font-size: 15px;
+        color: white;
+    }
+    .submit-form:hover{
+        background-color: red;
+    }
+    .labels{
+        width: fit-content;
+    }
+    .red-etoile{
+        color: red;
+    }
+    form{
+        color:white;
+        width: 80%;
+    }
+    .product-info{
+        width: 100%;
+        padding: 20px;
+        display: flex;
+    }
+    .add-product-info{
+        width: 100%;
+        display: flex;
+        justify-content: start;
+    }
+    @media(max-width: 768px){
+        .add-product-info{
+            display: block;
+        }
+        .product-info{
+            width: 100%;
+            display: block;
+        }
+        .labels{
+            width: 40%;
+        }
+        
+        p > input, p> select{
+            padding: 6px 20px;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .add-pictures, .add-one, #image-preview-container{
+            min-height: 200px!important;
+        }
+        .add-pictures{
+            /* display: block!important; */
+        }
+        p{
+            font-size: 12px;
+        }
+        form{
+            width: 100%;
+        }
+
+        .sidebar-menu{
+            width: 100px!important;
+            min-width: 0;
+        }
+        .title{
+            display: none;
+        }
+        #ricamo1{
+            display: none!important;
+        }
+        #ricamo2{
+            display: block!important;
+        }
+        ul > a{
+        color: white;
+        font-size: 25px;
+        transition: all 0.3s ease-in-out;
+        }
+        ul > a:hover i{
+            color: #50dcf3;
+            transform: scale(1.1);
+        }
+        ul.sidebar-nav li{
+            padding: 18px 33px;
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+        
+
+
+    }
+    #ricamo2{
+        display: none;
+    }
+
+    .add-pictures{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        /* overflow-x: auto; */
+        min-height: 240px;
+    }
+    /* .add-pictures > div{
+        margin: 15px;
+        border-radius: 10px;
+        background-size: cover;
+        background-position: center;
+        background-color: #474747;
+    } */
+    .image-product, .add-one{
+        margin: 15px;
+        border-radius: 10px;
+        background-size: cover;
+        background-position: center;
+        background-color: #474747;
+        min-width: 150px;
+        min-height: 240px;
+    }
+    .add-one{
+        cursor: pointer;
+        position: relative;
+    }
+    .add-one > label{
+        font-size: 100px;
+        position: absolute;
+        top: 50%;left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    #image-preview-container{
+        display: flex;
+        width: 100%;
+        /* height: 240px; */
+        overflow-x: auto;
+        overflow-y: visible;
+    }
+    textarea{
+        width: 100%;
+    }
+    
+
+</style>
+{% endblock %}
+{% block main %}
+<main id="main" class="d-flex">
+    <div class="sidebar-menu justify-content-center d-flex">
+
+        <div class="sidebar-menu-inner">
+            <div style="margin: 60px auto">
+               
+                <h1 id="ricamo1" class="special-ricamo"><a style="color: white;" href="{% url 'index'%}">Vintage<span style="color: #50dcf3;">DZ</span></a></h1>
+                <h1 id="ricamo2" class="special-ricamo"><a style="color: #50dcf3; text-align: center;" href="{% url 'index'%}">V</a></h1>
+
+            </div>
+        
+            <ul class="sidebar-nav">
+                <a href="{% url 'profile' %}">
+                <li class="active">
+                    
+                        <span class="icon"><i class="bi bi-person"></i></span>
+                        <span class="title">Profil</span>
+                    
+                </li></a>
+                <a href="{% url 'index' %}">
+                    <li class="">
+
+                        <span class="icon"><i class="bi bi-house"></i></span>
+                        <span class="title">Accueil</span>
+                    
+                    </li>
+                </a>
+
+                <a href="{% url 'annonces' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-list"></i></span>
+                        <span class="title">Mes Annonces</span>
+                    
+                    </li>
+                </a>
+                <a href="{% url 'add' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-plus"></i></span>
+                        <span class="title">Ajouter une Annonce</span>
+                    </li>
+                </a>
+                <a href="{% url 'chat' 'inbox' '1' %}">
+                    <li class="active">
+                        
+                            <span class="icon"><i class="bi bi-chat"></i></span>
+                            <span class="title">Messagerie</span>
+                        
+                    </li>
+                </a>
+    
+
+                <a href="{% url 'password_change' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-lock"></i></span>
+                        <span class="title">Mot de passe</span>
+                    </li>
+                </a>
+                <a href="{% url 'logout' %}">
+                    <li>
+                        <span class="icon"><i class="bi bi-door-open"></i></span>
+                        <span class="title">Déconnexion</span>
+                    </li>
+                </a>
+
+            </ul>
+        </div>
+    </div>
+    <div class="main-main">
+        <div class="d-flex justify-content-center" style="text-align: center; margin:23px auto">
+            <h2 style="margin: 10px; text-align: center;color: white;">Signaler {{report_user}}</h2>
+
+        </div>
+        {% if error_message %}
+            <div class="d-flex justify-content-center">
+                <h3 style="margin: 10px; text-align: center;color: rgb(255, 255, 255); background-color: #191919; border-radius: 10px; padding: 20px;">{{ error_message }}</h3>
+            </div>
+        {% else %}
+        <div class="d-flex justify-content-center">
+            <form action="" enctype="multipart/form-data" method="POST"> {% csrf_token %} 
+                <div class="add-product-info">
+                    <div class="product-info">
+                        <div class="labels">
+                            <p class="pfff" style="margin-bottom: 5px;">Commentaire<span class="red-etoile"> *</span></p>
+                            <small style="display: block;color: #717171;font-size: 12px;">Qu'est-ce qu'il s'est passé ?</small>
+                        </div>
+                        <div class="inputs">
+                            <p>
+                                <textarea name="comment" maxlength="1000" id="myTextarea" required></textarea>
+                                <small style="display: block;color: #717171;" id="wordCount"></small>
+                            </p>
+                        </div>
+
+
+                    </div>
+                </div>
+                <small style="display: block;color: #717171;font-size: 12px;"> Ajoutez une capture d'écran pour nous aidez à comprendre</small>
+                <div class="add-pictures">
+                    
+                    <div class="col-2 add-one">
+                        <label id="label-add" for="picture">
+                            <i class="bi bi-plus"></i>
+                        </label>
+                        <input type="file" id="picture" accept="image/*" name="pictures" style="display: none;" required>
+
+                    </div>
+                    
+                    <div id="image-preview-container"></div>
+                </div>
+
+                <div class="d-flex justify-content-center" style="padding-bottom: 20px;">
+                    <button class="submit-form" type="submit">
+                        <i class="bi bi-flag" ></i>
+                        Signaler</button>
+                </div>
+                
+            </form>  
+
+        </div>
+        {% endif %}
+    </div>
+
+</main>
+{% endblock %}
+{% block scripts %}
+<script>
+    var textarea = document.getElementById("myTextarea");
+    var wordCountDisplay = document.getElementById("wordCount");
+    wordCountDisplay.textContent = textarea.value.length + "/1000";
+
+    textarea.addEventListener("input", function() {
+        var text = textarea.value;
+        var wordCount = text.length;
+        wordCountDisplay.textContent = wordCount + "/1000";
+    });
+    
+
+    function create_image_div(){
+        var div = document.createElement('div');
+        div.classList.add('col-2');
+        div.classList.add('image-product');
+        return div
+    }
+    var add_pictures = document.getElementsByClassName('add-pictures')[0];
+    var container = document.getElementById("image-preview-container");
+    var imageInput = document.getElementById('picture');
+    imageInput.addEventListener('change', function(event) {
+        container.innerHTML = '';
+        for (var file of event.target.files){
+            // var file = event.target.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                var imageSrc = e.target.result;
+                var div = create_image_div();
+                div.style.backgroundImage = "url('"+imageSrc+"')";
+                container.appendChild(div);
+
+                console.log(imageSrc);
+                };
+
+                reader.readAsDataURL(file);
+
+            }
+
+        }
+    });
+
+
+</script>
+{% endblock %}

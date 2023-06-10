@@ -1,40 +1,223 @@
 {% extends 'vintage/base.html' %}
 {% load static %}
+{% block style %}
+<style>
+  #populaires{
+    margin-bottom: 0!important;
+    padding-bottom: 0!important;
+  }
+  #services{
+    margin: 0!important;
+    padding: 50 0 0 0;
+  }
 
+  @media(max-width:900px){
+    .box > .title{
+      font-size: 14px!important;
+    }
+    .box > .description{
+      font-size: 12px!important;
+    }
+    .section-description{
+      margin-bottom: 0!important;
+      padding-bottom: 8px!important;
+    }
+    #services{
+      padding-bottom: 0;
+    }
+    #hero h3{
+      font-size: 17px;
+    }
+    #hero .btn-get-started{
+      font-size: 12px;
+      padding: 10px 20px;
+    }
+    #call-to-action{
+      height: 250px;
+    }
+    .cta-title{
+      font-family: "Open Sans", sans-serif!important;
+    }
+  }
+  @media (max-width:900px) and (min-width:551px){
+    .cta-btn{
+      font-size: 12px;
+      padding: 10px 20px;
+    }
+  }
+
+</style>
+{% endblock %}
 
 {% block hero %}
   <!-- ======= Hero Section ======= -->
-  <section id="hero" style="background-image: url('static/vintage/img/acceuil.jpg');">
+  <section id="hero" style="background-image: url('static/vintage/img/accueil.jpg');">
     <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
       
-      <h3 style="font-family : RothekExtraLight; color : #fff">Bienvenue sur DZvintage! Ta nouvelle boutique en ligne.</h3>
+      <h3 style=" color : #fff">Bienvenue sur <span style="font-family: Lifehack;">VintagedZ</span> ! Ta nouvelle boutique en ligne.</h3>
+      <!-- edit samedi h3 en ahut font-family : RothekExtraLight; -->
       <!--<a href="#about" class="btn-get-started">SHOP NOW</a>-->
-      <a href="#about" class="btn-get-started">Défiler en bas</a>
+      <a href="#populaires" class="btn-get-started">Explorer les articles</a>
     </div>
   </section><!-- End Hero Section -->
 {% endblock %}
 
 {% block main %}
   <main id="main">
+    {% if followed_products %}
+    <section style="margin-top: 50px; margin-bottom: 0; padding-bottom: 0;" class="team">
+      <div class="container-fluid" ><!--data-aos="fade-up"-->
+                  <div class="section-header">
+                    <h3 class="section-title">Abonnements</h3>   
+              
+                    <hr><br>
+
+                  </div>
+
+        
+        <div style="width: 100%;" class="d-flex justify-content-center"><div class="row set-the-width-row"  data-aos="fade" data-aos-delay="1">
+          {% for product in followed_products %}
+          <div class="justify-content-center d-flex column-pers" style="border-radius: 5px;">
+            <div class="set-the-width" style="color:black; width: 95%; " href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
+              <a href="{% url 'page' product.seller %}">
+                <div class="profile-seller">
+                    <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                    <span class="seller-name">{{product.seller}}</span>
+                </div></a>
+            <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
+              <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+              <div class="d-flex justify-content-between">
+                <div class="d-flex" style="position: relative;">
+                  {% if product.discounted_price %}
+                  <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                {% else %}
+                  <span class="price-col">{{product.price}} DA</span>
+                {% endif %}
+
+                </div>
+                <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
+                <div class="d-flex justify-content-between">
+                  <span style=" margin-right: 3px; margin-bottom: 3px">{{product.nb_likes}}</span>
+                  <a href="{% url 'likeit' product.id %}" class="{% if product.liked %}bi bi-heart-fill{% else %}bi bi-heart{% endif %} mobile-nav-toggle like-it "></a>
+                </div>
+              </div>
+
+              
+            </div></div>
+          </div>
+          {% endfor %}
+
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
+    {% else %}
 
     <!-- ======= Facts Section ======= -->
     <section id="facts" style="background:transparent;margin-bottom: 0;margin-top:0;">
         <div class="container" data-aos="fade-up">
           <div class="section-header">
             <h3 class="section-title">Tu ne le portes plus ? Vends-le !</h3>
-            <hr>
-            <p class="section-description">La seconde-main, c’est l’avenir et Vintager te le prouve. Sur Vintager, tu vends les vêtements qui ont encore des choses à vivre et tu déniches des merveilles que tu ne trouveras jamais en boutique.</p>
+            <!-- <hr> -->
+            <p class="section-description">La seconde-main, c’est l’avenir et VintageDz te le prouve. Sur VintageDz, tu vends les vêtements qui ont encore des choses à vivre et tu déniches des merveilles que tu ne trouveras jamais en boutique.</p>
           </div>
          
         </div>
       </section><!-- End Facts Section -->
+      <section id="services">
+        <div class="container wow fadeIn">
+          <div class="section-header">
+            <!-- <h3 class="section-title"></h3> -->
+            <!-- <p class="section-description">VintagedZ en chiffres</p> -->
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+              <div class="box">
+                <div class="icon"><a href=""><i class="bi bi-clock"></i></a></div>
+                <h4 class="title"><a href="">Facilité</a></h4>
+                <p class="description">Mise en ligne facile et rapide de vos articles sur Vintagedz vendez vos vetements et accessoires de mode de seconde main en quelques clics</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+              <div class="box">
+                <div class="icon"><a href=""><i class="bi bi-cash-stack"></i></a></div>
+                <h4 class="title"><a href="">Economie d'argent</a></h4>
+                <p class="description">Vintagedz permet aux vendeurs de gagner de l'argent en vendant des articles qu'ils n'utilisent plus, tout en permettant aux acheteurs d'obtenir des articles de qualité à des prix abordabes</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+              <div class="box">
+                <div class="icon"><a href=""><i class="bi bi-shield-lock-fill"></i></a></div>
+                <h4 class="title"><a href="">Sécurité</a></h4>
+                <p class="description">Sur Vintagedz, vous pouvez effectuer vos transactions et chatter en sécurité. Vos données sont protégées.</p>
+              </div>
+            </div>
   
+          </div>
+  
+        </div>
+      </section>
+      {% endif %}
+  
+      <section id="populaires" class="team">
+        <div class="container-fluid" ><!--data-aos="fade-up"-->
+                    <div class="section-header">
+                      <h3 class="section-title">Populaires</h3>   
+                      <div style="align-items : center; justify-content : center; width: fit-content; float: right;">
+                        <button class="cta" onclick="window.location.href='{% url 'products' 'tout' %}'">
+                          <span class="hover-underline-animation">Voir Tout...</span>
+                          <svg id="arrow-horizontal" xmlns="http://www.w3.org/2000/svg" width="17" height="9" viewBox="0 0 46 16">
+                            <path id="Path_10" data-name="Path 10" d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z" transform="translate(30)"></path>
+                          </svg>
+                        </button></div><br>
+                
+                      <hr><br>
+  
+                    </div>
+  
+          
+          <div style="width: 100%;" class="d-flex justify-content-center"><div class="row set-the-width-row"  data-aos="fade" data-aos-delay="1">
+            {% for product in products %}
+            <div class="justify-content-center d-flex column-pers" style="border-radius: 5px;">
+              <div class="set-the-width" style="color:black; width: 95%; " href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
+                <a href="{% url 'page' product.seller %}">
+                  <div class="profile-seller">
+                      <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                      <span class="seller-name">{{product.seller}}</span>
+                  </div></a>
+              <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
+                <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex" style="position: relative;">
+                    {% if product.discounted_price %}
+                    <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                  {% else %}
+                    <span class="price-col">{{product.price}} DA</span>
+                  {% endif %}
+  
+                  </div>
+                  <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
+                  <div class="d-flex justify-content-between">
+                    <span style=" margin-right: 3px; margin-bottom: 3px">{{product.nb_likes}}</span>
+                    <a href="{% url 'likeit' product.id %}" class="{% if product.liked %}bi bi-heart-fill{% else %}bi bi-heart{% endif %} mobile-nav-toggle like-it "></a>
+                  </div>
+                </div>
+  
+                
+              </div></div>
+            </div>
+            {% endfor %}
 
+          </div>
+  
+        </div>
+      </section><!-- End Team Section -->
+  
     <!-- ======= About Section ======= -->
     <section id="about" class="second-section">
       <div class="container category-container">
           <div class="section-header">
-              <!-- <h3 class="section-title">Shop by category</h3>          <hr> -->
+              <h3 class="section-title">Catégories</h3>          <hr>
 
               <!--<p class="section-description">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>-->
             </div>
@@ -46,14 +229,14 @@
           <div class="image-container-container col-sm-6 d-flex justify-content-center">
             <div class="image-container d-flex justify-content-center"  style="background-image:linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.7) 100%),url('{{cat.image.url}}');">
               <span class="category-describer">{{cat}}</span>
-              <a class="appear-button" href="" >View</a>
+              <a class="appear-button" href="{% url 'products' cat.name %}" >Voir</a>
             </div>
           </div>
           {% endfor %}
           <div class="image-container-container col-sm-6 d-flex justify-content-center">
             <div class="image-container d-flex justify-content-center"  style="background-image:linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.7) 100%),url('{% static 'vintage/img/Sweater.jpg' %}');">
-              <span class="category-describer">All Products</span>
-              <a class="appear-button" href="{% url 'category' 'Unisex' 'all'  %}" >View</a>
+              <span class="category-describer">Tout</span>
+              <a class="appear-button" href="{% url 'products' 'tout' %}" >Voir</a>
             </div>
           </div>
           
@@ -70,10 +253,10 @@
             <div style="margin: auto; margin-left:0" class="col-lg-6 text-center text-lg-start">
               <h3 class="cta-title">Prêts à faire
                 du tri dans vos placards ?</h3>
-              <p class="cta-text" style="text-transform: uppercase;font-family: RothekExtraLight;"> Ces jolies pièces au fond de votre armoire trouveront une meilleure place dans un nouveau dressing ! </p>
+              <p class="cta-text" style="text-transform: uppercase;"> Ces jolies pièces au fond de votre armoire trouveront une meilleure place dans un nouveau dressing ! </p>
             </div>
             <div class="col-lg-3 cta-btn-container text-center"  style="margin-block:auto">
-              <a class="cta-btn align-middle" href="">Vendre</a>
+              <a class="cta-btn align-middle" href="{% url 'add' %}">J'ai des articles à vendre</a>
             </div>
         </div>
         <!-- <span id="video-sound" class="sound_off"></span> -->
@@ -81,86 +264,47 @@
 
   
     
-    
-    
-    <section id="populaires" class="team">
-      <div class="container" ><!--data-aos="fade-up"-->
-                  <div class="section-header">
-                    <h3 class="section-title">Populaires</h3>          <hr>
-
-                  </div>
-
-        
-        <div style="width: fit-content;" class="d-flex justify-content-center"><div class="row"  data-aos="fade" data-aos-delay="1">
-          {% for product in products %}
-          <div class="col-lg-2 col-md-3 col-sm-4 col-3 justify-content-center d-flex">
-            <div class="set-the-width" style="color:black" href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
-              <div class="profile-seller">
-                <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
-                <span class="seller-name">{{product.seller}}</span>
-              </div>
-              <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
-              <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
-              <div class="d-flex justify-content-between">
-                <div class="d-flex" style="position: relative;">
-                  {% if product.discounted_price %}
-                  <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
-                {% else %}
-                  <span class="price-col">{{product.price}} DA</span>
-                {% endif %}
-
-                </div>
-                <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
-                <span class="bi bi-heart mobile-nav-toggle like-it "></span>
-              </div>
-
-              
-            </div></div>
-          </div>
-          {% endfor %}
-        </div></div>
-
-      </div>
-    </section><!-- End Team Section -->
-
     <section id="nouvs" class="team">
-      <div class="container" ><!--data-aos="fade-up"-->
+      <div class="container-fluid" ><!--data-aos="fade-up"-->
                   <div class="section-header">
                     <h3 class="section-title">Nouveautés</h3>          <hr>
 
                   </div>
 
         
-        <div style="width: 100%;" class="d-flex justify-content-center"><div class="row" style="width: 100%;" data-aos="fade" data-aos-delay="1">
-          {% for product in new_products %}
-          <div class="col-lg-2 col-md-3 col-sm-4 col-3 justify-content-center d-flex">
-            <div class="set-the-width" style="color:black" href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
-              <div class="profile-seller">
-                <img width="17" height="17" src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
-                <span class="seller-name">{{product.seller}}</span>
-              </div>
-
-              <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
-              <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
-              <div class="d-flex justify-content-between">
-                <div class="d-flex" style="position: relative;">
-                  {% if product.discounted_price %}
-                  <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
-                {% else %}
-                  <span class="price-col">{{product.price}} DA</span>
-                {% endif %}
-
-                </div>
-                <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
-                <span style="color: black;font-size: 21px; margin-right: 6px;" class="bi bi-heart mobile-nav-toggle like-it "></span>
-              </div>
-
-              
-            </div></div>
-          </div>
-          {% endfor %}
-        </div></div>
-
+                  <div style="width: 100%;" class="d-flex justify-content-center"><div class="row set-the-width-row"  data-aos="fade" data-aos-delay="1">
+                    {% for product in new_products %}
+                    <div class="justify-content-center d-flex column-pers" style="border-radius: 5px;">
+                      <div class="set-the-width" style="color:black; width: 95%; " href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
+                        <a href="{% url 'page' product.seller %}">
+                          <div class="profile-seller">
+                              <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                              <span class="seller-name">{{product.seller}}</span>
+                          </div></a>
+                              <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
+                        <h4 style="text-transform: uppercase; text-align: left;">{{product.title}} </h4>
+                        <div class="d-flex justify-content-between">
+                          <div class="d-flex" style="position: relative;">
+                            {% if product.discounted_price %}
+                            <span class="price-col" style="text-align: left;"><del>{{product.price}} DA</del> {{product.discounted_price}} DA</span>
+                          {% else %}
+                            <span class="price-col">{{product.price}} DA</span>
+                          {% endif %}
+          
+                          </div>
+                          <!-- <img src="{% static 'vintage/img/heart.png' %}" ></img> -->
+                          <div class="d-flex justify-content-between">
+                            <span style=" margin-right: 3px; margin-bottom: 3px">{{product.nb_likes}}</span>
+                            <a href="{% url 'likeit' product.id %}" class="{% if product.liked %}bi bi-heart-fill{% else %}bi bi-heart{% endif %} mobile-nav-toggle like-it "></a>
+                          </div>
+                        </div>
+          
+                        
+                      </div></div>
+                    </div>
+                    {% endfor %}
+                  </div>
+        
       </div>
     </section><!-- End Team Section -->
 
@@ -171,44 +315,6 @@
 
     document.getElementById("my_wrapper").firstElementChild.classList.add("first-image-container");
     document.getElementById("my_wrapper").lastElementChild.classList.add("last-image-container");
-    // var span = document.getElementById("video-sound");
-    // span.addEventListener("click", sound_switch);
-    // function sound_switch(span){
-    //   span_vid = span.target;
-    //   if (span_vid.className == "sound_on"){
-    //     span_vid.classList.remove("sound_on");
-    //     span_vid.classList.add("sound_off");
-    //     document.getElementById("behind-the-brand-video").muted=true;
-    //   }
-    //   else if(span_vid.className == "sound_off"){
-    //     span_vid.classList.remove("sound_off");
-    //     span_vid.classList.add("sound_on");
-    //     document.getElementById("behind-the-brand-video").muted=false;
-    //   }
-    // }
-    // var span2 = document.getElementById("video-sound2");
-    // span2.addEventListener("click", sound_switch2);
-    // function sound_switch2(span2){
-    //   span_vid = span2.target;
-    //   if (span_vid.className == "sound_on"){
-    //     span_vid.classList.remove("sound_on");
-    //     span_vid.classList.add("sound_off");
-    //     document.getElementById("behind-the-brand-video2").muted=true;
-    //   }
-    //   else if(span_vid.className == "sound_off"){
-    //     span_vid.classList.remove("sound_off");
-    //     span_vid.classList.add("sound_on");
-    //     document.getElementById("behind-the-brand-video2").muted=false;
-    //   }
-    // }
-    function getRandomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-    function nextBg(){
-      var rand = getRandomInt(1,7);
-      var url = "url(/static/vintage/img/" + rand + ".jpg)";
-      document.getElementById("hero").style.backgroundImage=url;
-
-      setTimeout(nextBg, 10000);
-    }
-    // nextBg();
+  
   </script>
 {% endblock %}

@@ -8,12 +8,12 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>DZVintage</title>
+  <title>VintagedZ</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{% static 'vintage/img/ricamo-logo.jpeg' %}" rel="icon">
+  <link href="{% static 'vintage/img/v-icon.jpg' %}" rel="icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
@@ -149,6 +149,47 @@
     {
       color: rgb(255, 255, 255);
     }
+    #header.header-scrolled {
+        /* background-color: #202020; */
+    }
+    #logo{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 999;
+    }
+    .cart-image{
+      background-size: cover;
+      background-position: center;
+      border-radius: 20%;
+      width: 94px;
+      height: 94px;
+    }
+    .cart-info{
+      width: 50%;
+    }
+    .cart-action{
+      width: max-content;
+    }
+    .cart-action > a{
+      display: block;
+      width: 100%;
+      height: 33.33%;
+    }
+    .bi-cartt{
+      transition: 0.3s ease-in-out all;
+    }
+    .bi-cartt:hover{
+      transform: scale(1.1)!important;
+    }
+    #displayed-cart li{
+      margin-block: 19px;
+    }
+    #displayed-cart{
+      max-height: 80vh;
+      overflow-y: auto;
+    }
   </style>
   {% block style %}
   {% endblock %}
@@ -179,16 +220,22 @@
     </form>
   </div>
   <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center header-transparent">
+  <header id="header" class="fixed-top d-flex align-items-center"> <!-- edit samedi header-transparent -->
     <div id="small-header" class="container d-flex justify-content-between align-items-center" style="max-width:100%; margin:25px">
 
       
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="{% url 'index'%}">Home</a></li>
+          <li><a class="nav-link scrollto active" href="{% url 'index'%}">Accueil</a></li>
           <li><a class="nav-link scrollto" href="{% url 'index'%}#populaires">Populaires</a></li>
-          <li><a class="nav-link scrollto" href="{% url 'index'%}#nouvs">Nouveautés</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'chat' 'inbox' '1' %}">Messagerie</a></li>
+          {% if user.is_authenticated %}
+          <li><a class="nav-link scrollto" href="{% url 'profile'%}">Profil</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'logout'%}">Déconnexion</a></li>
+          {% else %}
+          <li><a class="nav-link scrollto" href="{% url 'login'%}">Connexion</a></li>
+          {% endif %}
 
           <!-- <li class="dropdown"><a href="#"><span>Catégories</span> <i class="bi bi-plus"></i></a>
             <ul>
@@ -208,7 +255,7 @@
               </li>
             </ul>
           </li> -->
-          <li class="dropdown"><a href="{% url 'category' 'Homme' 'all' %}"><span>Homme</span> <i class="bi bi-plus"></i></a>
+          <!-- <li class="dropdown"><a href="{% url 'category' 'Homme' 'all' %}"><span>Homme</span> <i class="bi bi-plus"></i></a>
             <ul>
               {% for cat in categories %}
               <li class="dropdown"><a href="{% url 'category' 'Homme' cat %}"><span>{{cat.name}}</span></a></li>
@@ -228,7 +275,7 @@
               <li class="dropdown"><a href="{% url 'category' 'Unisex' cat %}"><span>{{cat.name}}</span></a></li>
               {% endfor %}
             </ul>
-          </li>
+          </li> -->
 
           <li><a class="nav-link scrollto" href="#footer">Contact</a></li>
         </ul>
@@ -238,17 +285,17 @@
       <div id="logo">
         <!--<a href="{% url 'index'%}"><img src="{% static % 'img/logo.png' }" alt=""></a>  -->
         <!-- Uncomment below if you prefer to use a text logo -->
-        <h1 class="special-ricamo"><a href="{% url 'index'%}">DzVintage</a></h1>
+        <h1 class="special-ricamo"><a href="{% url 'index'%}">Vintage<span style="color: #50dcf3;">DZ</span></a></h1>
       </div>
       <nav id="navbar2" class="navbar">
         <div style="display:flex;justify-content: right">
           <button onclick="showsearch()"><i class="bi bi-search mobile-nav-toggle i-search"></i></button>
-          {% if user.is_authenticated %}<button id="profile-picture-nav" style="width: 28px;height:28px;border-radius: 50%; background-image: url('{{profile.picture.url}}'); background-size: cover; background-position: center;"  onclick="document.getElementsByClassName('profile-downit')[0].classList.toggle('profile-display')">
+          <!-- {% if user.is_authenticated %}<button id="profile-picture-nav" style="width: 28px;height:28px;border-radius: 50%; background-image: url('{{profile.picture.url}}'); background-size: cover; background-position: center;"  onclick="document.getElementsByClassName('profile-downit')[0].classList.toggle('profile-display')">
           </button>
           {% else %}
           <button onclick="window.open('{% url 'login' %}')"><i class="bi bi-person mobile-nav-toggle i-person"></i></button>
-          {% endif %}
-          <button onclick="window.open('{% url 'chat' 'inbox' '0' %}')"><i class="bi bi-envelope mobile-nav-toggle i-envelope"></i></button>
+          {% endif %} -->
+          <!-- <button onclick="window.open('{% url 'chat' 'inbox' '0' %}')"><i class="bi bi-envelope mobile-nav-toggle i-envelope"></i></button> -->
           <button onclick="showcart()"><span style="margin: 0;" class="bi bi-cart mobile-nav-toggle span-cart"></span></button>
         </div>
       </nav>
@@ -257,49 +304,39 @@
         
     
 
-    <div class="profile-downit profile-display navbar">
-      <ul style="display: block;">
-        <li><a href="{% url 'index' %}">Profile</a></li>
-        <li><a href="{% url 'logout' %}">Logout</a></li>
-      </ul>
-    </div>
 
   </header><!-- End Header -->
   <div id="displayed-cart" style="display: none" class="displayed-cart">
-    <h3 id="test-test" class="cart-title"> Shopping Cart           <i id="close-cart" style="font-size:20px; float:right" class="bi bi-x"></i>
+    <h3 id="test-test" class="cart-title"> Panier           <i id="close-cart" style="font-size:20px; float:right" class="bi bi-x"></i>
     </h3><hr>
     <ul id="product-list">
-      {% for product in checkout_products %}
-        <li class="d-flex justify-content-between">
-          <img class="cart-image" src="{{product.0.image.url}}">
-          <div>
-            <h7 style="display: none;">{{product.0.id}}</h7>
-            <h7 style="display: block;font-family: MagnumSansExtraLight">{{product.0.name}}</h7>
-            <span class="colors-dispo" style="background-color:{{product.3}};padding:6px"><span style="display:none;">{{product.3}}</span></span>
-            <h7 style="font-familyMagnumSansExtraLight">{{product.1}}</h7>
-            {% if product.0.discounted_price %}
-            <h7 style="display: block;font-family:MagnumSansExtraLight">{{product.0.discounted_price}} DA</h7>
-            {%else%}
-            <h7 style="display: block;font-family:MagnumSansExtraLight">{{product.0.price}} DA</h7>
-            {% endif %}
+      {% for product in cart_products %}
+        <li class="d-flex justify-content-around">
+          <div class="cart-image" style="background-image: url('{{product.image.url}}');">
           </div>
-          <div>
-            <button class="minus-quantite"></button>
-            <span class="quantite">{{product.2}}</span>
-            <button class="plus-quantite"></button>
+          <div class="cart-info">
+            <span class="cart-name">{{product.title}}</span><br>
+            <span class="cart-price">{% if product.discounted_price %}<del>{{product.price}}</del>{{product.discounted_price}}{% else %}{{product.price}}{% endif %} DA</span><br>
+          </div>
+          <div class="cart-action">
+            <a href="{% url 'post' product.genre product.category product.title %}">
+              <i style="color:blue" class="bi bi-eye bi-cartt"></i>
+            </a>
+            <a href="{% url 'change_panier' product.id %}">
+              <i style="color: red;" class="bi bi-trash bi-cartt"></i>
+            </a>
+            <a href="{% url 'chat' product.seller product.id %}">
+              <i style="color: #50dcf3;" class="bi bi-chat bi-cartt"></i>
+            </a>
+
           </div>
           
-          <i style="font-size:20px;" class="delete-product bi bi-trash"></i>
+          <!-- <i style="font-size:20px;" class="delete-product bi bi-trash"></i> -->
         </li>
       
       {% endfor %}
 
     </ul>
-    <span id="total-checkout"></span>
-    <form style="float:right" action="" method="get">
-        <input id="input-cart" type="hidden" name="cart">
-        <button onclick="submitcart()" type="submit" class="cart-button">Checkout</button>
-    </form>
 
 
   </div>
@@ -321,7 +358,7 @@
               <h6 class="footer-title">Subscribe to our Newsletter !</h6>
               <form class="d-flex" action="email/" method="POST">{% csrf_token %}
                 <input style="margin-right: 0;width:80%" type="text" placeholder="Enter Email" name="email" required>     
-                <button type="submit"><i class="bi bi-arrow-right"></i></button>
+                <button type="submit"><i class="bi bi-arrow-right" style="color: white;"></i></button>
               </form>
               <hr style="width: 85%;float: left">
             </div>
@@ -408,7 +445,7 @@
     var close = document.getElementById("close-cart");
     close.addEventListener("click",showcart);
     
-    var count = {{checkout_products|length}};
+    var count = {{cart_products|length}};
     if (count > 0){
         soufel = document.getElementsByClassName('span-cart')[0];
         span_element = document.createElement('span');
@@ -435,14 +472,8 @@
             temp++;
           }
         }
-        
-
         var jasonized = JSON.stringify(unjasonized);
         document.cookie = "cart="+jasonized+"; path=/";
-
-
-
-
         sup.parentElement.remove();
         window.location.reload();
     }
@@ -530,7 +561,6 @@
         document.cookie = "cart="+jasonized+"; path=/";
       }
     }
-    initialize_cookies();
     function total_checkout(){
       ul = document.getElementById("product-list");
       var total = 0;
@@ -539,7 +569,6 @@
       }
       document.getElementById("total-checkout").innerHTML="Total: "+total.toString()+" DA";
     }
-    total_checkout();
     function submitcart(){
       var x =document.cookie;
       var y = sliceit(x,";");

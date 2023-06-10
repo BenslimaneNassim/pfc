@@ -118,18 +118,18 @@ body{
 
   <form class="login-form" method="post">
     {% csrf_token %}
-    <h2>Login</h2>
-    <label for="username">Username:</label>
+    <h2>Se connecter</h2>
+    <label for="username">Nom d'utilisateur:</label>
     {{ form.username }}
-    <label for="password">Password:</label>
+    <label for="password">Mot de passe:</label>
     {{ form.password }}
-    <button type="submit">Login</button>
+    <button type="submit">Connexion</button>
     
 
 
     
     <a href="{% provider_login_url 'google' %}" class="login-with-google-btn" >
-      Sign in with Google
+      Me connecter avec Google
     </a>
 
 
@@ -142,7 +142,7 @@ body{
       <a class="btn-text" href="{% provider_login_url 'google' %}"><b>Sign in with google</b></a>
     </div> -->
 
-    <a href="{% url 'signup' %}">Don't have an account yet? Sign up here.</a>
+    <a href="{% url 'signup' %}">Pas encore de compte ? Inscris toi par ici.</a>
   </form>
 </div>{% endblock %}
 
