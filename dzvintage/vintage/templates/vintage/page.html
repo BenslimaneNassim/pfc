@@ -237,9 +237,11 @@
                             </a>
                             {% endif %}
                         </div>
+                        {% if not my_profile %}
                         <div>
                             <i id="menu-signal-eval" class="bi bi-three-dots-vertical"></i>
-                        </div>                    
+                        </div>
+                        {% endif %}                    
                     </div>
                     {% if not my_profile %}
                         {% if followed_me %}
