@@ -29,7 +29,7 @@
                     </div>
   
           
-          <div style="width: 100%;" class="d-flex justify-content-center"><div class="row"  data-aos="fade" data-aos-delay="1">
+          <div style="width: 100%;" class="d-flex justify-content-center"><div class="row set-the-width-row"  data-aos="fade" data-aos-delay="1">
             {% if nothing %}
             <h2>Aucun Produit pour l'instant :(</h2>
             {% endif %}
@@ -38,7 +38,9 @@
               <div class="set-the-width" style="color:black; width: 95%; " href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
                 <a href="{% url 'page' product.seller %}">
                   <div class="profile-seller">
-                      <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                      <!-- <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt=""> -->
+                      <div style="background-image: url('{{product.seller.profile.picture.url}}');" class="product-img-seller"></div>
+
                       <span class="seller-name">{{product.seller}}</span>
                   </div></a>
                       <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
@@ -63,7 +65,7 @@
               </div></div>
             </div>
             {% endfor %}
-  </div></div>
+          </div></div>
   
         </div>
       </section><!-- End Team Section -->

@@ -45,6 +45,9 @@
       padding: 10px 20px;
     }
   }
+  .enable_blurr > *{
+    filter: blur(2px);
+  }
 
 </style>
 {% endblock %}
@@ -82,6 +85,7 @@
               <a href="{% url 'page' product.seller %}">
                 <div class="profile-seller">
                     <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                    <!-- <div style="background-image: url('{{product.seller.profile.picture.url}}');" class="product-img-seller"></div> -->
                     <span class="seller-name">{{product.seller}}</span>
                 </div></a>
             <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
@@ -182,7 +186,9 @@
               <div class="set-the-width" style="color:black; width: 95%; " href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
                 <a href="{% url 'page' product.seller %}">
                   <div class="profile-seller">
-                      <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                      <!-- <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt=""> -->
+                      <div style="background-image: url('{{product.seller.profile.picture.url}}');" class="product-img-seller"></div>
+
                       <span class="seller-name">{{product.seller}}</span>
                   </div></a>
               <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
@@ -226,12 +232,14 @@
 
           
           {% for cat in categories %}
+          {% if cat.nb_products != 0 %}
           <div class="image-container-container col-sm-6 d-flex justify-content-center">
             <div class="image-container d-flex justify-content-center"  style="background-image:linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.7) 100%),url('{{cat.image.url}}');">
               <span class="category-describer">{{cat}}</span>
               <a class="appear-button" href="{% url 'products' cat.name %}" >Voir</a>
             </div>
           </div>
+          {% endif %}
           {% endfor %}
           <div class="image-container-container col-sm-6 d-flex justify-content-center">
             <div class="image-container d-flex justify-content-center"  style="background-image:linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.7) 100%),url('{% static 'vintage/img/Sweater.jpg' %}');">
@@ -239,6 +247,17 @@
               <a class="appear-button" href="{% url 'products' 'tout' %}" >Voir</a>
             </div>
           </div>
+          {% for cat in categories %}
+          {% if cat.nb_products == 0 %}
+          <div class="image-container-container enable_blurr col-sm-6 d-flex justify-content-center">
+            <div class="image-container d-flex justify-content-center"  style="background-image:linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.7) 100%),url('{{cat.image.url}}');">
+              <span class="category-describer" style="padding-bottom: 100px;">{{cat}}</span>
+              <a class="appear-button" style="filter: blur(0); color: white!important; background-color: transparent!important; border: 1px solid white!important; opacity: 1!important;" >Voir</a>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+
           
       </div>
 

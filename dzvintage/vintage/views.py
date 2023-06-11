@@ -32,6 +32,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from django.db.models import Max
 def index(request):
+    print(get_color(1.0))    # Output: #ff0000 (Red)
+    print(get_color(2.5))    # Output: #80ff00 (Yellowish Green)
+    print(get_color(4.75))   # Output: #00d9e6 (Bluish Cyan)
+    print(get_color(5.0))    # Output: #00ff00 (Green)
+
     context = {}
     context = categories(request, context)
     products = Post.objects.filter(deleted=False).order_by('-nb_likes')
@@ -52,6 +57,7 @@ def index(request):
         posts_followed = Post.objects.filter(seller__in=followed_users, deleted=False).order_by('-created_at')[:8]
 
     context.update({'products':posts, 'new_products':new_posts})
+
     if request.user.is_authenticated:
         user = request.user
         profile = Profile.objects.get(user=user)
@@ -70,6 +76,7 @@ def index(request):
             if post in likedd:
                 post.liked = True
         context.update({'profile':profile, 'products':posts, 'new_products':new_posts, 'followed_products':posts_followed})
+
 
     return render(request, 'vintage/index.html', context)
 def products(request, cat):
@@ -93,14 +100,10 @@ def products(request, cat):
     posts = []
     for pr in products:
         try:
+            # for i in range(1, 6):
             posts.append(pr)
         except:
             context.update({'nothing':'nothing'})
-    # for i in range(1, 20):
-    #     try:
-    #         posts.append(products[0])
-    #     except:
-    #         context.update({'nothing':'nothing'})
     context.update({'products':posts})
     return render(request, 'vintage/products.html', context)
 @login_required
@@ -192,8 +195,6 @@ def annonces(request):
     posts = []
     for pr in products:
         posts.append(pr)
-    for i in range(1, 20):
-        posts.append(products[0])
     context.update({'products':products,'profile':profile})
     return render(request, 'vintage/annonces.html', context)
 
@@ -483,7 +484,7 @@ def report(request, user_id):
     context = {}
     context = categories(request, context)
     user = request.user
-    report_user = User.objects.get(id=user_id)
+    report_user = User.objects.get(username=user_id)
 
     context.update({'report_user':report_user})
     if request.method == "POST":
@@ -500,7 +501,7 @@ def report(request, user_id):
             else:
                 report = Signal.objects.create(reporter=user, reported=report_user, comment=comment)
             report.save()
-            return redirect('/profile/'+report_user.username)
+        return redirect(request.META.get('HTTP_REFERER', '/'))
     return render(request,"vintage/signal.html",context)
 
 @login_required
@@ -509,8 +510,6 @@ def sell(request, product_id, other_user):
     product = Post.objects.get(id=product_id)
     transaction = Transaction.objects.create(user=sold_user, post=product)
     transaction.save()
-    product.deleted = True
-    product.save()
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
@@ -523,6 +522,7 @@ def chat(request, other_user, product_id):
         other_user = User.objects.get(username=other_user)
     profile = Profile.objects.get(user=user)
     if request.method == "POST":
+            
         if request.POST.get('message'):
             message = request.POST.get('message')
             post = Post.objects.get(id=product_id)
@@ -538,11 +538,13 @@ def chat(request, other_user, product_id):
             other_userr = chat.receiver
         else:
             other_userr = chat.sender
-
+        last_message = chat.message
+        if len(last_message) > 24:
+            last_message = last_message[:24] + "..."
         conversation = {
             'post': chat.post,
             'other_user': other_userr,
-            'last_message': chat.message,
+            'last_message': last_message,
             'timestamp': chat.timestamp,
         }
         temp = {
@@ -559,6 +561,19 @@ def chat(request, other_user, product_id):
         context.update({'inbox':'inbox'})
     else:
         product = Post.objects.get(id=product_id)
+        transaction = Transaction.objects.filter(post=product).first()
+        print(transaction)
+        if transaction:
+            if request.method == "POST" and not transaction.note:
+                if request.POST.get('rating'):
+                    rating = int(request.POST.get('rating'))
+                    if rating > 0 and rating <= 5:
+                        transaction.note = rating
+                        if request.POST.get('comment'):
+                            comment = request.POST.get('comment')
+                            transaction.comment = comment
+                        transaction.save()
+            context.update({'transaction':transaction})
         messages = Chat.objects.filter( Q(Q(sender=user) & Q(receiver=other_user)) | Q(Q(sender=other_user) & Q(receiver=user)) , post=product).order_by('timestamp')
         context.update({'product':product, 'other_user': other_user, 'messages':messages})
 
@@ -592,7 +607,7 @@ from django.urls import reverse_lazy
 @method_decorator(login_required, name='dispatch')
 class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'vintage/password_change.html'
-    success_url = '/accounts/password_change/done/'
+    success_url = '/profile/'
 
 @method_decorator(login_required, name='dispatch')
 class CustomPasswordChangeDoneView(PasswordChangeDoneView):

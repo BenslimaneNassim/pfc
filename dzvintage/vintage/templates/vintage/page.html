@@ -37,7 +37,8 @@
         height: 50%; */
         border-radius: 50%;
         background-position: center;
-        background-size: cover;
+        background-size: 100%;
+        background-repeat: no-repeat;
         margin: 40px auto;
         margin-left: 0;
         margin-bottom: 0;
@@ -112,12 +113,83 @@
     #bio-info{
         font-size: 14px;
     }
+    .bi-three-dots-vertical{
+        cursor: pointer;
+    }
+
+
+
+
+
+
+    #menu_signal_eval{
+        /* display: none; */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        
+        width: 350px;
+        /* height: 250px; */
+        z-index: 9999;
+        background-color: #191919;
+        border: 1px solid #4f4e4e;
+        border-radius: 12px;
+    }
+    .title-description-menu{
+        color: white;
+    }
+    .icon-description-menu, .title-description-menu{
+        color: white;
+        font-size: 16px;
+    }
+    #menu_signal_eval li:hover{
+        background-color: #3f3f3f;
+        cursor: pointer;
+    }
+    #menu_signal_eval ul{
+        width: 100%;
+    }
+
+    #menu_signal_eval li{
+        width: 100%;
+        height: 60px;
+        border-radius: 10px;
+    }
+    #menu_signal_eval > span > i {
+        font-size: 16px;
+    }
+    #menu_signal_eval > span > i.bi-x::before {
+        color: white;
+        cursor: pointer;
+    }
+
 </style>
 {% endblock %}
 
 {% block main %}
+<div id="menu_signal_eval" style="display: none;">
+    <span id="close_menu_ev" style="float: right;" class="">
+        <i style="color: white;" class="bi bi-x"></i>
+    </span>
+
+    <div class="d-flex justify-content-center">
+        <ul style="list-style: none; padding-left: 0;margin-bottom: 0;">
+            {% if profile.user != user  %}
+            <a href="{% url 'report' profile.user %}">
+                <li>
+                    <span class="icon-description-menu"><i style="color:red" class="bi bi-flag"></i></span>
+                    <span class="title-description-menu">Signaler</span>
+                </li>
+            </a>
+            {% endif %}
+        </ul>
+    </div>
+</div>
 
 <main id="main">
+    
 
     <section style="margin-top: 90px!important;margin-bottom: 15px; ">
         <!-- background-color: #202020; -->
@@ -164,7 +236,10 @@
                                 Modifier
                             </a>
                             {% endif %}
-                        </div>                        
+                        </div>
+                        <div>
+                            <i id="menu-signal-eval" class="bi bi-three-dots-vertical"></i>
+                        </div>                    
                     </div>
                     {% if not my_profile %}
                         {% if followed_me %}
@@ -181,7 +256,14 @@
     
             </div>
             <div class="profile-infos">
-                <p id="username-info">{{profile.user.username}}</p>
+                <p id="username-info">{{profile.user.username}} 
+                    {% if profile.rating %}
+                    <i style="color: #50dcf3; margin-left: 5px;" class="bi bi-star-fill"> {{profile.rating}}/5</i>
+                    {% else %}
+                    <i style="color: #50dcf3; margin-left: 5px;" class="bi bi-star-fill"> ?/5</i>
+                    {% endif %}
+
+                </p>
                 <p id="bio-info">{{profile.bio}}</p>
             </div>
         </div>
@@ -196,7 +278,9 @@
             <div class="justify-content-center d-flex column-pers" style="border-radius: 5px;">
               <div class="set-the-width" style="color:black; width: 95%; " href=""><div class="member"><!-- data-aos="fade" data-aos-delay="1"-->
                 <div class="profile-seller">
-                  <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                  <!-- <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt=""> -->
+                  <div style="background-image: url('{{product.seller.profile.picture.url}}');" class="product-img-seller"></div>
+
                   <span class="seller-name">{{product.seller}}</span>
                 </div>
                 <a href="{% url 'post' product.genre product.category product.title %}"><div class="pic" style="background-image:url({{product.image.url}})"><!--<img src="{{product.image.url}}" alt="">--></div></a>
@@ -233,5 +317,20 @@
 
 {% block scripts %}
 <script>
+    var signal_eval = document.getElementById("menu-signal-eval");
+    signal_eval.addEventListener("click", show_menu_signal_eval);
+    var menu_si_ev = document.getElementById("menu_signal_eval");
+    var close_menu_ev = document.getElementById("close_menu_ev");
+    close_menu_ev.addEventListener("click", show_menu_signal_eval);
+    function show_menu_signal_eval(e){
+        if (menu_si_ev.style.display == "none") {
+            menu_si_ev.style.display = "block";
+            main.setAttribute("style", "filter: blur(5px);")  
+        }else{
+            menu_si_ev.style.display = "none";
+            main.setAttribute("style", "filter: blur(0px);")
+        }
+    }
+
 </script>
 {% endblock %}

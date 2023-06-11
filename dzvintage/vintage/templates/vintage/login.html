@@ -119,6 +119,11 @@ body{
   <form class="login-form" method="post">
     {% csrf_token %}
     <h2>Se connecter</h2>
+    {% if form.error_messages %}
+    {% for error in form.error_messages %}
+    <span style="color: red;">{{error}}</span>
+    {% endfor %}
+    {% endif %}
     <label for="username">Nom d'utilisateur:</label>
     {{ form.username }}
     <label for="password">Mot de passe:</label>

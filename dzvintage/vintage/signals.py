@@ -62,5 +62,35 @@ def update_followers_and_following_on_abonnement_delete(sender, instance, **kwar
 @receiver(post_save, sender=Transaction)
 def update_transactions_on_transaction_create(sender, instance, created, **kwargs):
     if created:
-        chat = instance.post.chats.create(sender=instance.post.seller, receiver=instance.user, message="Transaction effectuée")
-        
+        message = "Transaction effectuée entre "+str(instance.post.seller.username)+" et "+str(instance.user.username)+" pour "+str(instance.post.title)
+        chat = instance.post.chats.create(sender=instance.post.seller, receiver=instance.user, message= message)
+        instance.post.deleted = True
+        instance.post.save()
+    else:
+        if instance.note:
+            seller = instance.post.seller
+            rating = seller.profile.rating
+            if not rating:
+                rating = 0
+            rating = (rating*seller.profile.nb_ratings + instance.note)/(seller.profile.nb_ratings+1)
+            seller.profile.rating = rating
+            seller.profile.nb_ratings += 1
+            seller.profile.save()
+
+
+@receiver(post_delete, sender=Transaction)
+def update_transactions_on_transaction_delete(sender, instance, **kwargs):
+    message = "Transaction annulée entre "+str(instance.post.seller.username)+" et "+str(instance.user.username)+" pour "+str(instance.post.title)
+    chat = instance.post.chats.create(sender=instance.post.seller, receiver=instance.user, message= message)
+    instance.post.deleted = False
+    instance.post.save()
+    note = instance.note
+    if note:
+        seller = instance.post.seller
+        rating = seller.profile.rating
+        if not rating:
+            rating = 0
+        rating = (rating*seller.profile.nb_ratings - note)/(seller.profile.nb_ratings-1)
+        seller.profile.rating = rating
+        seller.profile.nb_ratings -= 1
+        seller.profile.save()

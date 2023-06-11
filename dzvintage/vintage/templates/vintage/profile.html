@@ -90,6 +90,7 @@
     .profile-wrapper{
         display: flex;
         justify-content: space-around;
+        margin-top: 15px;
     }
     .infos-personnelles{
         display: flex;
@@ -112,7 +113,7 @@
         .profile-picture form{
             text-align: center;
         }
-        .profile-picture img{
+        .profile-picture img, .profile-picture-img{
             width: 120px!important;
             height: 120px!important;
         }
@@ -168,9 +169,11 @@
         /* font-weight: 600; */
         font-size: 15px;
         color: white;
+        transition: all 0.1s ease-in-out;
     }
     .submit-form:hover{
-        background-color: #3b448b;
+        background-color: black;
+        border-color: white;
     }
     @media(max-width: 768px){
         .sidebar-menu{
@@ -227,9 +230,22 @@
         width: 85%;
         min-width: 600px;
     }
-    .profile-picture img{
+    .profile-picture img, .profile-picture-img{
         width: 150px; height: 150px; border-radius: 50%; text-align:left; border: 2px solid white;
     }
+    .profile-picture-img{
+        background-position: center;
+        background-size: 100%;   
+        background-repeat: no-repeat;     
+    }
+    .btn-primary:hover{
+        background-color: #202020;
+        border-color: white;
+    }
+    .btn-primary{
+        /* background-color: ; */
+    }
+
 
 </style>
 {% endblock %}
@@ -303,15 +319,19 @@
     <div class="main-main">
         <section>
             <div class="container">
-           
+                <a href="{% url 'page' user.username %}" class="btn btn-primary" style="min-width: 30px ;  font-size: 14px; font-weight: 600;margin-left: 15px;"><i class="bi bi-eye"></i></a>
+
             <div class="profile-wrapper">
 
                 <div class="profile-picture">
+
                 <form id="picture-form" action="" enctype="multipart/form-data" method="POST">{% csrf_token %}
 
                     <h4>Informations Personnelles</h4>
+                    
                     <label style="margin-top: 30px;" for="picture" style="cursor: pointer;">
-                        <img src="{{profile.picture.url}}">
+                        <!-- <img src="{{profile.picture.url}}"> -->
+                        <div class="profile-picture-img" style="background-image: url('{{profile.picture.url}}');"></div>
                     </label>
                     <input type="file" name="picture" id="picture" style="display: none;">
                     <!-- <span style="display: block; font-size: 12px; text-align: left; text-indent: 5px; color: #717171;">Cliquez pour la modifier</span> -->
@@ -336,6 +356,9 @@
                 </div>
                 <div class="profile-informations">
                     <h4>Modifier votre Profil</h4>
+                    {% if error %}
+                    <p style="color: red;">{{error}}</p>
+                    {% endif %}
                     <div class="infos-personnelles" style="margin-top: 60px;">
                         <div class="labels">
                             <!-- <p class="pfff">Nom</p>
@@ -370,8 +393,12 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="submit-form" style="margin-top: 30px;">Envoyer</button>
+                    <button type="submit" class="submit-form" style="margin-top: 30px;">Modifier</button>
+
+
                 </form>
+                
+
 
             </div>
             </div>

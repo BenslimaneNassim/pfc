@@ -84,14 +84,14 @@
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
 }
-body::-webkit-scrollbar, #displayed-cart::-webkit-scrollbar {
+body::-webkit-scrollbar, #displayed-cart::-webkit-scrollbar, #before-box-of-chatbox::-webkit-scrollbar {
   width: 10px;
 }
-body::-webkit-scrollbar-track, #displayed-cart::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track, #displayed-cart::-webkit-scrollbar-track, #before-box-of-chatbox::-webkit-scrollbar-track {
   background-color: transparent;
   border-radius: 5px;
 }
-body::-webkit-scrollbar-thumb, #displayed-cart::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb, #displayed-cart::-webkit-scrollbar-thumb, #before-box-of-chatbox::-webkit-scrollbar-thumb {
   background-color: rgb(65, 65, 65);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -2274,6 +2274,9 @@ hr {
   border-radius: 50%;
   width: 25px;
   height: 25px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .seller-name{
   text-align: center;

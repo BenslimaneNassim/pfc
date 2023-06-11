@@ -38,7 +38,7 @@
         background-color: #3240ff;
         padding: 10px 20px;
         border-radius: 10px 10px 0 10px;
-        margin: 10px 10px 10px auto;
+        margin: 0px 0px 0px auto;
         width: fit-content;
         max-width: 70%;
         color: white;
@@ -49,15 +49,20 @@
         background-color: #4f4e4e;
         padding: 10px 20px;
         border-radius: 10px 10px 10px 0;
-        margin: 10px auto 10px 10px;
+        margin: 0px auto 0px 0px;
         width: fit-content;
         max-width: 70%;
         color: white;
         font-weight: 400;
         /* text-align: start; */
     }
+    .message-container{
+        display: flex;
+        justify-content: center;
+    }
     .message-container .time-of-message{
         color: #202020;
+        margin: auto;
     }
     .message-container:hover .time-of-message{
         color: #a2a2a2;
@@ -235,6 +240,8 @@
         min-width: 297px;
         padding: 10px 0;
         border-right: 1px solid #4f4e4e;
+        overflow-y: auto;
+        position: relative;
     }
     #after-box-of-chatbox{
         height: 100vh ;
@@ -295,6 +302,72 @@
     #vendre-display{
         display: none;
     }
+    .star-rate-span{
+        /* color: #50dcf3; */
+        font-size: 18px;
+        margin: 0 5px;
+        float: right;
+        transition: all 0.3s ease-in-out;
+    }
+    {% if transaction %}
+    {% if not transaction.note %}
+        .star-rate-span:hover{
+            color: #50dcf3;
+            cursor: pointer;
+        }
+        .star-rate-span:hover i::before{
+            content: "\f586"!important;
+        }
+        .star-rate-span:hover ~ span{
+            color: #50dcf3;
+        }
+        .star-rate-span:hover ~ span i::before{
+            content: "\f586"!important;
+        }
+    {% else %}
+        .star-rate-span.s-active{
+            color: #50dcf3;
+        }
+        .star-rate-span.s-active i::before{
+            content: "\f586"!important;
+        }
+        .star-rate-span.s-active ~ span{
+            color: #50dcf3;
+        }
+        .star-rate-span.s-active ~ span i::before{
+            content: "\f586"!important;
+        }
+    {% endif %}
+    .star-rate-container{
+        width: fit-content;
+        margin: 5px auto;
+        height:30px;
+    }
+    {% endif %}
+    .profile-picture-img{
+        border-radius: 50%;
+        text-align:left; 
+        border: 1.5px solid white;
+        width: 40px; 
+        height: 40px; 
+    }
+    .profile-picture-img{
+        background-position: center;
+        background-size: 100%;   
+        background-repeat: no-repeat;     
+    }
+    .link_to_profile span{
+        color: white;
+        transition: all;
+    }
+    .link_to_profile:hover span{
+        color: #50dcf3!important;
+    }
+    .link_to_profile{
+        /* cursor: default; */
+    }
+
+
 
 
 
@@ -313,7 +386,7 @@
 
         <div class="d-flex justify-content-center">
             <ul style="list-style: none; padding-left: 0;margin-bottom: 0;">
-                <a href="{% url 'report' other_user.id %}">
+                <a href="{% url 'report' other_user.username %}">
                     <li>
                         <span class="icon-description-menu"><i style="color:red" class="bi bi-flag"></i></span>
                         <span class="title-description-menu">Signaler</span>
@@ -393,7 +466,9 @@
             <div class="chatbox d-flex">
                 <div id="before-box-of-chatbox">
                     <div class="d-flex justify-content-center " style="border: 0; text-align: center; padding: 30px;">
-                         <img src="{{profile.picture.url}}" alt="" style="width: 40px; height: 40px; border-radius: 50%; text-align:left"> 
+                         <!-- <img src="{{profile.picture.url}}" alt="" style="width: 40px; height: 40px; border-radius: 50%; text-align:left"> -->
+                         <div class="profile-picture-img" style="background-image: url('{{profile.picture.url}}');"></div>
+ 
                         <span style="font-weight: 600;margin: 10px;text-align: center;"> {{user.username}} </span>
                     </div>
                     <div class="d-flex justify-content-around">
@@ -433,10 +508,11 @@
                             <img src="{{product.image.url}}" width="40" height="40" style="border-radius: 50%;width: 40px;height: 40px;">
                         </div>
                         <div style="width: calc(100% - 60px); text-align: start; margin: 5px auto;">
-                            <span class="product-and-seller" style="font-weight: 600; margin:10px auto; color: white;">{{product.title}}</span>
+                            <a href="{% url 'post' product.genre product.category product.title %}" class="link_to_profile"><span class="product-and-seller" style="font-weight: 600; margin:10px auto; color: white;">{{product.title}}</span></a> •
+                            <a href="{% url 'page' other_user.username %}" class="link_to_profile"><span class="product-and-seller" style="font-weight: 600; margin:10px auto; color: white;">{{other_user}}</span></a>
 
                                <!-- •   {{product.seller}}  -->
-                                    <i id="menu-signal-eval" style="float: right;cursor: pointer;" class="bi bi-three-dots"></i>
+                            <i id="menu-signal-eval" style="float: right;cursor: pointer;" class="bi bi-three-dots"></i>
                             <br>
                         </div>
                         
@@ -445,17 +521,87 @@
                         {% for message in messages %}
                             {% if message.sender == user %}
                             <div class="message-container" style="border: 0; height: fit-content; margin: 20px auto; text-align: end;">
-                                <span class="time-of-message" style="font-size: 12px; ">{{message.timestamp|date:'d M H:i'}}</span>
-                                <span class="you-sent" style="margin:10px auto"> {{message.message}}  </span>
+                                <span class="time-of-message" style="font-size: 12px; margin-left: 0; ">{{message.timestamp|date:'d M H:i'}}</span>
+                                <div class="you-sent"> {{message.message}}  </div>
                             </div>
                             {% else %}
                             <div class="message-container" style="border: 0; height: fit-content; margin: 20px auto; text-align: start;">
-                                <span class="other-sent" style="margin:10px auto"> {{message.message}} </span>
-                                <span class="time-of-message" style="font-size: 12px; ">{{message.timestamp|date:'d M H:i'}}</span>
+                                <div class="other-sent"> {{message.message}} </div>
+                                <span class="time-of-message" style="font-size: 12px; margin-right: 0;">{{message.timestamp|date:'d M H:i'}}</span>
 
                             </div>
                             {% endif %}
                         {% endfor %}
+                        {% if product.deleted %}
+                        <div style="width: 100%; height: fit-content; background-color: #202020; padding: 10px 10px; border: 0; border-radius: 10px; color: white; text-align: center;">
+                            <span class="other-sent" style=" margin: auto!important; background-color: #202020;color: #a2a2a2;">Ce produit n'est plus disponible</span>
+                        </div>
+                        {% endif %}
+                        {% if transaction %}
+                        <br><br>
+                            {% if not transaction.note and transaction.user == user %}
+                            <div style="width: 80%; max-width: 600px; min-width: 200px; margin: 0px auto; height: fit-content; background-color: #323232; padding: 20px; border: 0; border-radius: 10px; color: white; text-align: center;">
+                                <form id="transaction-form" action="" method="POST">{% csrf_token %}
+                                    <input id="rating-transaction" type="hidden" name="rating" required>
+                                    <input id="comment-transaction" type="hidden" name="comment" maxlength="250">
+                                </form>
+                                <span>Evaluez cette transaction</span><br>
+                                <div class="star-rate-container">
+                                    <span value="5" class="star-rate-span">
+                                        <i class="bi bi-star"></i>
+                                    </span>
+                                    <span value="4" class="star-rate-span">
+                                        <i class="bi bi-star"></i>
+                                    </span>
+                                    <span value="3" class="star-rate-span">
+                                        <i class="bi bi-star"></i>
+                                    </span>
+                                    <span value="2" class="star-rate-span">
+                                        <i class="bi bi-star"></i>
+                                    </span>
+                                    <span value="1" class="star-rate-span">
+                                        <i class="bi bi-star"></i>
+                                    </span>
+                                </div>
+                                <textarea id="myTextarea" type="text" maxlength="250" style="min-height: 100px;width: 100%; border-radius: 10px; background-color: #4f4e4e; color: white;" placeholder="Commenter sur la transaction avant d'évaluer (Facultatif)"></textarea>
+                                <small style="display: block;color: #717171;" id="wordCount"></small>
+                                <small style="display: block;color: #717171;margin-top: 5px;">Le vendeur ne sera pas notifié de votre évaluation</small>
+
+
+                            </div>
+                            {% endif %}
+                            {% if transaction.note and transaction.user == user %}
+                            <div style="width: 80%; max-width: 600px; min-width: 200px; margin: 0px auto; height: fit-content; background-color: #323232; padding: 20px; border: 0; border-radius: 10px; color: white; text-align: center;">
+                                <span>Transaction évaluée</span><br>
+                                <div class="star-rate-container">
+                                    <span value="5" class="star-rate-span{% if transaction.note == 5 %} s-active{% endif %}">
+                                        <i class="bi bi-star"></i>
+                                    </span>
+                                    <span value="4" class="star-rate-span{% if transaction.note == 4 %} s-active{% endif %}">
+                                        <i class="bi bi-star"></i>
+                                    </span>
+                                    <span value="3" class="star-rate-span{% if transaction.note == 3 %} s-active{% endif %}">
+                                        <i class="bi bi-star"></i>
+                                    </span>
+                                    <span value="2" class="star-rate-span{% if transaction.note == 2 %} s-active{% endif %}">
+                                        <i class="bi bi-star"></i>
+                                    </span>
+                                    <span value="1" class="star-rate-span{% if transaction.note == 1 %} s-active{% endif %}">
+                                        <i class="bi bi-star"></i>
+                                    </span>
+                                </div>
+                                {% if transaction.comment %}
+                                <div style="width: 100%; height: fit-content; background-color: #202020; padding: 10px 10px; border: 0; border-radius: 10px; color: white; text-align: center;">
+                                    <div class="other-sent" style=" margin: auto!important; background-color: #202020;color: #a2a2a2;">{{transaction.comment}}</div>
+                                </div>
+                                {% endif %}
+                                <small style="display: block;color: #717171;margin-top: 5px;">Le vendeur ne sera pas notifié de votre évaluation</small>
+                            </div>
+                            {% endif %}
+
+                        {% endif %}
+
+
                     </div>
                     
                     <div style="border: 0;  padding: 10px 10px;  background-color: #202020!important; height: fit-content">
@@ -467,11 +613,11 @@
                                 <button type="submit" style="border: 0; background-color: transparent; margin: 0 0 0 10px; outline: none; color: white;"><i class="bi bi-send" style="font-size: 20px;"></i></button>
                             </div>
                         </form>
-                        {% else %}
-                        <div style="width: 100%; height: 100%; background-color: #202020; padding: 10px 10px; border: 0; border-radius: 10px; color: white; text-align: center;">
-                            <span style="">Ce produit n'est plus disponible</span>
-                        </div>
                         {% endif %}
+                        <!-- <div style="width: 100%; height: fit-content; background-color: #202020; padding: 10px 10px; border: 0; border-radius: 10px; color: white; text-align: center;">
+                            <span style="">Ce produit n'est plus disponible</span>
+                        </div> -->
+                        
                     </div>
                     {% endif %}
                 </div>
@@ -522,10 +668,12 @@
     }
     var main = document.getElementById('sectionn');
     var signal_eval = document.getElementById("menu-signal-eval");
-    signal_eval.addEventListener("click", show_menu_signal_eval);
+    if (signal_eval){
+        signal_eval.addEventListener("click", show_menu_signal_eval);
+    }
     var menu_si_ev = document.getElementById("menu_signal_eval");
     var close_menu_ev = document.getElementById("close_menu_ev");
-    close_menu_ev.addEventListener("click", show_menu_signal_eval);
+    if (close_menu_ev) close_menu_ev.addEventListener("click", show_menu_signal_eval);
     function show_menu_signal_eval(e){
         if (menu_si_ev.style.display == "none") {
             menu_si_ev.style.display = "block";
@@ -533,6 +681,44 @@
         }else{
             menu_si_ev.style.display = "none";
             main.setAttribute("style", "filter: blur(0px);")
+        }
+    }
+    {% if transaction %}
+    var stars = document.getElementsByClassName("star-rate-span");
+    if (stars){
+        {% if not transaction.note %}
+        for (star of stars){
+            star.addEventListener("click", evaluer_transaction);
+        }
+        var textarea = document.getElementById("myTextarea");
+        var wordCountDisplay = document.getElementById("wordCount");
+        wordCountDisplay.textContent = textarea.value.length + "/250";
+
+        textarea.addEventListener("input", function() {
+            var text = textarea.value;
+            var wordCount = text.length;
+            wordCountDisplay.textContent = wordCount + "/250";
+        });
+
+        {% endif %}
+    }
+    {% endif %}
+    function evaluer_transaction(e){        
+        if (e.target.tagName == "SPAN"){
+            var my_span = e.target;
+        }else if(e.target.tagName == "I"){
+            var my_span = e.target.parentElement;
+        }
+        var rating = my_span.getAttribute("value");
+        if (rating > 0 && rating <= 5){
+            var rating_transaction = document.getElementById("rating-transaction");
+            rating_transaction.value = rating;
+            if (textarea.value.length > 0){
+                var comment_transaction = document.getElementById("comment-transaction");
+                var comment = textarea.value;
+                comment_transaction.value = comment;
+            }
+            document.getElementById("transaction-form").submit();
         }
     }
 

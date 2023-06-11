@@ -80,6 +80,8 @@ class Profile(models.Model):
     phone_number = PhoneNumberField(unique =True, null=True, blank=True)
     nb_followers = models.IntegerField(default=0)
     nb_following = models.IntegerField(default=0)
+    rating = models.DecimalField(max_digits=2, decimal_places=1, null= True, blank=True,validators=[MinValueValidator(1), MaxValueValidator(5)])
+    nb_ratings = models.IntegerField(default=0)
 
     # birth_date = models.DateField(null=True, blank=True)
 
@@ -161,6 +163,6 @@ class Signal(models.Model):
     reported = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reported')
     date = models.DateTimeField(auto_now_add=True)
     comment = models.TextField(max_length=1000, default="nothing to say")
-    image = models.ImageField(upload_to='report_images/', null=True, blank=True)
+    screenshot = models.ImageField(upload_to='report_images/', null=True, blank=True)
     def __str__(self):
-        return str(self.reporter)+" "+str(self.reported)
+        return str(self.reporter)+" VS "+str(self.reported)+" , Le : "+str(self.date.date())+" à "+str(self.date.time())

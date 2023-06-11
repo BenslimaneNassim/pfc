@@ -142,7 +142,9 @@
                 <div class="post-images">
                     <a href="{% url 'page' product.seller %}">
                     <div class="profile-seller">
-                        <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt="">
+                        <!-- <img src="{{product.seller.profile.picture.url}}" class="product-img-seller" alt=""> -->
+                        <div style="background-image: url('{{product.seller.profile.picture.url}}');" class="product-img-seller"></div>
+
                         <span class="seller-name">{{product.seller}}</span>
                     </div></a>
 
