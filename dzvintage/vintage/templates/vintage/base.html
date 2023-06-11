@@ -190,6 +190,9 @@
       max-height: 80vh;
       overflow-y: auto;
     }
+    #footer a:hover{
+      color: #50dcf3!important;
+    }
   </style>
   {% block style %}
   {% endblock %}
@@ -356,8 +359,8 @@
             <div class="col-lg-4 col-md-5" style="margin-bottom:25px;">
 
               <h6 class="footer-title">Subscribe to our Newsletter !</h6>
-              <form class="d-flex" action="email/" method="POST">{% csrf_token %}
-                <input style="margin-right: 0;width:80%" type="text" placeholder="Enter Email" name="email" required>     
+              <form class="d-flex" action="" method="POST">{% csrf_token %}
+                <input style="margin-right: 0;width:80%;color: white;" type="text" placeholder="Enter Email" name="email" required>     
                 <button type="submit"><i class="bi bi-arrow-right" style="color: white;"></i></button>
               </form>
               <hr style="width: 85%;float: left">
@@ -365,10 +368,10 @@
             <div class="col-lg-4 col-md-5" style="margin-bottom:25px;">
                 <h6 class="footer-title d-flex justify-content-center">Follow us</h6><br>
                 <div class="d-flex  justify-content-center justify-content-around">
-                  <a target="blank" href="https://www.facebook.com/ricamowear/"><i style="font-size:22px;" class="bi bi-facebook"></i></a>
-                  <a target="blank" href="https://www.instagram.com/ricamowear/"><i style="font-size:22px;" class="bi bi-instagram"></i></a>
-                  <a target="blank" href="https://www.tiktok.com/@ricamowear"><i style="font-size:22px;" class="bi bi-tiktok"></i></a>
-                  <a target="blank" href="https://mail.google.com/mail/u/0/?fs=1&to=ricamowear@gmail.com&tf=cm"><i style="font-size:22px;" class="bi bi-google"></i></a>
+                  <a target="blank" href="https://www.facebook.com//"><i style="font-size:22px;" class="bi bi-facebook"></i></a>
+                  <a target="blank" href="https://www.instagram.com//"><i style="font-size:22px;" class="bi bi-instagram"></i></a>
+                  <a target="blank" href="https://www.tiktok.com/"><i style="font-size:22px;" class="bi bi-tiktok"></i></a>
+                  <a target="blank" href="mailto:vintagedz.nassimbenslimane@outlook.com"><i style="font-size:22px;" class="bi bi-google"></i></a>
 
 
                 </div>

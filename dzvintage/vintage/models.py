@@ -166,3 +166,8 @@ class Signal(models.Model):
     screenshot = models.ImageField(upload_to='report_images/', null=True, blank=True)
     def __str__(self):
         return str(self.reporter)+" VS "+str(self.reported)+" , Le : "+str(self.date.date())+" à "+str(self.date.time())
+
+class Newsletter(models.Model):
+    email = models.EmailField(max_length=254, unique=True)
+    def __str__(self):
+        return str(self.email)

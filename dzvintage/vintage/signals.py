@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from .models import Profile, Article_Like, Post, Abonnement, Transaction
+from .helpers import send_greeting_email
 
 import requests
 
@@ -18,6 +19,8 @@ import requests
 def create_profile(sender, instance, created, **kwargs):
     if created:
         profile = Profile.objects.create(user=instance)
+        if instance.email:
+            send_greeting_email(instance.email, instance.username)
         if instance.socialaccount_set.filter(provider='Google').exists():
             socialaccount = instance.socialaccount_set.get(provider='Google')
             url = socialaccount.extra_data['picture']

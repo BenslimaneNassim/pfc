@@ -32,16 +32,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from django.db.models import Max
 def index(request):
-    print(get_color(1.0))    # Output: #ff0000 (Red)
-    print(get_color(2.5))    # Output: #80ff00 (Yellowish Green)
-    print(get_color(4.75))   # Output: #00d9e6 (Bluish Cyan)
-    print(get_color(5.0))    # Output: #00ff00 (Green)
+    # send_mail(
+    #     'Test_smtp','amek dina',settings.EMAIL_HOST_USER,['nassimbenslimane123@gmail.com'], fail_silently=False
+    # )
 
     context = {}
     context = categories(request, context)
     products = Post.objects.filter(deleted=False).order_by('-nb_likes')
     new_products = Post.objects.filter(deleted=False).order_by('-created_at')
-
     posts = []
     for pr in products:
         posts.append(pr)
