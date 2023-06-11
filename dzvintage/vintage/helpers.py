@@ -13,7 +13,8 @@ def categories(request, context):
             cart_products = Post.objects.filter(id__in=carts.values_list('post', flat=True))
             context['cart_products'] = cart_products
     #check newsletter form:
-    if request.method == 'POST':
+    if request.method == 'POST' and request.POST.get('email'):
+
         email = request.POST.get('email')
         if not Newsletter.objects.filter(email=email).exists():
             newsletter = Newsletter()
