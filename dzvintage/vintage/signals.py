@@ -20,7 +20,8 @@ def create_profile(sender, instance, created, **kwargs):
     if created:
         profile = Profile.objects.create(user=instance)
         if instance.email:
-            send_greeting_email(instance.email, instance.username)
+            # send_greeting_email(instance.email, instance.username)
+            pass
         if instance.socialaccount_set.filter(provider='Google').exists():
             socialaccount = instance.socialaccount_set.get(provider='Google')
             url = socialaccount.extra_data['picture']
