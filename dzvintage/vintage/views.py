@@ -537,8 +537,8 @@ def chat(request, other_user, product_id):
         else:
             other_userr = chat.sender
         last_message = chat.message
-        if len(last_message) > 24:
-            last_message = last_message[:24] + "..."
+        if len(last_message) > 20:
+            last_message = last_message[:20] + "..."
         conversation = {
             'post': chat.post,
             'other_user': other_userr,
