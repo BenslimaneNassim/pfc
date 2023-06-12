@@ -13,7 +13,7 @@
         margin-top: 80px;
     }
 
-    html, body, .chatbox{
+    html, body, main{
         height: 100%;
     }
 
@@ -24,8 +24,8 @@
         display: none!important;}
         .main-main{
         width: 100%;
-        height: 100vh;
-        overflow: auto;
+        height: 100%;
+        overflow-y: auto;
         background-color: #202020;
     }
     .sidebar-menu{
@@ -40,7 +40,7 @@
         padding: 0;
         width: 20%;
         color: white!important;
-        height: 100vh;
+        height: 100%;
         min-width: 300px;
     }
     .sidebar-menu-inner{
@@ -250,6 +250,11 @@
         
 
 
+    }
+    @media(max-width:500px){
+        .add-pictures{
+            display: block!important;
+        }
     }
     #ricamo2{
         display: none;
