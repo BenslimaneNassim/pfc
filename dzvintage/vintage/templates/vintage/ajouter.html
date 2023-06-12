@@ -2,6 +2,21 @@
 {% load static %}
 {% block style %}
 <style>
+    @media (max-height:800px){
+        .soufel-ricamo{
+            margin-top: 0!important;
+            margin: 45px auto!important;
+        }
+    }
+    .soufel-ricamo{
+        margin: 50px auto;
+        margin-top: 80px;
+    }
+
+    html, body, .chatbox{
+        height: 100%;
+    }
+
         #header{
         display: none!important;
     }
@@ -220,7 +235,7 @@
         }
         ul > a{
         color: white;
-        font-size: 25px;
+        font-size: 22px;
         transition: all 0.3s ease-in-out;
         }
         ul > a:hover i{
@@ -288,7 +303,7 @@
     <div class="sidebar-menu justify-content-center d-flex">
 
         <div class="sidebar-menu-inner">
-            <div style="margin: 60px auto">
+            <div class="soufel-ricamo">
                
                 <h1 id="ricamo1" class="special-ricamo"><a style="color: white;" href="{% url 'index'%}">Vintage<span style="color: #50dcf3;">DZ</span></a></h1>
                 <h1 id="ricamo2" class="special-ricamo"><a style="color: #50dcf3; text-align: center;" href="{% url 'index'%}">V</a></h1>
