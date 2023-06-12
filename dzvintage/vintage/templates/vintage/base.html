@@ -408,6 +408,20 @@
   <!-- Template Main JS File -->
   <script src="{% static 'vintage/js/main.js' %}"></script>
   <script>
+    var whole_document = document.documentElement;
+    var screen_width = screen.width;
+    if (screen_width < 600){
+      function openFullscreen() {
+        if (whole_document.requestFullscreen) {
+          whole_document.requestFullscreen();
+        } else if (whole_document.webkitRequestFullscreen) { /* Safari */
+          whole_document.webkitRequestFullscreen();
+        } else if (whole_document.msRequestFullscreen) { /* IE11 */
+          whole_document.msRequestFullscreen();
+        }
+      }
+      openFullscreen();
+    }
     function showsearch(){
       document.getElementById('id01').style.display='block';
       document.getElementsByTagName('main')[0].style.display='none';
