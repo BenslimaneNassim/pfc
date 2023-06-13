@@ -84,18 +84,22 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 @csrf_exempt
 def telegram_webhook(request):
-    if request.method == 'POST':
-        async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-            await update.message.reply_text(f'Hello {update.effective_user.first_name}')
+    # if request.method == 'POST':
+        try:
+
+            async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+                await update.message.reply_text(f'Hello {update.effective_user.first_name}')
 
 
 
-        app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+            app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
-        app.add_handler(CommandHandler("hello", hello))
+            app.add_handler(CommandHandler("hello", hello))
 
-        app.run_polling()
-    return HttpResponse()
+            app.run_polling()
+        except Exception as e:
+            return HttpResponse(e)
+        return HttpResponse()
 
 
 def products(request, cat):
