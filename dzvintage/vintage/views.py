@@ -85,17 +85,24 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 @csrf_exempt
 def telegram_webhook(request):
     if request.method == 'POST':
-        async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-            await update.message.reply_text(f'Hello {update.effective_user.first_name}')
+        async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+            commands = ['/start', '/help']
+            if update.message.text not in commands:
+                await update.message.reply_text(f'Commande inconnue {update.effective_user.first_name} \n Appuyez sur /help pour plus d\'informations')
+            else:
+                await update.message.reply_text(f'Bienvenue sur VintagedZ {update.effective_user.first_name} \n Appuyez sur /help pour plus d\'informations')
 
+
+
+        async def help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+            await update.message.reply_text('Je suis là pour vous aider')
 
 
         app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
-        app.add_handler(CommandHandler("hello", hello))
+        app.add_handler(CommandHandler("start", start))
 
         app.run_polling()
-        print("ca marche")
     return HttpResponse()
 
 
