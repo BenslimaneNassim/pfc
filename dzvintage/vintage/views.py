@@ -79,32 +79,72 @@ def index(request):
 
     return render(request, 'vintage/index.html', context)
 
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-
+from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, ConversationHandler, CallbackContext, MessageHandler, Filters
 @csrf_exempt
 def telegram_webhook(request):
     # if request.method == 'POST':
-        try:
+        # try:
 
-            async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-                await update.message.reply_text(f'Hey {update.effective_user.first_name} \n Bienvenue au robot VintagedZ ! \n Click /phone Pour confirmer ton numéro de télephone')
+        #     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        #         await update.message.reply_text(f'Hey {update.effective_user.first_name} \n Bienvenue au robot VintagedZ ! \n Click /phone Pour confirmer ton numéro de télephone')
             
-            async def phone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-                await update.message.reply_text(f'Hey {update.effective_user.first_name} \n Bienvenue au robot VintagedZ ! \n Click /phone Pour confirmer ton numéro de télephone')
+        #     async def phone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        #         await update.message.reply_text(f'Hey {update.effective_user.first_name} \n Bienvenue au robot VintagedZ ! \n Click /phone Pour confirmer ton numéro de télephone')
 
 
 
 
-            app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+        #     app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
-            app.add_handler(CommandHandler("start", start))
-            app.add_handler(CommandHandler("phone", phone))
+        #     app.add_handler(CommandHandler("start", start))
+        #     app.add_handler(CommandHandler("phone", phone))
 
-            app.run_polling()
-        except Exception as e:
-            return HttpResponse(e)
-        return HttpResponse()
+        #     app.run_polling()
+        # except Exception as e:
+        #     return HttpResponse(e)
+        # return HttpResponse()
+    # if request.method == 'POST':
+    try:
+        # Define conversation states
+        PHONE_NUMBER = range(1)
+
+        async def start(update: Update, context: CallbackContext) -> None:
+            reply_keyboard = [[KeyboardButton(text="Share my phone number", request_contact=True)]]
+            markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+            await update.message.reply_text(
+                f'Hey {update.effective_user.first_name}!\nWelcome to the VintagedZ bot!\nPlease click the button below to confirm your phone number.',
+                reply_markup=markup
+            )
+            return PHONE_NUMBER
+
+        async def phone(update: Update, context: CallbackContext) -> None:
+            user = update.effective_user
+            phone_number = update.message.contact.phone_number
+            # Do something with the phone number (e.g., store it in a database, use it for authentication, etc.)
+            await update.message.reply_text(f'Thank you, {user.first_name}! Your phone number ({phone_number}) has been confirmed.')
+            return ConversationHandler.END
+
+        async def cancel(update: Update, context: CallbackContext) -> None:
+            await update.message.reply_text('Conversation canceled.')
+            return ConversationHandler.END
+
+        app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+
+        conv_handler = ConversationHandler(
+            entry_points=[CommandHandler('start', start)],
+            states={
+                PHONE_NUMBER: [MessageHandler(Filters.contact, phone)],
+            },
+            fallbacks=[CommandHandler('cancel', cancel)]
+        )
+
+        app.add_handler(conv_handler)
+
+        app.run_polling()
+    except Exception as e:
+        return HttpResponse(e)
+    return HttpResponse()
 
 
 def products(request, cat):
