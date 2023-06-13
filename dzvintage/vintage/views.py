@@ -111,10 +111,10 @@ def telegram_webhook(request):
         PHONE_NUMBER = range(1)
 
         async def start(update: Update, context: CallbackContext) -> None:
-            reply_keyboard = [[KeyboardButton(text="Share my phone number", request_contact=True)]]
+            reply_keyboard = [[KeyboardButton(text="Confirmer mon numéro de télephone", request_contact=True)]]
             markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
             await update.message.reply_text(
-                f'Hey {update.effective_user.first_name}!\nWelcome to the VintagedZ bot!\nPlease click the button below to confirm your phone number.',
+                f'Hey {update.effective_user.first_name}!\nBienvenue au robot VintagedZ!\nClickez sur le bouton en bas pour confirmer votre numéro de télephone.',
                 reply_markup=markup
             )
             return PHONE_NUMBER
@@ -123,7 +123,7 @@ def telegram_webhook(request):
             user = update.effective_user
             phone_number = update.message.contact.phone_number
             # Do something with the phone number (e.g., store it in a database, use it for authentication, etc.)
-            await update.message.reply_text(f'Thank you, {user.first_name}! Your phone number ({phone_number}) has been confirmed.')
+            await update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
             return ConversationHandler.END
 
         async def cancel(update: Update, context: CallbackContext) -> None:
