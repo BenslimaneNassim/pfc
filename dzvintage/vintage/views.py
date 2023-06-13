@@ -6,6 +6,8 @@ from django.conf import settings
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.db.models import Q
+from asgiref.sync import sync_to_async
+
 #from .forms import CommandeForm 
 import json
 import urllib
@@ -93,24 +95,43 @@ def telegram_webhook(request):
                 )
                 return phone(update, context)
             
+            # async def phone(update: Update, context: CallbackContext) -> None:
+            #     user = update.effective_user
+            #     phone_number = update.message.contact.phone_number
+            #     profile = Profile.objects.filter(phone_number=phone_number)
+            #     if profile.exists():
+            #         profil = profile.first()
+            #         if profil.phone_confirmed == False:
+            #             profil.phone_confirmed = True
+            #             profil.save()
+            #             await update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
+            #             return start(update, context)
+            #         elif profile.phone_confirmed == True:
+            #             await update.message.reply_text(f'{user.first_name} Votre numéro {phone_number} a déja été confirmé.\nVous êtes un utilisateur vérifié')
+            #             return start(update, context)
+            #     else:
+            #         await update.message.reply_text(f'{user.first_name} Votre profile n\'existe pas! \nCréez un compte sur vintagedz.pythonanywhere.com/login')
+            #         return start(update, context)
+                
             async def phone(update: Update, context: CallbackContext) -> None:
                 user = update.effective_user
                 phone_number = update.message.contact.phone_number
-                profile = Profile.objects.filter(phone_number=phone_number)
-                if profile.exists():
-                    profil = profile.first()
-                    if profil.phone_confirmed == False:
+
+                # Convert the synchronous query to an asynchronous operation
+                profile_exists = await sync_to_async(Profile.objects.filter(phone_number=str(phone_number)).exists)()
+
+                if profile_exists:
+                    profil = await sync_to_async(Profile.objects.filter(phone_number=str(phone_number)).first)()
+                    if not profil.phone_confirmed:
                         profil.phone_confirmed = True
-                        profil.save()
+                        await sync_to_async(profil.save)()
                         await update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
-                        return start(update, context)
-                    elif profile.phone_confirmed == True:
-                        await update.message.reply_text(f'{user.first_name} Votre numéro {phone_number} a déja été confirmé.\nVous êtes un utilisateur vérifié')
-                        return start(update, context)
+                    else:
+                        await update.message.reply_text(f'{user.first_name} Votre numéro {phone_number} a déjà été confirmé.\nVous êtes un utilisateur vérifié')
                 else:
-                    await update.message.reply_text(f'{user.first_name} Votre profile n\'existe pas! \nCréez un compte sur vintagedz.pythonanywhere.com/login')
-                    return start(update, context)
-                
+                    await update.message.reply_text(f'{user.first_name} Votre profil n\'existe pas! \nCréez un compte sur vintagedz.pythonanywhere.com/login')
+
+                return ConversationHandler.END            
             async def cancel(update: Update, context: CallbackContext) -> None:
                 await update.message.reply_text('Conversation canceled.')
                 return start(update, context)
