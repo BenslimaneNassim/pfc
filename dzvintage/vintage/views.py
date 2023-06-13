@@ -84,27 +84,6 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Conve
 
 @csrf_exempt
 def telegram_webhook(request):
-    # if request.method == 'POST':
-        # try:
-
-        #     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-        #         await update.message.reply_text(f'Hey {update.effective_user.first_name} \n Bienvenue au robot VintagedZ ! \n Click /phone Pour confirmer ton numéro de télephone')
-            
-        #     async def phone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-        #         await update.message.reply_text(f'Hey {update.effective_user.first_name} \n Bienvenue au robot VintagedZ ! \n Click /phone Pour confirmer ton numéro de télephone')
-
-
-
-
-        #     app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
-
-        #     app.add_handler(CommandHandler("start", start))
-        #     app.add_handler(CommandHandler("phone", phone))
-
-        #     app.run_polling()
-        # except Exception as e:
-        #     return HttpResponse(e)
-        # return HttpResponse()
     if request.method == 'POST':
         try:
             # Define conversation states
@@ -121,17 +100,16 @@ def telegram_webhook(request):
 
             async def phone(update: Update, context: CallbackContext) -> None:
                 user = update.effective_user
+                first_name = user.first_name
                 phone_number = update.message.contact.phone_number
                 # Do something with the phone number (e.g., store it in a database, use it for authentication, etc.)
-                message_reply = confirm_phone_number(user, phone_number)
+                message_reply = confirm_phone_number(first_name, phone_number)
                 await update.message.reply_text(message_reply)
                 return ConversationHandler.END
 
             async def cancel(update: Update, context: CallbackContext) -> None:
                 await update.message.reply_text('Conversation canceled.')
                 return ConversationHandler.END
-
-            app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
             conv_handler = ConversationHandler(
                 entry_points=[CommandHandler('start', start)],
