@@ -86,10 +86,10 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 def telegram_webhook(request):
     if request.method == 'POST':
         async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-            commands = ['/start', '/help']
-            # if update.message.text not in commands:
-            #     await update.message.reply_text(f'Commande inconnue {update.effective_user.first_name} \n Appuyez sur /help pour plus d\'informations')
-            # else:
+        # commands = ['/start', '/help']
+        # if update.message.text not in commands:
+        #     await update.message.reply_text(f'Commande inconnue {update.effective_user.first_name} \n Appuyez sur /help pour plus d\'informations')
+        # else:
             await update.message.reply_text(f'Bienvenue sur VintagedZ {update.effective_user.first_name} \n Appuyez sur /help pour plus d\'informations')
 
 
