@@ -394,7 +394,7 @@
                             <p><input id="email_field" name="email" type="text" value="{{user.email}}"></p>
                             {% endif %}
                             <p><input name="username" type="text" value="{{user.username}}" required></p>
-                            <p><input id="phone_number" name="phone_number" pattern="0[5-7]{1}[0-9]{8}" type="tel" {% if profile.phone_number %} value="{{profile.phone_number}}" {% else %} placeholder="Numéro de Télephone" {% endif %}></p>
+                            <p><input id="phone_number" name="phone_number" pattern="0[5-7]{1}[0-9]{8}" type="tel" {% if profile.phone_number %} value="{{profile.phone_number}}" {% else %} placeholder="Numéro de Télephone" {% endif %}>{% if profile.phone_confirmed %}<i style="color: #50dcf3; font-size: 20px;margin-left: 3px;" class="bi bi-check-circle-fill"></i>{% endif %}</i></p>
                             <p><select name="wilaya" id="city" style="padding: 6px 30px; border-radius: 5px; background-color: #474747; border: none; color: white;">
                                 <option disabled selected>wilaya</option>
                                 {% for key, value in wilayas %}

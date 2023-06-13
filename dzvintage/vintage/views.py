@@ -144,7 +144,7 @@ def telegram_webhook(request):
             await update.message.reply_text('Conversation canceled.')
             return ConversationHandler.END
 
-        app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+        # app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
         conv_handler = ConversationHandler(
             entry_points=[CommandHandler('start', start)],
@@ -227,6 +227,7 @@ def profile(request):
                     return render(request, 'vintage/profile.html', context)
                 else:
                     profile.phone_number = phone_number
+                    profile.phone_confirmed = False
                     profile.save()
         if request.POST.get('first_name'):
             first_name = request.POST.get('first_name')
