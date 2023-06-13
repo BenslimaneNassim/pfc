@@ -138,6 +138,7 @@ def telegram_webhook(request):
             },
             fallbacks=[CommandHandler('cancel', cancel)]
         )
+        app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
         app.add_handler(conv_handler)
 
