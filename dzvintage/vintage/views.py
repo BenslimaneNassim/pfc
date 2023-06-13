@@ -12,6 +12,7 @@ import urllib
 #from .helpers import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
@@ -77,6 +78,27 @@ def index(request):
 
 
     return render(request, 'vintage/index.html', context)
+
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+
+@csrf_exempt
+def telegram_webhook(request):
+    if request.method == 'POST':
+        # async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        #     await update.message.reply_text(f'Hello {update.effective_user.first_name}')
+
+
+
+        # app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+
+        # app.add_handler(CommandHandler("hello", hello))
+
+        # app.run_polling()
+        print("ca marche")
+    return HttpResponse()
+
+
 def products(request, cat):
     context = {}
     context = categories(request, context)

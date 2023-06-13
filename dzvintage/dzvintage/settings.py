@@ -224,3 +224,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'
+
+TELEGRAM_BOT_TOKEN = '5751003858:AAH5ig0KiOzHnA6MacLxLe3ItTFv7On__rk'
+# TELEGRAM_BOT_WEBHOOK_URL = 'https://vintagedz.pythonanywhere.com/telegrambot/'
+TELEGRAM_BOT_WEBHOOK_URL = 'http://127.0.0.1:8000/telegrambot/'

@@ -2,6 +2,8 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from telegram import Bot
+from django.conf import settings
 
 
 def main():
@@ -15,6 +17,8 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+    # bot = Bot(token=settings.TELEGRAM_BOT_TOKEN)
+    # bot.set_webhook(settings.TELEGRAM_BOT_WEBHOOK_URL)
     execute_from_command_line(sys.argv)
 
 

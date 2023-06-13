@@ -26,5 +26,5 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('profile/password_change/', views.CustomPasswordChangeView.as_view(), name='password_change'),
     path('profile/password_change/done/', views.CustomPasswordChangeDoneView.as_view(), name='password_change_done'),
-
+    path('telegrambot/',views.telegram_webhook,name='telegram_webhook'),
 ]
