@@ -86,7 +86,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Conve
 def telegram_webhook(request):
     if request.method == 'POST':
 
-        try:
+        # try:
             # Define conversation states
             PHONE_NUMBER = range(1)
 
@@ -142,10 +142,11 @@ def telegram_webhook(request):
             app.add_handler(MessageHandler(filters.CONTACT, phone))
             app.add_handler(CommandHandler('cancel', cancel))
             
+            
 
             app.run_polling()
-        except Exception as e:
-            return HttpResponse(e)
+        # except Exception as e:
+        #     return HttpResponse(e)
     return HttpResponse()
 
 
