@@ -39,3 +39,16 @@ def send_newsletter_subscribing_email(email):
     from_email = settings.EMAIL_HOST_USER
     recipient_list = [email]
     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+def confirm_phone_number(user, phone_number):
+    profile = Profile.objects.filter(phone_number=phone_number)
+    if profile.exists() and not profile.phone_confirmed :
+        profile.phone_confirmed = True
+        message_reply = (f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
+        return message_reply
+    elif profile.phone_confirmed:
+        message_reply = (f'{user.first_name} Votre numéro {phone_number} a déja été confirmé.\nVous êtes un utilisateur vérifié')
+        return message_reply
+    else:
+        message_reply = (f'{user.first_name} Votre profile n\'existe pas! \nCréez un compte sur vintagedz.pythonanywhere.com/login')
+        return message_reply

@@ -78,6 +78,7 @@ class Profile(models.Model):
     wilaya = models.CharField(max_length=2, choices=WILAYAS, null=True, blank=True) 
     picture = models.ImageField(upload_to='profilepics/', default='profilepics/default_pp.png')
     phone_number = PhoneNumberField(unique =True, null=True, blank=True)
+    phone_confirmed = models.BooleanField(default=False)
     nb_followers = models.IntegerField(default=0)
     nb_following = models.IntegerField(default=0)
     rating = models.DecimalField(max_digits=2, decimal_places=1, null= True, blank=True,validators=[MinValueValidator(1), MaxValueValidator(5)])

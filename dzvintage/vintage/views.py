@@ -123,7 +123,8 @@ def telegram_webhook(request):
             user = update.effective_user
             phone_number = update.message.contact.phone_number
             # Do something with the phone number (e.g., store it in a database, use it for authentication, etc.)
-            await update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
+            message_reply = confirm_phone_number(user, phone_number)
+            await update.message.reply_text(message_reply)
             return ConversationHandler.END
 
         async def cancel(update: Update, context: CallbackContext) -> None:
