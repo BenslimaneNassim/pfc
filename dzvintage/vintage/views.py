@@ -84,47 +84,68 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Conve
 
 @csrf_exempt
 def telegram_webhook(request):
-    if request.method == 'POST':
-        try:
-            # Define conversation states
-            PHONE_NUMBER = range(1)
+    # if request.method == 'POST':
+        # try:
 
-            async def start(update: Update, context: CallbackContext) -> None:
-                reply_keyboard = [[KeyboardButton(text="Confirmer mon numéro de télephone", request_contact=True)]]
-                markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
-                await update.message.reply_text(
-                    f'Hey {update.effective_user.first_name}!\nBienvenue au robot VintagedZ!\nClickez sur le bouton en bas pour confirmer votre numéro de télephone.',
-                    reply_markup=markup
-                )
-                return PHONE_NUMBER
+        #     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        #         await update.message.reply_text(f'Hey {update.effective_user.first_name} \n Bienvenue au robot VintagedZ ! \n Click /phone Pour confirmer ton numéro de télephone')
+            
+        #     async def phone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        #         await update.message.reply_text(f'Hey {update.effective_user.first_name} \n Bienvenue au robot VintagedZ ! \n Click /phone Pour confirmer ton numéro de télephone')
 
-            async def phone(update: Update, context: CallbackContext) -> None:
-                user = update.effective_user
-                first_name = user.first_name
-                phone_number = str(update.message.contact.phone_number)
-                # Do something with the phone number (e.g., store it in a database, use it for authentication, etc.)
-                message_reply = confirm_phone_number(first_name, phone_number)
-                await update.message.reply_text(message_reply)
-                return ConversationHandler.END
 
-            async def cancel(update: Update, context: CallbackContext) -> None:
-                await update.message.reply_text('Conversation canceled.')
-                return ConversationHandler.END
 
-            conv_handler = ConversationHandler(
-                entry_points=[CommandHandler('start', start)],
-                states={
-                    PHONE_NUMBER: [MessageHandler(filters.CONTACT, phone)],
-                },
-                fallbacks=[CommandHandler('cancel', cancel)]
+
+        #     app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+
+        #     app.add_handler(CommandHandler("start", start))
+        #     app.add_handler(CommandHandler("phone", phone))
+
+        #     app.run_polling()
+        # except Exception as e:
+        #     return HttpResponse(e)
+        # return HttpResponse()
+    # if request.method == 'POST':
+    try:
+        # Define conversation states
+        PHONE_NUMBER = range(1)
+
+        async def start(update: Update, context: CallbackContext) -> None:
+            reply_keyboard = [[KeyboardButton(text="Confirmer mon numéro de télephone", request_contact=True)]]
+            markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+            await update.message.reply_text(
+                f'Hey {update.effective_user.first_name}!\nBienvenue au robot VintagedZ!\nClickez sur le bouton en bas pour confirmer votre numéro de télephone.',
+                reply_markup=markup
             )
-            app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+            return PHONE_NUMBER
 
-            app.add_handler(conv_handler)
+        async def phone(update: Update, context: CallbackContext) -> None:
+            user = update.effective_user
+            phone_number = update.message.contact.phone_number
+            # Do something with the phone number (e.g., store it in a database, use it for authentication, etc.)
+            await update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
+            return ConversationHandler.END
 
-            app.run_polling()
-        except Exception as e:
-            return HttpResponse(e)
+        async def cancel(update: Update, context: CallbackContext) -> None:
+            await update.message.reply_text('Conversation canceled.')
+            return ConversationHandler.END
+
+        app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+
+        conv_handler = ConversationHandler(
+            entry_points=[CommandHandler('start', start)],
+            states={
+                PHONE_NUMBER: [MessageHandler(filters.CONTACT, phone)],
+            },
+            fallbacks=[CommandHandler('cancel', cancel)]
+        )
+        app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+
+        app.add_handler(conv_handler)
+
+        app.run_polling()
+    except Exception as e:
+        return HttpResponse(e)
     return HttpResponse()
 
 
