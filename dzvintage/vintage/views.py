@@ -122,11 +122,12 @@ def telegram_webhook(request):
         async def phone(update: Update, context: CallbackContext) -> None:
             user = update.effective_user
             phone_number = update.message.contact.phone_number
-            profile = Profile.objects.filter(phone_number=str(phone_number)).first()
-            if profile:
-                if profile.phone_confirmed == False:
-                    profile.phone_confirmed = True
-                    profile.save()
+            profile = Profile.objects.filter(phone_number=str(phone_number))
+            if profile.exists():
+                profil = profile.first()
+                if profil.phone_confirmed == False:
+                    profil.phone_confirmed = True
+                    profil.save()
                     await update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
                     return ConversationHandler.END
                 elif profile.phone_confirmed == True:
