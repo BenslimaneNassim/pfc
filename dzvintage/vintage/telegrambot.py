@@ -23,14 +23,14 @@
 #     updater.idle()
 
 
-#Now we rewrite the same code but with version > 20.0 of python-telegram-bot
+# Now we rewrite the same code but with version > 20.0 of python-telegram-bot
 
 # from telegram import Update
 # from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 
 # async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-#     await update.message.reply_text(f'Hello {update.effective_user.first_name}')
+#     await update.message.reply_text(f'Hello {update.message.chat.first_name}')
 
 
 
