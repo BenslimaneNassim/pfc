@@ -17,8 +17,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
 from django.views import View
-
-
 # Create your views here.
 from django.views.generic import RedirectView, View
 from django.urls import reverse_lazy
@@ -86,10 +84,6 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Conve
 def telegram_webhook(request):
     if request.method == 'POST':
 
-        # try:
-            # Define conversation states
-            PHONE_NUMBER = range(1)
-
             async def start(update: Update, context: CallbackContext) -> None:
                 reply_keyboard = [[KeyboardButton(text="Confirmer mon numéro de télephone", request_contact=True)]]
                 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
@@ -103,17 +97,17 @@ def telegram_webhook(request):
             async def phone(update: Update, context: CallbackContext) -> None:
                 user = update.effective_user
                 phone_number = update.message.contact.phone_number
-                profile = Profile.objects.filter(phone_number=str(phone_number))
+                profile = Profile.objects.filter(phone_number=phone_number)
                 if profile.exists():
                     profil = profile.first()
                     if profil.phone_confirmed == False:
                         profil.phone_confirmed = True
                         profil.save()
                         await update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
-                        return ConversationHandler.END
+                        return start(update, context)
                     elif profile.phone_confirmed == True:
                         await update.message.reply_text(f'{user.first_name} Votre numéro {phone_number} a déja été confirmé.\nVous êtes un utilisateur vérifié')
-                        return ConversationHandler.END
+                        return start(update, context)
                 else:
                     await update.message.reply_text(f'{user.first_name} Votre profile n\'existe pas! \nCréez un compte sur vintagedz.pythonanywhere.com/login')
                     return start(update, context)
