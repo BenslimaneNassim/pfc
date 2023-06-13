@@ -80,7 +80,7 @@ def index(request):
     return render(request, 'vintage/index.html', context)
 
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, ConversationHandler, CallbackContext, MessageHandler, Filters
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, ConversationHandler, CallbackContext, MessageHandler, filters
 @csrf_exempt
 def telegram_webhook(request):
     # if request.method == 'POST':
@@ -134,7 +134,7 @@ def telegram_webhook(request):
         conv_handler = ConversationHandler(
             entry_points=[CommandHandler('start', start)],
             states={
-                PHONE_NUMBER: [MessageHandler(Filters.contact, phone)],
+                PHONE_NUMBER: [MessageHandler(filters.contact, phone)],
             },
             fallbacks=[CommandHandler('cancel', cancel)]
         )
