@@ -87,14 +87,19 @@ def telegram_webhook(request):
     # if request.method == 'POST':
         try:
 
-            async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-                await update.message.reply_text(f'Hello {update.effective_user.first_name}')
+            async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+                await update.message.reply_text(f'Hey {update.effective_user.first_name} \n Bienvenue au robot VintagedZ ! \n Click /phone Pour confirmer ton numéro de télephone')
+            
+            async def phone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+                await update.message.reply_text(f'Hey {update.effective_user.first_name} \n Bienvenue au robot VintagedZ ! \n Click /phone Pour confirmer ton numéro de télephone')
+
 
 
 
             app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
-            app.add_handler(CommandHandler("hello", hello))
+            app.add_handler(CommandHandler("start", start))
+            app.add_handler(CommandHandler("phone", phone))
 
             app.run_polling()
         except Exception as e:
