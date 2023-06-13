@@ -83,7 +83,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Conve
 @csrf_exempt
 def telegram_webhook(request):
     if request.method == 'POST':
-
+        try:
             async def start(update: Update, context: CallbackContext) -> None:
                 reply_keyboard = [[KeyboardButton(text="Confirmer mon numéro de télephone", request_contact=True)]]
                 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
@@ -92,8 +92,7 @@ def telegram_webhook(request):
                     reply_markup=markup
                 )
                 return phone(update, context)
-                # return PHONE_NUMBER
-
+            
             async def phone(update: Update, context: CallbackContext) -> None:
                 user = update.effective_user
                 phone_number = update.message.contact.phone_number
@@ -111,27 +110,11 @@ def telegram_webhook(request):
                 else:
                     await update.message.reply_text(f'{user.first_name} Votre profile n\'existe pas! \nCréez un compte sur vintagedz.pythonanywhere.com/login')
                     return start(update, context)
-
-                # Do something with the phone number (e.g., store it in a database, use it for authentication, etc.)
-                # await update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
-                # return ConversationHandler.END
-
+                
             async def cancel(update: Update, context: CallbackContext) -> None:
                 await update.message.reply_text('Conversation canceled.')
                 return start(update, context)
-
-            # app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
-
-            # conv_handler = ConversationHandler(
-            #     entry_points=[CommandHandler('start', start)],
-            #     states={
-            #         PHONE_NUMBER: [MessageHandler(filters.CONTACT, phone)],
-            #     },
-            #     fallbacks=[CommandHandler('cancel', cancel)]
-            # )
             app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
-
-            # app.add_handler(conv_handler)
             app.add_handler(CommandHandler('start', start))
             app.add_handler(MessageHandler(filters.CONTACT, phone))
             app.add_handler(CommandHandler('cancel', cancel))
@@ -139,8 +122,8 @@ def telegram_webhook(request):
             
 
             app.run_polling()
-        # except Exception as e:
-        #     return HttpResponse(e)
+        except Exception as e:
+            return HttpResponse(e)
     return HttpResponse()
 
 
