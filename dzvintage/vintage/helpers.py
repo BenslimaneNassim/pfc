@@ -41,7 +41,7 @@ def send_newsletter_subscribing_email(email):
     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
 def confirm_phone_number(first_name, phone_number):
-    profile = Profile.objects.filter(phone_number=phone_number)
+    profile = Profile.objects.filter(phone_number=phone_number).first()
     if profile.exists() and not profile.phone_confirmed :
         profile.phone_confirmed = True
         message_reply = (f'Merci, {first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
