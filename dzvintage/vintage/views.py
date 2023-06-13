@@ -97,7 +97,8 @@ def telegram_webhook(request):
                     f'Hey {update.effective_user.first_name}!\nBienvenue au robot VintagedZ!\nClickez sur le bouton en bas pour confirmer votre numéro de télephone.',
                     reply_markup=markup
                 )
-                return PHONE_NUMBER
+                return phone(update, context)
+                # return PHONE_NUMBER
 
             async def phone(update: Update, context: CallbackContext) -> None:
                 user = update.effective_user
@@ -127,16 +128,20 @@ def telegram_webhook(request):
 
             # app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
-            conv_handler = ConversationHandler(
-                entry_points=[CommandHandler('start', start)],
-                states={
-                    PHONE_NUMBER: [MessageHandler(filters.CONTACT, phone)],
-                },
-                fallbacks=[CommandHandler('cancel', cancel)]
-            )
+            # conv_handler = ConversationHandler(
+            #     entry_points=[CommandHandler('start', start)],
+            #     states={
+            #         PHONE_NUMBER: [MessageHandler(filters.CONTACT, phone)],
+            #     },
+            #     fallbacks=[CommandHandler('cancel', cancel)]
+            # )
             app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
-            app.add_handler(conv_handler)
+            # app.add_handler(conv_handler)
+            app.add_handler(CommandHandler('start', start))
+            app.add_handler(MessageHandler(filters.CONTACT, phone))
+            app.add_handler(CommandHandler('cancel', cancel))
+            
 
             app.run_polling()
         except Exception as e:
