@@ -41,13 +41,14 @@ def send_newsletter_subscribing_email(email):
     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
 def confirm_phone_number(first_name, phone_number):
+
     profile = Profile.objects.filter(phone_number=phone_number).first()
     if profile:
-        if not profile.phone_confirmed:
+        if profile.phone_confirmed == False:
             profile.phone_confirmed = True
             message_reply = (f'Merci, {first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
             return message_reply
-        elif profile.phone_confirmed:
+        elif profile.phone_confirmed == True:
             message_reply = (f'{first_name} Votre numéro {phone_number} a déja été confirmé.\nVous êtes un utilisateur vérifié')
             return message_reply
     else:
