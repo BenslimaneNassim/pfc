@@ -87,10 +87,10 @@ def telegram_webhook(request):
     if request.method == 'POST':
         async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             commands = ['/start', '/help']
-            if update.message.text not in commands:
-                await update.message.reply_text(f'Commande inconnue {update.effective_user.first_name} \n Appuyez sur /help pour plus d\'informations')
-            else:
-                await update.message.reply_text(f'Bienvenue sur VintagedZ {update.effective_user.first_name} \n Appuyez sur /help pour plus d\'informations')
+            # if update.message.text not in commands:
+            #     await update.message.reply_text(f'Commande inconnue {update.effective_user.first_name} \n Appuyez sur /help pour plus d\'informations')
+            # else:
+            await update.message.reply_text(f'Bienvenue sur VintagedZ {update.effective_user.first_name} \n Appuyez sur /help pour plus d\'informations')
 
 
 
@@ -101,6 +101,7 @@ def telegram_webhook(request):
         app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
 
         app.add_handler(CommandHandler("start", start))
+        app.add_handler(CommandHandler("help", help))
 
         app.run_polling()
     return HttpResponse()
