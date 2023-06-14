@@ -85,53 +85,11 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Conve
 @csrf_exempt
 def telegram_webhook(request):
     if request.method == 'POST':
-        # try:
-        #     async def start(update: Update, context: CallbackContext) -> None:
-        #         reply_keyboard = [[KeyboardButton(text="Confirmer mon numéro de télephone", request_contact=True)]]
-        #         markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
-        #         await update.message.reply_text(
-        #             f'Hey {update.effective_user.first_name}!\nBienvenue au robot VintagedZ!\nClickez sur le bouton en bas pour confirmer votre numéro de télephone.',
-        #             reply_markup=markup
-        #         )
-        #         return phone(update, context)
-                            
-        #     async def phone(update: Update, context: CallbackContext) -> None:
-        #         user = update.effective_user
-        #         phone_number = update.message.contact.phone_number
-
-        #         # Convert the synchronous query to an asynchronous operation
-        #         profile_exists = await sync_to_async(Profile.objects.filter(phone_number=str(phone_number)).exists)()
-
-        #         if profile_exists:
-        #             profil = await sync_to_async(Profile.objects.filter(phone_number=str(phone_number)).first)()
-        #             if not profil.phone_confirmed:
-        #                 profil.phone_confirmed = True
-        #                 await sync_to_async(profil.save)()
-        #                 await update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
-        #             else:
-        #                 await update.message.reply_text(f'{user.first_name} Votre numéro {phone_number} a déjà été confirmé.\nVous êtes un utilisateur vérifié')
-        #         else:
-        #             await update.message.reply_text(f'{user.first_name} Votre profil n\'existe pas! \nCréez un compte sur vintagedz.pythonanywhere.com/login')
-
-        #         return ConversationHandler.END
-        #     async def cancel(update: Update, context: CallbackContext) -> None:
-        #         await update.message.reply_text('Conversation canceled.')
-        #         return start(update, context)
-        #     app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
-        #     app.add_handler(CommandHandler('start', start))
-        #     app.add_handler(MessageHandler(filters.CONTACT, phone))
-        #     app.add_handler(CommandHandler('cancel', cancel))
-            
-            
-
-        #     app.run_polling()
-        # except Exception as e:
-        #     return HttpResponse(e)
         try:
-            def start(update: Update, context: CallbackContext) -> None:
+            async def start(update: Update, context: CallbackContext) -> None:
                 reply_keyboard = [[KeyboardButton(text="Confirmer mon numéro de télephone", request_contact=True)]]
                 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
-                update.message.reply_text(
+                await update.message.reply_text(
                     f'Hey {update.effective_user.first_name}!\nBienvenue au robot VintagedZ!\nClickez sur le bouton en bas pour confirmer votre numéro de télephone.',
                     reply_markup=markup
                 )
@@ -142,22 +100,22 @@ def telegram_webhook(request):
                 phone_number = update.message.contact.phone_number
 
                 # Convert the synchronous query to an asynchronous operation
-                profile_exists = Profile.objects.filter(phone_number=str(phone_number)).exists()
+                profile_exists = await sync_to_async(Profile.objects.filter(phone_number=str(phone_number)).exists)()
 
                 if profile_exists:
-                    profil = Profile.objects.filter(phone_number=str(phone_number)).first()
+                    profil = await sync_to_async(Profile.objects.filter(phone_number=str(phone_number)).first)()
                     if not profil.phone_confirmed:
                         profil.phone_confirmed = True
-                        profil.save()
-                        update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
+                        await sync_to_async(profil.save)()
+                        await update.message.reply_text(f'Merci, {user.first_name}! Votre numéro {phone_number} a été confirmé.\nVous êtes maintenant un utilisateur vérifié')
                     else:
-                        update.message.reply_text(f'{user.first_name} Votre numéro {phone_number} a déjà été confirmé.\nVous êtes un utilisateur vérifié')
+                        await update.message.reply_text(f'{user.first_name} Votre numéro {phone_number} a déjà été confirmé.\nVous êtes un utilisateur vérifié')
                 else:
-                    update.message.reply_text(f'{user.first_name} Votre profil n\'existe pas! \nCréez un compte sur vintagedz.pythonanywhere.com/login')
+                    await update.message.reply_text(f'{user.first_name} Votre profil n\'existe pas! \nCréez un compte sur vintagedz.pythonanywhere.com/login')
 
                 return ConversationHandler.END
-            def cancel(update: Update, context: CallbackContext) -> None:
-                update.message.reply_text('Conversation canceled.')
+            async def cancel(update: Update, context: CallbackContext) -> None:
+                await update.message.reply_text('Conversation canceled.')
                 return start(update, context)
             app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
             app.add_handler(CommandHandler('start', start))
@@ -169,7 +127,6 @@ def telegram_webhook(request):
             app.run_polling()
         except Exception as e:
             return HttpResponse(e)
-
     return HttpResponse()
 
 
