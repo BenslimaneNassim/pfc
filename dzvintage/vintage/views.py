@@ -126,8 +126,8 @@ def telegram_webhook(request):
                 await async_to_sync(app.process_update)(update)
             # loop = asyncio.get_event_loop()
             # loop.run_until_complete(process_update(app, update))
-            if __name__ == '__main__':
-                asyncio.run(main())
+            # if __name__ == '__main__':
+            asyncio.run(main())
 
 
             return HttpResponse()
