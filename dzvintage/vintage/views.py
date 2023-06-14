@@ -123,10 +123,10 @@ def telegram_webhook(request):
             
             
 
-            app.run_polling()
+            # app.run_polling()
         # except Exception as e:
         #     return HttpResponse(e)
-    # return HttpResponse()
+    return HttpResponse()
 
 
 def products(request, cat):
