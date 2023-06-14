@@ -123,7 +123,7 @@ def telegram_webhook(request):
                 app.add_handler(MessageHandler(filters.CONTACT, phone))
                 app.add_handler(CommandHandler('cancel', cancel))
                 update = Update.de_json(json.loads(request.body.decode('utf-8')), app.bot)
-                await async_to_sync(app.process_update)(update)
+                await app.process_update(update)
             # loop = asyncio.get_event_loop()
             # loop.run_until_complete(process_update(app, update))
             # if __name__ == '__main__':
