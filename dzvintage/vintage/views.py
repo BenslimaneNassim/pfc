@@ -84,7 +84,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Conve
 import asyncio
 @csrf_exempt
 def telegram_webhook(request):
-    if request.method == 'POST':
+    # if request.method == 'POST':
             async def start(update: Update, context: CallbackContext) -> None:
                 reply_keyboard = [[KeyboardButton(text="Confirmer mon numéro de télephone", request_contact=True)]]
                 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
@@ -130,7 +130,7 @@ def telegram_webhook(request):
                 asyncio.run(main())
 
 
-    return HttpResponse()
+            return HttpResponse()
 
 
 
