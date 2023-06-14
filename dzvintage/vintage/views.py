@@ -119,6 +119,7 @@ def telegram_webhook(request):
             
             async def main():
                 app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+                await app.initialize()
                 app.add_handler(CommandHandler('start', start))
                 app.add_handler(MessageHandler(filters.CONTACT, phone))
                 app.add_handler(CommandHandler('cancel', cancel))
