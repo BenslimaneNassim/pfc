@@ -124,8 +124,8 @@ def telegram_webhook(request):
             
 
             # app.run_polling()
-        # except Exception as e:
-        #     return HttpResponse(e)
+            update = Update.de_json(json.loads(request.body.decode('utf-8')), app.bot)
+            app.process_update(update)
     return HttpResponse()
 
 
