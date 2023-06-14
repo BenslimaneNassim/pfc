@@ -130,7 +130,7 @@ def telegram_webhook(request):
                 asyncio.run(main())
 
 
-    # return HttpResponse()
+    return HttpResponse()
 
 
 
