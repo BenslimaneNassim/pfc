@@ -116,22 +116,22 @@ def telegram_webhook(request):
             async def cancel(update: Update, context: CallbackContext) -> None:
                 await update.message.reply_text('Conversation canceled.')
                 return start(update, context)
-            app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
-            app.add_handler(CommandHandler('start', start))
-            app.add_handler(MessageHandler(filters.CONTACT, phone))
-            app.add_handler(CommandHandler('cancel', cancel))
             
-            
+            async def main():
+                app = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).build()
+                app.add_handler(CommandHandler('start', start))
+                app.add_handler(MessageHandler(filters.CONTACT, phone))
+                app.add_handler(CommandHandler('cancel', cancel))
+                update = Update.de_json(json.loads(request.body.decode('utf-8')), app.bot)
+                await async_to_sync(app.process_update)(update)
+            # loop = asyncio.get_event_loop()
+            # loop.run_until_complete(process_update(app, update))
+            if __name__ == '__main__':
+                asyncio.run(main())
 
-            # app.run_polling()
-            # update = Update.de_json(json.loads(request.body.decode('utf-8')), app.bot)
-            # app.process_update(update)
-            # update = Update.de_json(json.loads(request.body.decode('utf-8')), app.bot)
-            # await async_to_sync(app.process_update)(update)
-            loop = asyncio.get_event_loop()
-            loop.run_until_complete(app.process_update(update))
 
-    return HttpResponse()
+    # return HttpResponse()
+
 
 
 def products(request, cat):
