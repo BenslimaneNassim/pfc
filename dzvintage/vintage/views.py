@@ -85,7 +85,6 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Conve
 @csrf_exempt
 def telegram_webhook(request):
     if request.method == 'POST':
-        try:
             async def start(update: Update, context: CallbackContext) -> None:
                 reply_keyboard = [[KeyboardButton(text="Confirmer mon numéro de télephone", request_contact=True)]]
                 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
@@ -125,9 +124,9 @@ def telegram_webhook(request):
             
 
             app.run_polling()
-        except Exception as e:
-            return HttpResponse(e)
-    return HttpResponse()
+        # except Exception as e:
+        #     return HttpResponse(e)
+    # return HttpResponse()
 
 
 def products(request, cat):
