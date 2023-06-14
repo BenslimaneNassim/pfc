@@ -6,7 +6,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.db.models import Q
-from asgiref.sync import sync_to_async
+from asgiref.sync import sync_to_async, async_to_sync
 
 #from .forms import CommandeForm 
 import json
@@ -81,7 +81,7 @@ def index(request):
 
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, ConversationHandler, CallbackContext, MessageHandler, filters
-
+import asyncio
 @csrf_exempt
 def telegram_webhook(request):
     if request.method == 'POST':
@@ -124,8 +124,13 @@ def telegram_webhook(request):
             
 
             # app.run_polling()
-            update = Update.de_json(json.loads(request.body.decode('utf-8')), app.bot)
-            app.process_update(update)
+            # update = Update.de_json(json.loads(request.body.decode('utf-8')), app.bot)
+            # app.process_update(update)
+            # update = Update.de_json(json.loads(request.body.decode('utf-8')), app.bot)
+            # await async_to_sync(app.process_update)(update)
+            loop = asyncio.get_event_loop()
+            loop.run_until_complete(app.process_update(update))
+
     return HttpResponse()
 
 
