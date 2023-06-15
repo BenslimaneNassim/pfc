@@ -809,7 +809,7 @@ h2, h3, h4, h5, h6 {
   padding: 8px 30px;
   border-radius: 50px;
   transition: 0.5s;
-  margin: 10px;
+  /* margin: 10px; */
   border: 2px solid #fff;
   color: #fff;
   
