@@ -67,15 +67,15 @@
   background: transparent;
   margin-left: 106px;
 }
-@media(max-width:900px){
+@media(max-width:768px){
   #my_wrapper::-webkit-scrollbar-track-piece:end {
     background: transparent;
-    margin-right: 4px; 
+    margin-right: 4px!important; 
   }
   
   #my_wrapper::-webkit-scrollbar-track-piece:start {
     background: transparent;
-    margin-left: 4px;
+    margin-left: 4px!important;
   }
   
 }
