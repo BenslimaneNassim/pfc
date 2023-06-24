@@ -123,49 +123,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-# AUTH_PASSWORD_VALIDATORS = [
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-#         'OPTIONS': {
-#             'user_attributes': ('username', 'email'),
-#             'error_messages': {
-#                 'too_similar': "Votre mot de passe ne peut pas être trop similaire à vos autres informations personnelles.",
-#             },
-#         },
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-#         'OPTIONS': {
-#             'min_length': 8,
-#             'error_messages': {
-#                 'password_too_short': "Votre mot de passe doit contenir au moins 8 caractères.",
-#             },
-#         },
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-#         'OPTIONS': {
-#             'error_messages': {
-#                 'password_used': "Votre mot de passe ne peut pas être un mot de passe couramment utilisé.",
-#             },
-#         },
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-#         'OPTIONS': {
-#             'error_messages': {
-#                 'password_entirely_numeric': "Votre mot de passe ne peut pas être entièrement numérique.",
-#             },
-#         },
-#     },
-# ]
 
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-dz'
 
 TIME_ZONE = 'UTC'
 
